@@ -13,13 +13,40 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
+    css: [
+  // '~assets/scss/main.scss'
+  './assets/scss/main.scss'
+],
+
   plugins: ["~/plugins/firebase.js"],
 
   components: true,
 
   buildModules: [],
 
-  modules: [],
+  modules: [
+    '@nuxtjs/style-resources'
+  ],
 
   build: {},
+
+  styleResources: {
+  scss: ['./assets/scss/main.scss']
+},
 };
+
+// export default {
+//   //...
+//   css: [
+//   '~assets/scss/colors.scss'
+// ],
+//   //...
+//   modules: [
+//   '@nuxtjs/style-resources'
+// ],
+// //You will have to add this new object if it doesn't exist already
+// styleResources: {
+//   scss: ['./assets/scss/*.scss']
+// },
+//   //...
+// }
