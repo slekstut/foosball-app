@@ -29,7 +29,7 @@
 </template>
 <script>
 import { db } from "~/plugins/firebase.js";
-import { doc, setDoc, getDocs, collection } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection, Timestamp } from "firebase/firestore";
 
 export default {
   data() {
@@ -39,7 +39,7 @@ export default {
         name: "",
         player1: "",
         player2: "",
-        score: 0
+        score: 0,
       }
     };
   },
@@ -62,7 +62,8 @@ export default {
         name: this.newTeam.name,
         player1: this.newTeam.player1,
         player2: this.newTeam.player2,
-        score: this.newTeam.score
+        score: this.newTeam.score,
+        createdAt: Timestamp.now()
       };
       try {
         await setDoc(newTeamRef, newTeam);
