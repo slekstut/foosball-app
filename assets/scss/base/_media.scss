@@ -1,0 +1,13 @@
+$xxs-max: 320px; // Set xxs breakpoint's max width
+$xs-max: 375px; // Set xs breakpoint's max width
+$s-max: 576px; // Set xs breakpoint's max width
+$sm-max: 768px; // Set sm breakpoint's max width
+$md-max: 992px; // Set md breakpoint's max width
+$lg-max: 1200px; // Set lg breakpoint's max width
+$xl-max: 1400px; // Set xl breakpoint's max width
+
+$sm-start: ($s-max + 1); // Generate sm breakpoint's min width
+$md-start: ($sm-max + 1); // Generate md breakpoint's min width
+$lg-start: ($md-max + 1); // Generate lg breakpoint's min width
+$xl-start: ($lg-max + 1); // Generate xl breakpoint's min width
+$xxl-start: ($xl-max + 1); // Generate xxl breakpoint's min width

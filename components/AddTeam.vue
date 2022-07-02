@@ -1,10 +1,20 @@
 <template>
-  <section class="container">
-    <Nav></Nav>
-      <Teams></Teams>
-      <AddTeam></AddTeam>
-  </section>
+    <div class="add-team">
+        <h2>
+          Add a new team.
+        </h2>
+        <form @submit.prevent="addTeam">
+          <label for="name">Team Name:</label>
+          <input type="text" id="name" v-model="newTeam.name">
+          <label for="player1">Player 1:</label>
+          <input type="text" id="player1" v-model="newTeam.player1">
+          <label for="player2">Player 2:</label>
+          <input type="text" id="player2" v-model="newTeam.player2">
+          <Button>Submit</Button>
+        </form>
+      </div>
 </template>
+
 <script>
 import { db } from "~/plugins/firebase.js";
 import { doc, setDoc, getDocs, collection, Timestamp } from "firebase/firestore";
@@ -59,5 +69,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-</style>
