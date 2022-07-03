@@ -1,8 +1,8 @@
 <template>
   <section class="container">
     <Nav></Nav>
-      <Teams></Teams>
-      <AddTeam></AddTeam>
+    <Teams></Teams>
+    <AddTeam v-if="showModal"></AddTeam>
   </section>
 </template>
 <script>
@@ -18,7 +18,7 @@ export default {
         player1: "",
         player2: "",
         score: 0,
-      }
+      },
     };
   },
   methods: {
@@ -52,8 +52,13 @@ export default {
       } catch (e) {
         console.error(e);
       }
-    }
+    },
   },
+  computed: {
+  showModal () {
+    return this.$store.state.showModal
+  }
+},
   mounted() {
     this.fetchTeams();
   },

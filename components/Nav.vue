@@ -7,13 +7,26 @@
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Add a team</a></li>
+                    <li><a href="#" @click="toggleModal">Add a team</a></li>
                     <li><a href="#">About</a></li>
                 </ul>
             </nav>
         </div>
     </div>
 </template>
+
+<script>
+import { mapMutations } from 'vuex';
+
+export default {
+  name: 'Nav',
+  methods: {
+    toggleModal() {
+        this.$store.commit('toggleModal');
+        },
+  },
+};
+</script>
 
 <style scroped lang="scss">
 .nav {
