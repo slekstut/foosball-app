@@ -3,6 +3,9 @@
     <Nav></Nav>
     <Teams></Teams>
     <AddTeam v-if="showModal"></AddTeam>
+    <Modal>
+      <template #header>This is my header!!!</template>
+    </Modal>
   </section>
 </template>
 <script>
