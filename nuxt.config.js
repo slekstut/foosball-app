@@ -22,7 +22,7 @@ export default {
 
   components: true,
 
-  buildModules: [],
+  buildModules:[],
 
   modules: [
     '@nuxtjs/style-resources'
@@ -34,19 +34,3 @@ export default {
   scss: ['./assets/scss/main.scss']
 },
 };
-
-// export default {
-//   //...
-//   css: [
-//   '~assets/scss/colors.scss'
-// ],
-//   //...
-//   modules: [
-//   '@nuxtjs/style-resources'
-// ],
-// //You will have to add this new object if it doesn't exist already
-// styleResources: {
-//   scss: ['./assets/scss/*.scss']
-// },
-//   //...
-// }
