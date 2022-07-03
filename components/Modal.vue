@@ -6,7 +6,7 @@
                     <header class="modal-header" id="modalTitle">
                         <slot name="header">
                         </slot>
-                        <button type="button" class="btn-close" aria-label="Close modal">
+                        <button type="button" class="btn-close" aria-label="Close modal" @click="toggleModal">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
                                     fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -25,6 +25,15 @@
     </transition>
 </template>
 
+<script>
+export default {
+    methods: {
+    toggleModal() {
+        this.$store.commit('toggleModal');
+        },
+  },
+}
+</script>
 
 <style scoped lang="scss">
 .modal-backdrop {
@@ -37,10 +46,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3;
 }
 
 .modal {
-    box-shadow: 0 10px 20px rgba(black, 0.2);
+    box-shadow: 0 10px 20px rgba($black, 0.2);
     overflow-x: auto;
     display: flex;
     flex-direction: column;
@@ -104,14 +114,14 @@
     margin-right: -10px;
     cursor: pointer;
     font-weight: bold;
-    color: #4AAE9B;
+    color: $green;
     background: transparent;
 }
 
 .btn-green {
     color: white;
-    background: #4AAE9B;
-    border: 1px solid #4AAE9B;
+    background: $green;
+    border: 1px solid $green;
     border-radius: 2px;
 }
 

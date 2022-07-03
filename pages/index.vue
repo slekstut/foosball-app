@@ -2,7 +2,7 @@
   <section class="container">
     <Nav></Nav>
     <Teams></Teams>
-    <Modal>
+    <Modal v-if="showModal">
       <template #header>
         <h2>
           Add A New Team
@@ -16,7 +16,7 @@
           <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter Player 1 name">
           <label for="player2">Player 2:</label>
           <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter Player 2 name">
-          <Button class="submit-team">Submit</Button>
+          <Button class="submit-team" @click="toggleModal">Submit</Button>
         </form>
       </template>
     </Modal>
@@ -70,10 +70,13 @@ export default {
         console.error(e);
       }
     },
+    toggleModal() {
+        this.$store.commit('toggleModal');
+        },
   },
   computed: {
     showModal() {
-      return this.$store.state.showModal
+      return this.$store.state.showModal;
     }
   },
   mounted() {

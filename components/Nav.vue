@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-
 export default {
   name: 'Nav',
   methods: {
@@ -41,7 +39,7 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    z-index: -1;
+    z-index: 2;
 
     nav {
         display: flex;
