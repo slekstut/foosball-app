@@ -1,51 +1,28 @@
 <template>
-     <transition name="modal-fade">
-    <div class="modal-backdrop">
-      <div class="modal"
-        role="dialog"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
-      >
-        <header
-          class="modal-header"
-          id="modalTitle"
-        >
-          <slot name="header">
-            This is the default tile!
-
-            <button
-              type="button"
-              class="btn-close"
-              aria-label="Close modal"
-            >
-              x
-            </button>
-          </slot>
-        </header>
-        <section
-          class="modal-body"
-          id="modalDescription"
-        >
-          <slot name="body">
-            I'm the default body!
-          </slot>
-        </section>
-        <footer class="modal-footer">
-          <slot name="footer">
-            I'm the default footer!
-
-            <button
-              type="button"
-              class="btn-green"
-              aria-label="Close modal"
-            >
-              Close me!
-            </button>
-          </slot>
-        </footer>
-      </div>
-    </div>
-  </transition>
+    <transition name="modal-fade">
+        <div class="modal-backdrop">
+            <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+                <div class="modal__wrapper">
+                    <header class="modal-header" id="modalTitle">
+                        <slot name="header">
+                        </slot>
+                        <button type="button" class="btn-close" aria-label="Close modal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M13.7071 1.70711C14.0976 1.31658 14.0976 0.683417 13.7071 0.292893C13.3166 -0.0976311 12.6834 -0.0976311 12.2929 0.292893L7 5.58579L1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L5.58579 7L0.292893 12.2929C-0.0976311 12.6834 -0.0976311 13.3166 0.292893 13.7071C0.683417 14.0976 1.31658 14.0976 1.70711 13.7071L7 8.41421L12.2929 13.7071C12.6834 14.0976 13.3166 14.0976 13.7071 13.7071C14.0976 13.3166 14.0976 12.6834 13.7071 12.2929L8.41421 7L13.7071 1.70711Z"
+                                        fill="black" />
+                                </svg>
+                            </button>
+                    </header>
+                    <section class="modal-body" id="modalDescription">
+                        <slot name="body">
+                        </slot>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </transition>
 </template>
 
 
@@ -63,11 +40,39 @@
 }
 
 .modal {
-    background: #FFFFFF;
-    box-shadow: 2px 2px 20px 1px;
+    box-shadow: 0 10px 20px rgba(black, 0.2);
     overflow-x: auto;
     display: flex;
     flex-direction: column;
+    padding: 20px;
+    min-width: 400px;
+    background-color: $white;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 50%;
+    margin: 0 auto;
+    min-width: 400px;
+    padding: 16px;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+
+        .modal-body,
+        .modal-header {
+            width: 100%;
+        }
+    }
 }
 
 .modal-header,
@@ -77,13 +82,14 @@
 }
 
 .modal-header {
-    border-bottom: 1px solid #eeeeee;
-    color: #4AAE9B;
+    border-bottom: 1px solid $soft-gray;
+    color: $black;
     justify-content: space-between;
+    align-items: center;
 }
 
 .modal-footer {
-    border-top: 1px solid #eeeeee;
+    border-top: 1px solid $soft-gray;
     justify-content: flex-end;
 }
 
@@ -94,8 +100,8 @@
 
 .btn-close {
     border: none;
-    font-size: 20px;
-    padding: 20px;
+    padding:  10px;
+    margin-right: -10px;
     cursor: pointer;
     font-weight: bold;
     color: #4AAE9B;
@@ -108,13 +114,14 @@
     border: 1px solid #4AAE9B;
     border-radius: 2px;
 }
-.modal-fade-enter,
-  .modal-fade-leave-active {
-    opacity: 0;
-  }
 
-  .modal-fade-enter-active,
-  .modal-fade-leave-active {
+.modal-fade-enter,
+.modal-fade-leave-active {
+    opacity: 0;
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
     transition: opacity .5s ease
-  }
+}
 </style>

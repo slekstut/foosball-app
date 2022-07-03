@@ -2,9 +2,23 @@
   <section class="container">
     <Nav></Nav>
     <Teams></Teams>
-    <AddTeam v-if="showModal"></AddTeam>
     <Modal>
-      <template #header>This is my header!!!</template>
+      <template #header>
+        <h2>
+          Add A New Team
+        </h2>
+      </template>
+      <template #body>
+        <form @submit.prevent="addTeam">
+          <label for="name">Team Name:</label>
+          <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
+          <label for="player1">Player 1:</label>
+          <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter Player 1 name">
+          <label for="player2">Player 2:</label>
+          <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter Player 2 name">
+          <Button class="submit-team">Submit</Button>
+        </form>
+      </template>
     </Modal>
   </section>
 </template>
@@ -58,14 +72,35 @@ export default {
     },
   },
   computed: {
-  showModal () {
-    return this.$store.state.showModal
-  }
-},
+    showModal() {
+      return this.$store.state.showModal
+    }
+  },
   mounted() {
     this.fetchTeams();
   },
 };
 </script>
 <style scoped lang="scss">
+.modal {
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .submit-team {
+      margin-top: 30px;
+    }
+    label {
+      margin: 12px 0;
+      font-weight: 600;
+    }
+    input {
+      border: none;
+      border-bottom: 1px solid #ccc;
+    }
+    input:focus {
+      outline: none;
+    }
+  }
+}
 </style>
