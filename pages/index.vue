@@ -13,9 +13,9 @@
           <label for="name">Team Name:</label>
           <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
           <label for="player1">Player 1:</label>
-          <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter Player 1 name">
+          <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
           <label for="player2">Player 2:</label>
-          <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter Player 2 name">
+          <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
           <Button class="submit-team" @click="toggleModal">Submit</Button>
         </form>
       </template>
@@ -99,7 +99,8 @@ export default {
     }
     input {
       border: none;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid $soft-gray;
+      padding-bottom: 4px;
     }
     input:focus {
       outline: none;
