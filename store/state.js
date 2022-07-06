@@ -1,3 +1,11 @@
 export default () => ({
-    showModal: false
+    showModal: false,
+    newTeam: {
+        name: '',
+        player1: '',
+        player2: '',
+        score: '',
+        createdAt: ''
+    },
+    teams: [],
   })
