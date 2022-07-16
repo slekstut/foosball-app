@@ -5,7 +5,7 @@
         </h2>
         <div class="teams">
             <div v-for="team in teams" :key="team.id" class="team">
-            <p>{{team.id}}</p>
+                <p>{{ team.id }}</p>
                 <p class="team__title">{{ team.name }}</p>
                 <p class="team__player"> {{ team.player1 }} & {{ team.player2 }}</p>
                 <div class="team__score">
@@ -22,7 +22,9 @@
                     </div>
                 </div>
                 <div class="team--action">
-                    <!-- <Button @click="editTeam">Edit</Button> -->
+                    <div @click="editTeam(team.id)">
+                        <Button>Edit</Button>
+                    </div>
                     <div @click="deleteTeam(team.id)">
                         <Button>Delete</Button>
                     </div>
@@ -35,7 +37,7 @@
 <script>
 
 import { db } from "~/plugins/firebase.js";
-import { doc, getDocs, collection, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
 export default {
     data() {
         return {
@@ -43,9 +45,6 @@ export default {
         };
     },
     methods: {
-        editTeam() {
-            this.$store.commit('editTeam');
-        },
         async fetchTeams() {
             const teamsRef = getDocs(collection(db, "teams"));
             try {
@@ -66,6 +65,19 @@ export default {
             } catch (e) {
                 console.error(e);
             }
+        },
+        // implement edit method 
+        async editTeam(id) {
+            console.log("edit team");
+            //modal to edit
+             this.$store.commit('toggleModal');
+             // preset modal input values existing team values
+                this.$store.commit('setModalInputs', this.teams.find(team => team.id === id));
+
+            const cityRef = doc(db, 'teams', id);
+            setDoc(cityRef, { capital: true }, { merge: true });
+
+
         },
     },
     mounted() {
