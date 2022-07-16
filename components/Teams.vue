@@ -22,7 +22,7 @@
                 </div>
                 <div class="team--action">
                     <!-- <Button @click="editTeam">Edit</Button> -->
-                    <!-- <Button @click="deleteTeam">Delete</Button> -->
+                    <Button @click="deleteTeam">Delete</Button>
                 </div>
             </div>
         </div>
@@ -54,6 +54,11 @@ export default {
             } catch (e) {
                 console.error(e);
             }
+        },
+        deleteTeam() {
+            console.log('clicked')
+            this.$store.commit('deleteTeam');
+            console.log('team deleted')
         },
     },
     mounted() {

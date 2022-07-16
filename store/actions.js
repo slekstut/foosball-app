@@ -18,4 +18,14 @@ export default {
             console.error(e);
         }
     },
+   async deleteTeam(context, team) {
+        const teamRef = doc(collection(db, "teams"), team.id);
+        try {
+            await teamRef.delete();
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+
 }
