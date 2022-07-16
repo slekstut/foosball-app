@@ -8,6 +8,7 @@
           Add A New Team
         </h2>
       </template>
+      <nuxt></nuxt>
       <template #body>
         <form>
           <label for="name">Team Name:</label>

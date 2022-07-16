@@ -1,5 +1,5 @@
 import { db } from "~/plugins/firebase.js";
-import { doc, setDoc, getDocs, collection, Timestamp } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection, Timestamp, deleteDoc } from "firebase/firestore";
 
 export default {
 
@@ -18,14 +18,5 @@ export default {
             console.error(e);
         }
     },
-   async deleteTeam(context, team) {
-        const teamRef = doc(collection(db, "teams"), team.id);
-        try {
-            await teamRef.delete();
-        }
-        catch (e) {
-            console.error(e);
-        }
-    }
 
 }

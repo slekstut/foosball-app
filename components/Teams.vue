@@ -5,6 +5,7 @@
         </h2>
         <div class="teams">
             <div v-for="team in teams" :key="team.id" class="team">
+            <p>{{team.id}}</p>
                 <p class="team__title">{{ team.name }}</p>
                 <p class="team__player"> {{ team.player1 }} & {{ team.player2 }}</p>
                 <div class="team__score">
@@ -22,7 +23,9 @@
                 </div>
                 <div class="team--action">
                     <!-- <Button @click="editTeam">Edit</Button> -->
-                    <Button @click="deleteTeam">Delete</Button>
+                    <div @click="deleteTeam(team.id)">
+                        <Button>Delete</Button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,7 +35,7 @@
 <script>
 
 import { db } from "~/plugins/firebase.js";
-import { doc, setDoc, getDocs, collection, Timestamp } from "firebase/firestore";
+import { doc, getDocs, collection, deleteDoc } from "firebase/firestore";
 export default {
     data() {
         return {
@@ -55,10 +58,14 @@ export default {
                 console.error(e);
             }
         },
-        deleteTeam() {
-            console.log('clicked')
-            this.$store.commit('deleteTeam');
-            console.log('team deleted')
+        async deleteTeam(id) {
+            try {
+                await deleteDoc(doc(db, "teams", id));
+
+                this.teams = this.teams.filter(team => team.id !== id);
+            } catch (e) {
+                console.error(e);
+            }
         },
     },
     mounted() {
