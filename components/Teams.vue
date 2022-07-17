@@ -5,7 +5,6 @@
         </h2>
         <div class="teams">
             <div v-for="team in teams" :key="team.id" class="team">
-                <p>{{ team.id }}</p>
                 <p class="team__title">{{ team.name }}</p>
                 <p class="team__player"> {{ team.player1 }} & {{ team.player2 }}</p>
                 <div class="team__score">
