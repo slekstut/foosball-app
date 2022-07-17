@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <Nav></Nav>
+    <LeftSidebar></LeftSidebar>
     <Teams></Teams>
     <Modal v-if="showModal">
       <template #header>
@@ -24,42 +25,39 @@
   </section>
 </template>
 <script>
+import LeftSidebar from '../components/LeftSidebar.vue';
 // import { db } from "~/plugins/firebase.js";
 // import { doc, setDoc, getDocs, collection, Timestamp } from "firebase/firestore";
 // import { Store } from "vuex";
 
 export default {
-  data() {
-    return {
-      teams: [],
-      newTeam: {
-        name: '',
-        player1: '',
-        player2: '',
-        score: '',
-        createdAt: ''
-      },
-    };
-  },
-  methods: {
-    toggleModal() {
-      this.$store.commit('toggleModal');
+    data() {
+        return {
+            teams: [],
+            newTeam: {
+                name: "",
+                player1: "",
+                player2: "",
+                score: "",
+                createdAt: ""
+            },
+        };
     },
-    // fetchTeams() {
-    //   this.$store.dispatch('fetchTeams');
-    //   console.log('fetch from methods')
-    // }
-  },
-  computed: {
-    showModal() {
-      return this.$store.state.showModal;
-    }
-  },
-  // mounted() {
-  //     console.log('fetch from mounted')
-
-  //   fetchTeams();
-  // },
+    methods: {
+        toggleModal() {
+            this.$store.commit("toggleModal");
+        },
+        // fetchTeams() {
+        //   this.$store.dispatch('fetchTeams');
+        //   console.log('fetch from methods')
+        // }
+    },
+    computed: {
+        showModal() {
+            return this.$store.state.showModal;
+        }
+    },
+    components: { LeftSidebar }
 };
 </script>
 <style scoped lang="scss">

@@ -26,16 +26,16 @@
                 <nav>
                     <ul>
                         <li><a href="#">Matches</a></li>
+                        <li><a href="#">Teams</a></li>
                         <li><a href="#">Statistics</a></li>
-                        <li><a href="#">Analytics</a></li>
-                        <li><a href="#" @click="toggleModal">Add A New Team</a></li>
+                        <!-- <li><a href="#" @click="toggleModal">Add A New Team</a></li> -->
                     </ul>
                 </nav>
             </div>
             <div class="search__wrapper">
                 <div class="search__bar">
                     <input type="text" placeholder="Search Matches, Players, Stats ...">
-                    <div>
+                    <div class="search__button">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
@@ -118,9 +118,11 @@ export default {
                 display: flex;
                 align-items: center;
                 list-style: none;
+                padding-left: 0;
+                padding: 48px 0 32px 0;
 
                 li {
-                    margin-left: 20px;
+                    margin-right: 40px;
 
                     a {
                         color: $primary-500;
@@ -137,7 +139,7 @@ export default {
                             width: 100%;
                             transform: scaleX(0);
                             height: 2px;
-                            bottom: 0;
+                            bottom: -4px;
                             left: 0;
                             background-color: $compliment-500;
                             transform-origin: bottom right;
@@ -165,6 +167,44 @@ export default {
 
             &__bar {
                 display: flex;
+                position: relative;
+                width: 400px;
+                // max-width: 656px;
+
+                input {
+                    width: 100%;
+                    max-width: 656px;
+                    padding: 18px 32px 16px 32px;
+                    background: $secondary-500;
+                    border: 1px solid $primary-400;
+                    border-radius: 100px;
+
+                    &::placeholder {
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 16px;
+                        color: $primary-450;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border: 1px solid $primary-500;
+                    }
+                }
+            }
+
+            &__button {
+                position: absolute;
+                top: 50%;
+                right: 32px;
+                transform: translateY(-50%);
+                width: 32px;
+                height: 32px;
+                background: $secondary-500;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
             }
         }
 
@@ -177,11 +217,21 @@ export default {
                 align-items: center;
             }
 
+            &__action {
+                > * {
+                    margin-right: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+
             &__info {
                 display: none;
             }
         }
     }
+
     .menu {
         display: none;
     }
