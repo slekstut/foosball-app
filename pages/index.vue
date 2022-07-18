@@ -61,6 +61,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.container {
+  padding-left: 0;
+}
 .modal {
   form {
     display: flex;
