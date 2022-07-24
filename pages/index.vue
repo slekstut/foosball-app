@@ -1,7 +1,10 @@
 <template>
   <section class="container">
     <Nav></Nav>
-    <LeftSidebar></LeftSidebar>
+    <div class="home">
+      <LeftSidebar></LeftSidebar>
+      <Banner></Banner>
+    </div>
     <Teams></Teams>
     <Modal v-if="showModal">
       <template #header>
@@ -63,6 +66,11 @@ export default {
 <style scoped lang="scss">
 .container {
   padding-left: 0;
+
+  .home {
+    display: flex;
+    gap: 48px;
+  }
 }
 .modal {
   form {
@@ -80,7 +88,7 @@ export default {
 
     input {
       border: none;
-      border-bottom: 1px solid $soft-gray;
+      border-bottom: 1px solid $primary-400;
       padding-bottom: 4px;
     }
 

@@ -1,19 +1,17 @@
 <template>
-    <div>
         <button class="btn" type="submit">
             <slot></slot>
         </button>
-    </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .btn {
     align-items: center;
-    background-color: $green;
-    border: 1px solid $green;
+    // background-color: $compliment-500;
+    border: 1px solid $compliment-500;
     border-radius: 16px;
     box-sizing: border-box;
-    color: $white;
+    // color: $secondary-500;
     cursor: pointer;
     display: flex;
     font-size: 18px;
@@ -40,9 +38,9 @@
     }
 
     &:hover {
-    color: $green;
-    background-color: $white;
-    border: 1px solid $green;
+    color: $compliment-500;
+    background-color: $secondary-500;
+    border: 1px solid $compliment-500;
 }
 }
 

@@ -50,13 +50,13 @@ export default {
 }
 
 .modal {
-    box-shadow: 0 10px 20px rgba($black, 0.2);
+    box-shadow: 0 10px 20px rgba($primary-800, 0.2);
     overflow-x: auto;
     display: flex;
     flex-direction: column;
     padding: 20px;
     min-width: 400px;
-    background-color: $white;
+    background-color: $secondary-500;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -93,7 +93,7 @@ export default {
 
 .modal-header {
     border-bottom: 1px solid $soft-gray;
-    color: $black;
+    color: $primary-800;
     justify-content: space-between;
     align-items: center;
 }
@@ -114,14 +114,14 @@ export default {
     margin-right: -10px;
     cursor: pointer;
     font-weight: bold;
-    color: $green;
+    color: $compliment-500;
     background: transparent;
 }
 
 .btn-green {
     color: white;
-    background: $green;
-    border: 1px solid $green;
+    background: $compliment-500;
+    border: 1px solid $compliment-500;
     border-radius: 2px;
 }
 

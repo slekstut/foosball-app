@@ -115,13 +115,13 @@ export default {
             padding: 10px;
             border: 1px solid $soft-gray;
             border-radius: 5px;
-            background-color: $white;
+            background-color: $secondary-500;
             box-shadow: 0 2px 10px $soft-gray;
             transition: all .2s ease-in-out;
 
             &:hover {
-                border: 1px solid $green;
-                box-shadow: 0 2px 10px $green;
+                border: 1px solid $compliment-500;
+                box-shadow: 0 2px 10px $compliment-500;
             }
 
             &__title {
