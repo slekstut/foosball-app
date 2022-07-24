@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
+* { 
+  transition: all 0.3s ease-in-out;
+}
+
 body {
   font-family: $font-family-base;
   font-size: $font-size-base;
@@ -47,4 +51,8 @@ a {
 
 .hidden {
   display: none!important;
+}
+
+.show-hover:hover {
+  display: block!important;
 }
