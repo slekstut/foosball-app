@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar">
         <!-- live matches -->
-        <div class="content">
+        <div class="content" id="live-matches">
             <div class="content__title">
                 <h3>Live Matches</h3>
                 <div class="content__button">
@@ -83,7 +83,8 @@
                 <div class="item">
                     <div class="left__block">
                         <a href="#">
-                            <img class="item__img" src="../assets/img/match-team-5.png" alt="match-team-5.png" loading="lazy">
+                            <img class="item__img" src="../assets/img/match-team-5.png" alt="match-team-5.png"
+                                loading="lazy">
                             <span class="item__title">Roger II</span>
                         </a>
                     </div>
@@ -116,7 +117,8 @@
                 <div class="item">
                     <div class="left__block">
                         <a href="#">
-                            <img class="item__img" src="../assets/img/match-team-3.png" alt="match-team-3.png" loading="lazy">
+                            <img class="item__img" src="../assets/img/match-team-3.png" alt="match-team-3.png"
+                                loading="lazy">
                             <span class="item__title">NJ Super</span>
                         </a>
                     </div>
@@ -260,6 +262,7 @@
                 margin-bottom: 12px;
 
                 .left__block {
+                    flex: 1 70%;
                     justify-content: flex-start;
 
                     a {
@@ -268,12 +271,12 @@
                         margin-right: 12px;
                     }
                 }
+
                 .right__block {
+                    flex: 1 30%;
+
                     justify-content: flex-end;
 
-                    a {
-                        margin-right: 12px;
-                    }
                 }
 
                 .middle__block {
@@ -281,12 +284,34 @@
                 }
 
                 &__img {
-                        margin-right: 8px;
+                    margin-right: 8px;
 
-                        }
-                        &__title {
-                            width: 100%;
-                        }
+                }
+
+                &__title {
+                    display: flex;
+                    flex-wrap: wrap;
+                    width: 100%;
+                }
+            }
+        }
+
+        &#live-matches {
+            .content__body {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .left__block,
+                .right__block {
+                    width: 100%;
+                    display: flex;
+                     justify-content: space-between;
+                     align-items: center;
+                }
+                .middle__block {
+                    margin: 0 8px;
+                }
             }
         }
 
