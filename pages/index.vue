@@ -3,7 +3,10 @@
     <Nav></Nav>
     <div class="home">
       <LeftSidebar></LeftSidebar>
+      <div class="main__content">
       <Banner></Banner>
+      <LatestMatches></LatestMatches>
+      </div>
     </div>
     <Teams></Teams>
     <Modal v-if="showModal">
@@ -29,6 +32,7 @@
 </template>
 <script>
 import LeftSidebar from '../components/LeftSidebar.vue';
+import LatestMatches from '../components/LatestMatches.vue';
 // import { db } from "~/plugins/firebase.js";
 // import { doc, setDoc, getDocs, collection, Timestamp } from "firebase/firestore";
 // import { Store } from "vuex";
@@ -60,7 +64,7 @@ export default {
             return this.$store.state.showModal;
         }
     },
-    components: { LeftSidebar }
+    components: { LeftSidebar, LatestMatches }
 };
 </script>
 <style scoped lang="scss">
@@ -70,6 +74,10 @@ export default {
   .home {
     display: flex;
     gap: 48px;
+    .main__content {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
 .modal {
