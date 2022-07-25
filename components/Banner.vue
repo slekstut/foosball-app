@@ -88,7 +88,6 @@
         justify-content: center;
         align-items: center;
         width: fit-content;
-        // max-width: 200px;
 
         .btn {
             background-color: $secondary-500;
