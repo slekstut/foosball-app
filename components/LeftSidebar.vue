@@ -233,8 +233,9 @@
     padding: 32px;
     width: 100%;
     max-width: 320px;
-    border: 1px solid #e6e6e6;
+    border: 1px solid $primary-300;
     border-radius: 5px;
+    background-color: $secondary-500;
 
     .content {
         display: flex;

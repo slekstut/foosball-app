@@ -8,7 +8,7 @@
             </div>
             <div class="banner__right">
                 <h2 class="banner__title">
-                    Weekly Football Challenge
+                    Weekly Foosball Challenge
                 </h2>
                 <div class="banner__cta">
                     <Button>
@@ -34,7 +34,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    min-height: 350px;
+    max-height: 335px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
