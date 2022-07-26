@@ -8,7 +8,6 @@
       <LatestMatches></LatestMatches>
       </div>
     </div>
-    <Teams></Teams>
     <Modal v-if="showModal">
       <template #header>
         <h2>

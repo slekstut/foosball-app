@@ -28,6 +28,7 @@
                         <li><a href="#">Matches</a></li>
                         <li><a href="#">Teams</a></li>
                         <li><a href="#">Statistics</a></li>
+                        <li class="add-team" @click="toggleGameModal"><a href="#">Add A Game</a></li>
                         <!-- <li><a href="#" @click="toggleModal">Add A New Team</a></li> -->
                     </ul>
                 </nav>
@@ -87,6 +88,30 @@
                 </div>
             </div>
         </div>
+        <Modal v-if="showGameModal">
+      <template #header>
+        <h2>
+          Add A Game Results
+        </h2>
+      </template>
+      <nuxt></nuxt>
+      <template #body>
+        <form>
+          <label for="choose-team">Choose teams:</label>
+          <select name="choose-team" id="game-results">
+            <option value="1">Team no. 1</option>
+            <option value="2">Team no. 2</option>
+            <option value="3">Team no. 3</option>
+            <option value="4">Team no. 4</option>
+          </select>
+          <label for="player1">Player 1 goals:</label>
+          <input type="number" id="player1" placeholder="Enter a name">
+          <label for="player2">Player 2 score:</label>
+          <input type="number" id="player2" placeholder="Enter a name">
+          <Button class="submit-team">Submit</Button>
+        </form>
+      </template>
+    </Modal>
     </div>
 </template>
 
@@ -97,6 +122,14 @@ export default {
         toggleModal() {
             this.$store.commit('toggleModal');
         },
+         toggleGameModal() {
+            this.$store.commit('toggleGameModal');
+        },
+    },
+    computed: {
+        showGameModal() {
+            return this.$store.state.showGameModal;
+        }
     },
 };
 </script>
@@ -169,12 +202,11 @@ export default {
                 display: flex;
                 position: relative;
                 width: 400px;
-                // max-width: 656px;
 
                 input {
                     width: 100%;
                     max-width: 656px;
-                    padding: 18px 32px 16px 32px;
+                    padding: 12px 24px;
                     background: $secondary-500;
                     border: 1px solid $primary-400;
                     border-radius: 100px;

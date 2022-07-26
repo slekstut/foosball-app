@@ -1,5 +1,6 @@
 export default () => ({
     showModal: false,
+    showGameModal: false,
     newTeam: {
         name: '',
         player1: '',
