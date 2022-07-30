@@ -89,48 +89,76 @@
             </div>
         </div>
         <Modal v-if="showGameModal">
-      <template #header>
-        <h2>
-          Add A Game Results
-        </h2>
-      </template>
-      <nuxt></nuxt>
-      <template #body>
-        <form>
-          <label for="choose-team">Choose teams:</label>
-          <select name="choose-team" id="game-results">
-            <option value="1">Team no. 1</option>
-            <option value="2">Team no. 2</option>
-            <option value="3">Team no. 3</option>
-            <option value="4">Team no. 4</option>
-          </select>
-          <label for="player1">Player 1 goals:</label>
-          <input type="number" id="player1" placeholder="Enter a name">
-          <label for="player2">Player 2 score:</label>
-          <input type="number" id="player2" placeholder="Enter a name">
-          <Button class="submit-team">Submit</Button>
-        </form>
-      </template>
-    </Modal>
+            <template #header>
+                <h2>
+                    Add A Game Results
+                </h2>
+            </template>
+            <nuxt></nuxt>
+
+            <template #body>
+                <form>
+                    <div class="form__block">
+                        <label for="choose-team1">Choose team 1</label>
+                        <select name="choose-team1" id="game-results">
+                            <option v-for="selectableTeam in selectableTeams" :key="selectableTeam.id">
+                                {{ selectableTeam.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form__block">
+                        <label for="choose-team2">Choose team 2</label>
+                        <select name="choose-team2" id="game-results">
+                            <option v-for="selectableTeam in selectableTeams" :key="selectableTeam.id">
+                                {{ selectableTeam.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <Button class="submit-team">Submit</Button>
+                </form>
+            </template>
+        </Modal>
     </div>
 </template>
 
 <script>
+import { db } from "~/plugins/firebase.js";
+import { collection, getDocs } from "firebase/firestore";
+
 export default {
+    data() {
+        return {
+            selectableTeams: [],
+        }
+    },
     name: 'Nav',
     methods: {
         toggleModal() {
             this.$store.commit('toggleModal');
         },
-         toggleGameModal() {
+        toggleGameModal() {
             this.$store.commit('toggleGameModal');
         },
+    },
+    async fetch() {
+        const querySnapshot = await getDocs(collection(db, "teams"));
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            // console.log(doc.id, " => ", doc.data());
+            const selectableTeam = doc.data();
+            this.selectableTeams.push(selectableTeam);
+            console.log(this.selectableTeams);
+        });
     },
     computed: {
         showGameModal() {
             return this.$store.state.showGameModal;
         }
     },
+    mounted() {
+        // this.getTeams();
+        // console.log(this.selectableTeams);
+    }
 };
 </script>
 
@@ -250,7 +278,7 @@ export default {
             }
 
             &__action {
-                > * {
+                >* {
                     margin-right: 24px;
                     display: flex;
                     align-items: center;
