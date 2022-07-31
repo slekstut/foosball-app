@@ -100,19 +100,43 @@
                 <form>
                     <div class="form__block">
                         <label for="choose-team1">Choose team 1</label>
-                        <select name="choose-team1" id="game-results">
-                            <option v-for="selectableTeam in selectableTeams" :key="selectableTeam.id">
+                        <select v-model="selectedTeam1" name="choose-team1" id="game-results">
+                            <option 
+                            v-for="selectableTeam in selectableTeams" 
+                            :key="selectableTeam.id" 
+                            :value="selectableTeam"
+                            >
                                 {{ selectableTeam.name }}
                             </option>
                         </select>
+                        <div class="form__block">
+                                <div>
+                                    {{ selectedTeam1.player1 }}
+                                </div>
+                                <div>
+                                    {{ selectedTeam1.player2 }}
+                                </div>
+                        </div>
                     </div>
                     <div class="form__block">
                         <label for="choose-team2">Choose team 2</label>
-                        <select name="choose-team2" id="game-results">
-                            <option v-for="selectableTeam in selectableTeams" :key="selectableTeam.id">
+                        <select v-model="selectedTeam2" name="choose-team2" id="game-results">
+                            <option
+                            v-for="selectableTeam in selectableTeams" 
+                            :key="selectableTeam.id" 
+                            :value="selectableTeam"
+                            >
                                 {{ selectableTeam.name }}
                             </option>
                         </select>
+                        <div class="form__block">
+                                <div>
+                                    {{ selectedTeam2.player1 }}
+                                </div>
+                                <div>
+                                    {{ selectedTeam2.player2 }}
+                                </div>
+                        </div>
                     </div>
                     <Button class="submit-team">Submit</Button>
                 </form>
@@ -129,6 +153,8 @@ export default {
     data() {
         return {
             selectableTeams: [],
+            selectedTeam1: '',
+            selectedTeam2: '',
         }
     },
     name: 'Nav',
@@ -139,6 +165,8 @@ export default {
         toggleGameModal() {
             this.$store.commit('toggleGameModal');
         },
+        // get selected teams players choose-team1
+
     },
     async fetch() {
         const querySnapshot = await getDocs(collection(db, "teams"));
