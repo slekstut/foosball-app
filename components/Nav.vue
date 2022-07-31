@@ -99,8 +99,9 @@
             <template #body>
                 <form>
                     <div class="form__block">
-                        <label for="choose-team1">Choose team 1</label>
+                        <label for="choose-team1">Select Team</label>
                         <select v-model="selectedTeam1" name="choose-team1" id="game-results">
+                            <option value="" disavled>Choose A Team 1</option>
                             <option 
                             v-for="selectableTeam in selectableTeams" 
                             :key="selectableTeam.id" 
@@ -119,10 +120,11 @@
                         </div>
                     </div>
                     <div class="form__block">
-                        <label for="choose-team2">Choose team 2</label>
-                        <select v-model="selectedTeam2" name="choose-team2" id="game-results">
+                        <label for="choose-team2">Select Team</label>
+                        <select v-model="selectedTeam2" :disabled="!selectedTeam1" name="choose-team2" id="game-results">
+                            <option value="" disavled>Choose A Team 2</option>
                             <option
-                            v-for="selectableTeam in selectableTeams" 
+                            v-for="selectableTeam in selectableTeams.filter(team => team.id !== selectedTeam1.id)"
                             :key="selectableTeam.id" 
                             :value="selectableTeam"
                             >
@@ -153,6 +155,7 @@ export default {
     data() {
         return {
             selectableTeams: [],
+            selectableTeam: 'Choose team',
             selectedTeam1: '',
             selectedTeam2: '',
         }
@@ -165,17 +168,17 @@ export default {
         toggleGameModal() {
             this.$store.commit('toggleGameModal');
         },
-        // get selected teams players choose-team1
-
     },
     async fetch() {
         const querySnapshot = await getDocs(collection(db, "teams"));
         querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            // console.log(doc.id, " => ", doc.data());
             const selectableTeam = doc.data();
-            this.selectableTeams.push(selectableTeam);
-            console.log(this.selectableTeams);
+            const selectableTeamId = doc.id;
+            const selectableTeamWithId = {
+                ...selectableTeam,
+                id: selectableTeamId,
+            }
+            this.selectableTeams.push(selectableTeamWithId);
         });
     },
     computed: {
@@ -185,7 +188,7 @@ export default {
     },
     mounted() {
         // this.getTeams();
-        // console.log(this.selectableTeams);
+        console.log(this.selectableTeams);
     }
 };
 </script>
