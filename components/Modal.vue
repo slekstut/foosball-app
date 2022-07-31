@@ -6,7 +6,7 @@
                     <header class="modal-header" id="modalTitle">
                         <slot name="header">
                         </slot>
-                        <button type="button" class="btn-close" aria-label="Close modal" @click="toggleModal">
+                        <button type="button" class="btn-close" aria-label="Close modal" @click="closeModal">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
                                 fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -28,8 +28,9 @@
 <script>
 export default {
     methods: {
-        toggleModal() {
-            this.$store.commit('toggleModal');
+        closeModal() {
+            console.log('close btn')
+            this.$store.commit('closeModal');
         },
     },
 }

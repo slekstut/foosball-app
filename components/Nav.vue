@@ -102,42 +102,38 @@
                         <label for="choose-team1">Select Team</label>
                         <select v-model="selectedTeam1" name="choose-team1" id="game-results">
                             <option value="" disavled>Choose A Team 1</option>
-                            <option 
-                            v-for="selectableTeam in selectableTeams" 
-                            :key="selectableTeam.id" 
-                            :value="selectableTeam"
-                            >
+                            <option v-for="selectableTeam in selectableTeams" :key="selectableTeam.id"
+                                :value="selectableTeam">
                                 {{ selectableTeam.name }}
                             </option>
                         </select>
                         <div class="form__block">
-                                <div>
-                                    {{ selectedTeam1.player1 }}
-                                </div>
-                                <div>
-                                    {{ selectedTeam1.player2 }}
-                                </div>
+                            <div>
+                                {{ selectedTeam1.player1 }}
+                            </div>
+                            <div>
+                                {{ selectedTeam1.player2 }}
+                            </div>
                         </div>
                     </div>
                     <div class="form__block">
                         <label for="choose-team2">Select Team</label>
-                        <select v-model="selectedTeam2" :disabled="!selectedTeam1" name="choose-team2" id="game-results">
+                        <select v-model="selectedTeam2" :disabled="!selectedTeam1" name="choose-team2"
+                            id="game-results">
                             <option value="" disavled>Choose A Team 2</option>
                             <option
-                            v-for="selectableTeam in selectableTeams.filter(team => team.id !== selectedTeam1.id)"
-                            :key="selectableTeam.id" 
-                            :value="selectableTeam"
-                            >
+                                v-for="selectableTeam in selectableTeams.filter(team => team.id !== selectedTeam1.id)"
+                                :key="selectableTeam.id" :value="selectableTeam">
                                 {{ selectableTeam.name }}
                             </option>
                         </select>
                         <div class="form__block">
-                                <div>
-                                    {{ selectedTeam2.player1 }}
-                                </div>
-                                <div>
-                                    {{ selectedTeam2.player2 }}
-                                </div>
+                            <div>
+                                {{ selectedTeam2.player1 }}
+                            </div>
+                            <div>
+                                {{ selectedTeam2.player2 }}
+                            </div>
                         </div>
                     </div>
                     <Button class="submit-team">Submit</Button>
