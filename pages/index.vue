@@ -32,9 +32,6 @@
 <script>
 import LeftSidebar from '../components/LeftSidebar.vue';
 import LatestMatches from '../components/LatestMatches.vue';
-// import { db } from "~/plugins/firebase.js";
-// import { doc, setDoc, getDocs, collection, Timestamp } from "firebase/firestore";
-// import { Store } from "vuex";
 
 export default {
     data() {
@@ -53,10 +50,6 @@ export default {
         toggleModal() {
             this.$store.commit("toggleModal");
         },
-        // fetchTeams() {
-        //   this.$store.dispatch('fetchTeams');
-        //   console.log('fetch from methods')
-        // }
     },
     computed: {
         showModal() {
