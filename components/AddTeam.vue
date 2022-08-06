@@ -11,8 +11,13 @@
                 <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
 
                 <label for="storageRef">Team Logo</label>
-                <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="isUploadingImage" type="button">
-                    {{ isUploadingImage ? 'Uploading...' : 'Upload' }}
+                <!-- preview image here -->
+                <div class="img-preview" v-if="newTeam.imageData">
+                    <img id="img-preview" :src="newTeam.imageUrl" alt="Team Logo">
+                </div>
+                <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="newTeam.isUploadingImage"
+                    type="button">
+                    {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
                 </button>
                 <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
                     accept="image/png, image/jpeg" class="hidden">
@@ -28,7 +33,7 @@
 </template>
 
 <script>
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default {
     data() {
@@ -40,9 +45,11 @@ export default {
                 player1: "",
                 player2: "",
                 score: "",
-                createdAt: ""
+                createdAt: "",
+                isUploadingImage: false,
+                imageData: false,
+                imgUrl: null,
             },
-            isUploadingImage: false
         };
     },
     methods: {
@@ -50,8 +57,8 @@ export default {
             this.$store.commit("toggleModal");
         },
         launchImageFile() {
-            // Trigger the file input click event.
             this.$refs.imageFile.click()
+            // this.newTeam.imageData = event.target.files[0];
         },
         uploadImageFile(files) {
             if (!files.length) {
@@ -68,7 +75,7 @@ export default {
                 contentType: file.type
             }
 
-            this.isUploadingImage = true
+            this.newTeam.isUploadingImage = true
 
             // Create a reference to the destination where we're uploading
             // the file.
@@ -78,24 +85,19 @@ export default {
             // 'file' comes from the Blob or File API
             uploadBytes(storageRef, file).then((snapshot) => {
                 console.log('Uploaded a blob or file!');
-            });
+                getDownloadURL(ref(storage, `images/${file.name}`))
+                    .then(url => {
+                        this.newTeam.isUploadingImage = false
+                        this.newTeam.imageData = true;
+                        this.newTeam.imgUrl = url
+                        const img = document.getElementById('img-preview');
+                        img.setAttribute('src', url);
+                    })
+            })
+                .catch((error) => {
+                    console.log(error);
+                })
 
-            // const uploadTask = storageRef.put(file, metadata).then((snapshot) => {
-            //     // Once the image is uploaded, obtain the download URL, which
-            //     // is the publicly accessible URL of the image.
-            //     return snapshot.ref.getDownloadURL().then((url) => {
-            //         return url
-            //     })
-            // }).catch((error) => {
-            //     console.error('Error uploading image', error)
-            // })
-
-            // When the upload ends, set the value of the team image URL
-            // and signal that uploading is done.
-            // uploadTask.then((url) => {
-            //     this.newTeam.imageUrl = url
-            //     this.isUploadingImage = false
-            // })
         },
     },
     computed: {
