@@ -29,7 +29,6 @@
 export default {
     methods: {
         closeModal() {
-            console.log('close btn')
             this.$store.commit('closeModal');
         },
     },
