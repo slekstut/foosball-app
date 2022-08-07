@@ -6,28 +6,25 @@
             </h2>
         </template>
         <template #body>
-            <form>
-                <label for="name">Team Name:</label>
-                <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
+            <label for="name">Team Name:</label>
+            <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
 
-                <label for="storageRef">Team Logo</label>
-                <!-- preview image here -->
-                <div class="img-preview" v-if="newTeam.imageData">
-                    <img id="img-preview" :src="newTeam.imageUrl" alt="Team Logo">
-                </div>
-                <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="newTeam.isUploadingImage"
-                    type="button">
-                    {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
-                </button>
-                <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
-                    accept="image/png, image/jpeg" class="hidden">
+            <label for="storageRef">Team Logo</label>
+            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+            <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="newTeam.isUploadingImage"
+                type="button">
+                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
+            </button>
+            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
+                accept="image/png, image/jpeg" class="hidden">
 
-                <label for="player1">Player 1:</label>
-                <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
-                <label for="player2">Player 2:</label>
-                <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
-                <Button class="submit-team" @click="addTeam, fetchTeams">Submit</Button>
-            </form>
+            <label for="player1">Player 1:</label>
+            <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
+            <label for="player2">Player 2:</label>
+            <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
+            <div class="submit-btn" @click="addTeam">
+                <Button class="submit-team">Submit</Button>
+            </div>
         </template>
     </Modal>
 </template>
@@ -58,7 +55,6 @@ export default {
         },
         launchImageFile() {
             this.$refs.imageFile.click()
-            // this.newTeam.imageData = event.target.files[0];
         },
         uploadImageFile(files) {
             if (!files.length) {
@@ -71,9 +67,9 @@ export default {
                 return
             }
 
-            const metadata = {
-                contentType: file.type
-            }
+            // const metadata = {
+            //     contentType: file.type
+            // }
 
             this.newTeam.isUploadingImage = true
 
@@ -87,17 +83,40 @@ export default {
                 console.log('Uploaded a blob or file!');
                 getDownloadURL(ref(storage, `images/${file.name}`))
                     .then(url => {
-                        this.newTeam.isUploadingImage = false
-                        this.newTeam.imageData = true;
+                        this.newTeam.imageData = true
                         this.newTeam.imgUrl = url
-                        const img = document.getElementById('img-preview');
-                        img.setAttribute('src', url);
+                        setTimeout(() => {
+                            const img = document.getElementById('img-preview');
+                            img.setAttribute('src', url);
+                        this.newTeam.isUploadingImage = false
+                        }, 1000)
+
                     })
             })
                 .catch((error) => {
                     console.log(error);
                 })
 
+        },
+        // add a new team to firestore database
+        addTeam(e) {
+            e.preventDefault();
+
+            console.log('submitted')
+            const newTeam = {
+                name: this.newTeam.name,
+                imageUrl: this.newTeam.imgUrl,
+                player1: this.newTeam.player1,
+                player2: this.newTeam.player2,
+                createdAt: new Date(),
+            }
+            this.newTeam.createdAt = new Date();
+            this.$store.dispatch("addTeam", newTeam);
+            this.newTeam.name = "";
+            this.newTeam.player1 = "";
+            this.newTeam.player2 = "";
+            this.newTeam.createdAt = "";
+            this.newTeam.imgUrl = null;
         },
     },
     computed: {
