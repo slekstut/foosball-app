@@ -18,7 +18,10 @@ export default {
   './assets/scss/main.scss'
 ],
 
-  plugins: ["~/plugins/firebase.js"],
+  plugins: [
+    {src: "~/plugins/firebase.js"},
+    { src: '~/plugins/vee-validate.js', ssr: true }, 
+],
 
   components: true,
 
@@ -28,7 +31,9 @@ export default {
     '@nuxtjs/style-resources'
   ],
 
-  build: {},
+  build: {
+    transpile: ["vee-validate/dist/rules"]
+  },
 
   styleResources: {
   scss: ['./assets/scss/main.scss']

@@ -6,42 +6,58 @@
             </h2>
         </template>
         <template #body>
-            <label for="name">Team Name:</label>
-            <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
+            <ValidationObserver>
+                <form>
+                    <validation-provider
+                    v-slot="{ errors }"
+                    name="Username"
+                    rules="required">
+                        <label for="name">Team Name:</label>
+                        <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
+                        <span class="input-invalid-message">
+                            {{ errors[0] }}
+                        </span>
+                    </validation-provider>
+                    
+                    <label for="storageRef">Team Logo</label>
+                    <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+                    <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="newTeam.isUploadingImage"
+                        type="button">
+                        {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                    </button>
+                    <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
+                        accept="image/png, image/jpeg" class="hidden">
 
-            <label for="storageRef">Team Logo</label>
-            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
-            <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="newTeam.isUploadingImage"
-                type="button">
-                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
-            </button>
-            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
-                accept="image/png, image/jpeg" class="hidden">
-
-            <label for="player1">Player 1:</label>
-            <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
-            <label for="player2">Player 2:</label>
-            <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
-            <div class="submit-btn" @click="addTeam">
-                <Button class="submit-team">Submit</Button>
-            </div>
+                    <label for="player1">Player 1:</label>
+                    <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
+                    <label for="player2">Player 2:</label>
+                    <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
+                    <div class="submit-btn" @click="addTeam">
+                        <Button class="submit-team">Submit</Button>
+                    </div>
+                </form>
+            </ValidationObserver>
         </template>
     </Modal>
 </template>
 
 <script>
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
+    components: {
+        ValidationObserver: ValidationObserver,
+        ValidationProvider: ValidationProvider
+    },
     data() {
         return {
             teams: [],
             newTeam: {
                 name: "",
-                imageUrl: "",
                 player1: "",
                 player2: "",
-                score: "",
+                imageUrl: "",
                 createdAt: "",
                 isUploadingImage: false,
                 imageData: false,
@@ -88,7 +104,7 @@ export default {
                         setTimeout(() => {
                             const img = document.getElementById('img-preview');
                             img.setAttribute('src', url);
-                        this.newTeam.isUploadingImage = false
+                            this.newTeam.isUploadingImage = false
                         }, 1000)
 
                     })
@@ -99,7 +115,7 @@ export default {
 
         },
         // add a new team to firestore database
-        addTeam(e) {
+        async addTeam(e) {
             e.preventDefault();
 
             console.log('submitted')
@@ -124,6 +140,11 @@ export default {
             return this.$store.state.showModal;
         }
     },
+    mounted() {
+        console.log('mounted')
+        // console.log($errors)
+
+    }
 }
 </script>
 
