@@ -8,17 +8,16 @@
         <template #body>
             <ValidationObserver>
                 <form>
-                    <validation-provider
-                    v-slot="{ errors }"
-                    name="Username"
-                    rules="required">
-                        <label for="name">Team Name:</label>
-                        <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
-                        <span class="input-invalid-message">
-                            {{ errors[0] }}
-                        </span>
+                    <validation-provider v-slot="{ errors }" name="Username" rules="required">
+                        <div class="input__wrapper">
+                            <label for="name">Team Name:</label>
+                            <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
+                            <span class="input-invalid-message">
+                                {{ errors[0] }}
+                            </span>
+                        </div>
                     </validation-provider>
-                    
+
                     <label for="storageRef">Team Logo</label>
                     <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
                     <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="newTeam.isUploadingImage"
@@ -27,11 +26,24 @@
                     </button>
                     <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
                         accept="image/png, image/jpeg" class="hidden">
-
-                    <label for="player1">Player 1:</label>
-                    <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
-                    <label for="player2">Player 2:</label>
-                    <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
+                    <validation-provider v-slot="{ errors }" name="Username" rules="required">
+                        <div class="input__wrapper">
+                            <label for="player1">Player 1:</label>
+                            <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
+                            <span class="input-invalid-message">
+                                {{ errors[0] }}
+                            </span>
+                        </div>
+                    </validation-provider>
+                    <validation-provider v-slot="{ errors }" name="Username" rules="required">
+                        <div class="input__wrapper">
+                            <label for="player2">Player 2:</label>
+                            <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
+                            <span class="input-invalid-message">
+                                {{ errors[0] }}
+                            </span>
+                        </div>
+                    </validation-provider>
                     <div class="submit-btn" @click="addTeam">
                         <Button class="submit-team">Submit</Button>
                     </div>
@@ -43,12 +55,18 @@
 
 <script>
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import { required } from 'vee-validate/dist/rules';
+
+extend('required', {
+    ...required,
+    message: 'This field is required'
+});
 
 export default {
     components: {
-        ValidationObserver: ValidationObserver,
-        ValidationProvider: ValidationProvider
+        ValidationObserver,
+        ValidationProvider
     },
     data() {
         return {
@@ -153,6 +171,11 @@ export default {
     form {
         display: flex;
         flex-direction: column;
+
+        .input__wrapper {
+            display: flex;
+            flex-direction: column;
+        }
 
         .submit-team {
             margin-top: 30px;

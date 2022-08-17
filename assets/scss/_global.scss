@@ -56,3 +56,8 @@ a {
 .show-hover:hover {
   display: block!important;
 }
+
+.input-invalid-message {
+  color: $red;
+  font-size: 14px;
+}
