@@ -13,9 +13,10 @@
     "core-js": "^3.9.1",
     "firebase": "^9.0.0-beta.2",
     "nuxt": "^2.15.3",
-    "vee-validate": "^4.6.2",
+    "vee-validate": "^3.4.14",
     "vue": "^2.7.8",
-    "vue-server-renderer": "^2.7.8"
+    "vue-server-renderer": "^2.7.8",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "node-sass": "^7.0.1",
