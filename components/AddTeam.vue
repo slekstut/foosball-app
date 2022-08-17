@@ -8,7 +8,7 @@
         <template #body>
             <ValidationObserver>
                 <form>
-                    <validation-provider v-slot="{ errors }" name="Username" rules="required">
+                    <validation-provider v-slot="{ errors }" name="Username" rules="required|min:3">
                         <div class="input__wrapper">
                             <label for="name">Team Name:</label>
                             <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
@@ -18,15 +18,23 @@
                         </div>
                     </validation-provider>
 
-                    <label for="storageRef">Team Logo</label>
-                    <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
-                    <button v-if="!newTeam.storageRef" @click="launchImageFile" :disabled="newTeam.isUploadingImage"
-                        type="button">
-                        {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
-                    </button>
-                    <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
-                        accept="image/png, image/jpeg" class="hidden">
-                    <validation-provider v-slot="{ errors }" name="Username" rules="required">
+                    <validation-provider v-slot="{ errors }" name="Username" rules="'mimes:image/*'">
+                        <div class="input__wrapper">
+                            <label for="storageRef">Team Logo</label>
+                            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+                            <button v-if="!newTeam.storageRef" @click="launchImageFile"
+                                :disabled="newTeam.isUploadingImage" type="button">
+                                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                            </button>
+                            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
+                                accept="image/png, image/jpeg" class="hidden">
+                            <span class="input-invalid-message">
+                                {{ errors[0] }}
+                            </span>
+                        </div>
+                    </validation-provider>
+
+                    <validation-provider v-slot="{ errors }" name="Username" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player1">Player 1:</label>
                             <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
@@ -35,7 +43,7 @@
                             </span>
                         </div>
                     </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Username" rules="required">
+                    <validation-provider v-slot="{ errors }" name="Username" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player2">Player 2:</label>
                             <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
@@ -56,12 +64,33 @@
 <script>
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
-import { required } from 'vee-validate/dist/rules';
+import { required, alpha_num } from 'vee-validate/dist/rules';
 
 extend('required', {
     ...required,
     message: 'This field is required'
 });
+
+extend('alpha_num', {
+    ...alpha_num,
+    message: 'This field must be alphanumeric'
+});
+
+extend('min', {
+    validate(value, { length }) {
+        return value.length >= length;
+    },
+    params: ['length'],
+    message: 'This field must be at least {length} characters'
+})
+
+extend('mimes', {
+    validate(value, { mimes }) {
+        return mimes.includes(value.type);
+    },
+    params: ['mimes'],
+    message: 'This field must be a valid image'
+})
 
 export default {
     components: {
