@@ -6,8 +6,7 @@
             </h2>
         </template>
         <template #body>
-            <ValidationObserver>
-                <form>
+                  <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form" @submit.prevent="submit()">
                     <validation-provider v-slot="{ errors }" name="Username" rules="required|min:3">
                         <div class="input__wrapper">
                             <label for="name">Team Name:</label>
@@ -17,7 +16,6 @@
                             </span>
                         </div>
                     </validation-provider>
-
                     <validation-provider v-slot="{ errors }" name="Username" rules="'mimes:image/*'">
                         <div class="input__wrapper">
                             <label for="storageRef">Team Logo</label>
@@ -52,10 +50,9 @@
                             </span>
                         </div>
                     </validation-provider>
-                    <div class="submit-btn" @click="addTeam">
-                        <Button class="submit-team">Submit</Button>
+                    <div class="submit-btn">
+                        <Button class="submit-team" :disabled="invalid">Submit</Button>
                     </div>
-                </form>
             </ValidationObserver>
         </template>
     </Modal>
@@ -116,6 +113,16 @@ export default {
         toggleModal() {
             this.$store.commit("toggleModal");
         },
+        async submit () {
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) {
+        // ABORT!!
+        console.log('abort')
+      }
+
+      // 🐿 ship it
+      addTeam();
+    },
         launchImageFile() {
             this.$refs.imageFile.click()
         },
@@ -161,11 +168,7 @@ export default {
                 })
 
         },
-        // add a new team to firestore database
-        async addTeam(e) {
-            e.preventDefault();
-
-            console.log('submitted')
+        async addTeam() {
             const newTeam = {
                 name: this.newTeam.name,
                 imageUrl: this.newTeam.imgUrl,
