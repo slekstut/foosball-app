@@ -6,12 +6,12 @@
             </h2>
         </template>
         <template #body>
-            <ValidationObserver v-slot="{ handleSubmit }">
+            <ValidationObserver v-slot="{ handleSubmit }" ref='observer'>
                 <form @submit.prevent="handleSubmit(onSubmit)">
                     <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
                         <div class="input__wrapper">
                             <label for="name">Team Name:</label>
-                            <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
+                            <input type="text" id="name" v-model="newTeam.name">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -36,7 +36,7 @@
                     <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player1">Player 1:</label>
-                            <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
+                            <input type="text" id="player1" v-model="newTeam.player1">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -45,7 +45,7 @@
                     <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player2">Player 2:</label>
-                            <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
+                            <input type="text" id="player2" v-model="newTeam.player2">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -62,7 +62,7 @@
 
 <script>
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { ValidationObserver, ValidationProvider, extend, validate } from "vee-validate";
+import { ValidationObserver, ValidationProvider, extend, reset } from "vee-validate";
 import { required, alpha_num } from 'vee-validate/dist/rules';
 
 extend('required', {
@@ -116,7 +116,6 @@ export default {
             this.$store.commit("toggleModal");
         },
         async onSubmit() {
-            console.log('onsubmit')
             this.addTeam();
         },
         launchImageFile() {
@@ -174,6 +173,7 @@ export default {
             }
             this.newTeam.createdAt = new Date();
             this.$store.dispatch("addTeam", newTeam);
+            this.$refs.observer.reset();
             this.newTeam.name = "";
             this.newTeam.player1 = "";
             this.newTeam.player2 = "";
