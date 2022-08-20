@@ -15,12 +15,15 @@ export default {
 
     css: [
   // '~assets/scss/main.scss'
-  './assets/scss/main.scss'
+  './assets/scss/main.scss',
+  '~/plugins/toastr.min.css'
+
 ],
 
   plugins: [
     {src: "~/plugins/firebase.js"},
     { src: '~/plugins/vee-validate.js', ssr: true }, 
+    { src: '~/plugins/toastr.min.js' }, 
 ],
 
   components: true,

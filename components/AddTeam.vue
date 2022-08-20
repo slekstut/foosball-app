@@ -64,6 +64,7 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { ValidationObserver, ValidationProvider, extend, reset } from "vee-validate";
 import { required, alpha_num } from 'vee-validate/dist/rules';
+import toastr from "toastr";
 
 extend('required', {
     ...required,
@@ -118,7 +119,11 @@ export default {
         async onSubmit() {
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
-                setTimeout(() => this.$nuxt.$loading.finish(), 2000)
+                setTimeout(() => {
+                    this.$nuxt.$loading.finish();
+                    toastr.success('Team Added Successfully');
+                }
+                    , 2000)
             })
             this.addTeam();
         },
