@@ -27,7 +27,6 @@
                     <ul>
                         <li><a href="#">Matches</a></li>
                         <li><a href="#">Teams</a></li>
-                        <!-- <li><a href="#">Statistics</a></li> -->
                         <li class="add-team" @click="toggleGameModal"><a href="#">Add A Game</a></li>
                         <li><a href="#" @click="toggleModal">Add A New Team</a></li>
                     </ul>
@@ -107,7 +106,7 @@
                                 {{ selectableTeam.name }}
                             </option>
                         </select>
-                        <div class="form__block">
+                        <div class="selected-team">
                             <div>
                                 {{ selectedTeam1.player1 }}
                             </div>
@@ -127,7 +126,7 @@
                                 {{ selectableTeam.name }}
                             </option>
                         </select>
-                        <div class="form__block">
+                        <div class="selected-team">
                             <div>
                                 {{ selectedTeam2.player1 }}
                             </div>
