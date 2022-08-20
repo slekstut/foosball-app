@@ -6,8 +6,9 @@
             </h2>
         </template>
         <template #body>
-                  <ValidationObserver ref="observer" v-slot="{ invalid }" tag="form" @submit.prevent="submit()">
-                    <validation-provider v-slot="{ errors }" name="Username" rules="required|min:3">
+            <ValidationObserver v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(onSubmit)">
+                    <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
                         <div class="input__wrapper">
                             <label for="name">Team Name:</label>
                             <input type="text" id="name" v-model="newTeam.name" placeholder="Enter team title">
@@ -16,7 +17,7 @@
                             </span>
                         </div>
                     </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Username" rules="'mimes:image/*'">
+                    <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
                         <div class="input__wrapper">
                             <label for="storageRef">Team Logo</label>
                             <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
@@ -32,7 +33,7 @@
                         </div>
                     </validation-provider>
 
-                    <validation-provider v-slot="{ errors }" name="Username" rules="required|min:3|alpha_num">
+                    <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player1">Player 1:</label>
                             <input type="text" id="player1" v-model="newTeam.player1" placeholder="Enter a name">
@@ -41,7 +42,7 @@
                             </span>
                         </div>
                     </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Username" rules="required|min:3|alpha_num">
+                    <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player2">Player 2:</label>
                             <input type="text" id="player2" v-model="newTeam.player2" placeholder="Enter a name">
@@ -51,8 +52,9 @@
                         </div>
                     </validation-provider>
                     <div class="submit-btn">
-                        <Button class="submit-team" :disabled="invalid">Submit</Button>
+                        <Button class="submit-team">Submit</Button>
                     </div>
+                </form>
             </ValidationObserver>
         </template>
     </Modal>
@@ -60,7 +62,7 @@
 
 <script>
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import { ValidationObserver, ValidationProvider, extend, validate } from "vee-validate";
 import { required, alpha_num } from 'vee-validate/dist/rules';
 
 extend('required', {
@@ -113,16 +115,10 @@ export default {
         toggleModal() {
             this.$store.commit("toggleModal");
         },
-        async submit () {
-      const isValid = await this.$refs.observer.validate();
-      if (!isValid) {
-        // ABORT!!
-        console.log('abort')
-      }
-
-      // 🐿 ship it
-      addTeam();
-    },
+        async onSubmit() {
+            console.log('onsubmit')
+            this.addTeam();
+        },
         launchImageFile() {
             this.$refs.imageFile.click()
         },
