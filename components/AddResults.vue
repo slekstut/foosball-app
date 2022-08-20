@@ -9,6 +9,7 @@
         <template #body>
             <form>
                 <div class="form__block">
+                    <v-select :options="['Canada', 'United States']"></v-select>
                     <label for="choose-team1">Select Team</label>
                     <select v-model="selectedTeam1" name="choose-team1" id="game-results">
                         <option value="" disavled>Choose A Team 1</option>
@@ -53,9 +54,13 @@
 <script>
 import { db } from "~/plugins/firebase.js";
 import { collection, getDocs } from "firebase/firestore";
+import vSelect from 'vue-select'
 
 export default {
-    data() {
+    components: {
+        vSelect
+    },
+        data() {
         return {
             selectableTeams: [],
             selectableTeam: 'Choose team',
