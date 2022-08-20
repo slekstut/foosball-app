@@ -38,4 +38,10 @@ export default {
   styleResources: {
   scss: ['./assets/scss/main.scss']
 },
+loading: '~/components/LoadingBar.vue',
+loadingIndicator: {
+  name: 'cube-grid',
+  color: 'red',
+  background: 'back'
+}
 };
