@@ -16,6 +16,7 @@
     "toastr": "^2.1.4",
     "vee-validate": "^3.4.14",
     "vue": "^2.7.8",
+    "vue-select": "^3.20.0",
     "vue-server-renderer": "^2.7.8",
     "vuex": "^3.6.2"
   },

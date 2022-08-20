@@ -16,7 +16,8 @@ export default {
     css: [
   // '~assets/scss/main.scss'
   './assets/scss/main.scss',
-  '~/plugins/toastr.min.css'
+  '~/plugins/toastr.min.css',
+  '~/node_modules/vue-select/dist/vue-select.css',
 
 ],
 
@@ -24,6 +25,7 @@ export default {
     {src: "~/plugins/firebase.js"},
     { src: '~/plugins/vee-validate.js', ssr: true }, 
     { src: '~/plugins/toastr.min.js' }, 
+    { src: '~/node_modules/vue-select/dist/vue-select.js' },
 ],
 
   components: true,
