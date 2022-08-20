@@ -1,5 +1,8 @@
 <template>
     <Modal v-if="showModal">
+        <template #header-img>
+            <img src="../assets/img/teams-icon.svg" alt="teams-icon.svg">
+        </template>
         <template #header>
             <h2>
                 Add A New Team

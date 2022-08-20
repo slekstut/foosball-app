@@ -3,10 +3,7 @@
         <div class="modal-backdrop">
             <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
                 <div class="modal__wrapper">
-                    <header class="modal-header" id="modalTitle">
-                        <slot name="header">
-                        </slot>
-                        <button type="button" class="btn-close" aria-label="Close modal" @click="closeModal">
+                    <button type="button" class="btn-close" aria-label="Close modal" @click="closeModal">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
                                 fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -14,6 +11,9 @@
                                     fill="black" />
                             </svg>
                         </button>
+                    <header class="modal-header" id="modalTitle">
+                        <slot name="header-img"></slot>
+                        <slot name="header"></slot>
                     </header>
                     <section class="modal-body" id="modalDescription">
                         <slot name="body">
@@ -64,7 +64,7 @@ export default {
     left: 50%;
     margin: 0 auto;
     min-width: 400px;
-    padding: 16px;
+    padding: 48px;
     position: fixed;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -87,15 +87,16 @@ export default {
 
 .modal-header,
 .modal-footer {
-    padding: 15px;
     display: flex;
 }
 
 .modal-header {
-    border-bottom: 1px solid $soft-gray;
     color: $primary-800;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    gap: 24px;
+    padding: 0 0 16px 0;
+   
 }
 
 .modal-footer {
@@ -105,10 +106,12 @@ export default {
 
 .modal-body {
     position: relative;
-    padding: 20px 10px;
 }
 
 .btn-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
     border: none;
     padding: 10px;
     margin-right: -10px;
