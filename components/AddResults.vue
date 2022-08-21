@@ -13,38 +13,28 @@
                         <label for="selectedTeam1">
                             Team 1
                         </label>
-                        <v-select
-                            v-model="selectedTeam1"
-                            :options="selectableTeams"
-                            label="name"
-                            :searchable="false"
-                            placeholder="Select a team"
-                        >
+                        <v-select v-model="selectedTeam1" :options="selectableTeams" label="name" :searchable="true"
+                            placeholder="Select a team">
                         </v-select>
-                        <div class="selected-team">
-                        <div>
-                            Player 1: {{ selectedTeam1.player1 }}
+                        <div class="selected-team" v-if="selectedTeam1">
+                            <div>
+                                Player 1: {{ selectedTeam1.player1 }}
+                            </div>
+                            <div>
+                                Player 2: {{ selectedTeam1.player2 }}
+                            </div>
                         </div>
-                        <div>
-                            Player 2: {{ selectedTeam1.player2 }}
-                        </div>
-                    </div>
 
                     </div>
                     <div class="form__block">
                         <label for="selectedTeam2">
                             Team 2
                         </label>
-                        <v-select
-                            v-model="selectedTeam2"
-                            :options="selectableTeams"
-                            label="name"
-                            :searchable="false"
-                            placeholder="Select a team"
-                        >
+                        <v-select v-model="selectedTeam2" :options="selectableTeams" label="name" :searchable="true"
+                            placeholder="Select a team">
                         </v-select>
                     </div>
-                    <div class="selected-team">
+                    <div class="selected-team" v-if="selectedTeam2">
                         <div>
                             Player 1: {{ selectedTeam2.player1 }}
                         </div>
@@ -97,12 +87,48 @@ export default {
         showGameModal() {
             return this.$store.state.showGameModal;
         },
-       
+
     },
     mounted() {
         this.fetch();
     },
-   
+
 }
 </script>
 
+<style lang="scss">
+.form__block {
+    width: 100%;
+
+    .v-select {
+        min-width: 100%;
+        width: 100%;
+        display: flex;
+
+        .vs__dropdown-toggle {
+            // display: flex;
+            // width: 100%;
+
+            .vs__selected-options {
+                // display: flex;
+                // min-width: 100%;
+                // width: 100%;
+
+            }
+            input.vs__search {
+                // display: flex;
+                width: 100%;
+            }
+        }
+        .vs__selected-options {
+            .vs__search {
+                display: none;
+            }
+        }
+        .vs__dropdown-toggle {
+            width: 100%;
+            min-height: 35px;
+        }
+    }
+}
+</style>
