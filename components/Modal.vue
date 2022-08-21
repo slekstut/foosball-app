@@ -51,11 +51,13 @@ export default {
 
 .modal {
     box-shadow: 0 10px 20px rgba($primary-800, 0.2);
-    overflow-x: auto;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     padding: 20px;
     min-width: 400px;
+    max-width: 600px;
+    height: 90vh;
     background-color: $secondary-500;
     border-radius: 16px;
     display: flex;
@@ -63,7 +65,6 @@ export default {
     justify-content: center;
     left: 50%;
     margin: 0 auto;
-    min-width: 400px;
     padding: 48px;
     position: fixed;
     top: 50%;

@@ -8,7 +8,7 @@
         <template #body>
             <ValidationObserver ref='observer'>
                 <form>
-                    <div class="form__block">
+                    <div class="form__wrapper">
                         <div class="form__block">
                             <label for="selectedTeam1">
                                 Team 1
@@ -45,37 +45,96 @@
                                     </div>
                                 </div>
                                 <div class="team__info">
-                                    <div>Player 2: {{ selectedTeam1.playerName2 }} </div>
-                                    <div>
-                                        <div>
-                                            Match Goals:
+                                    <div>Player 2: <strong>{{ selectedTeam1.playerName2 }}</strong></div>
+                                    <div class="team__points">
+                                        <div class="title">
+                                            Match Goals (0-9):
                                         </div>
-                                        <div>
-                                            <span><button @click.prevent="decrement('player2Goals')">-</button></span>
-                                            <input type="number" :value="player2Goals">
-                                            <span><button @click.prevent="increment('player2Goals')">+</button></span>
+                                        <div class="content">
+                                            <span>
+                                                <button @click.prevent="decrement('player2Goals')">-
+                                                </button>
+                                            </span>
+                                            <validation-provider v-slot="{ errors }" name="player2Goals"
+                                                rules="max_value:9|numeric">
+                                                <div class="input__wrapper">
+                                                    <input type="number" v-model="player2Goals">
+                                                    <span class="input-invalid-message">
+                                                        {{ errors[0] }}
+                                                    </span>
+                                                </div>
+                                            </validation-provider>
+                                            <span>
+                                                <button @click.prevent="increment('player2Goals')">+
+                                                </button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="form__block">
-                            <label for="selectedTeam2">
+                            <label for="selectedTeam1">
                                 Team 2
                             </label>
                             <v-select v-model="selectedTeam2" :options="selectableTeams" label="teamName"
                                 :searchable="true" placeholder="Select a team">
                             </v-select>
-                        </div>
-                        <div class="team" v-if="selectedTeam2">
-                            <div class="team__info">
-                                <div>Player 1: {{ selectedTeam2.playerName1 }}</div>
-                                <div>Player 1 score: {{ selectedTeam2.playerScore1 }}</div>
-                            </div>
-                            <div class="team__info">
-                                <div>Player 2: {{ selectedTeam2.playerName2 }}</div>
-                                <div>Player 2 score: {{ selectedTeam2.playerScore2 }}</div>
+                            <div class="team" v-if="selectedTeam2">
+                                <div class="team__info">
+                                    <div>Player 1: <strong>{{ selectedTeam2.playerName1 }}</strong></div>
+                                    <div class="team__points">
+                                        <div class="title">
+                                            Match Goals (0-9):
+                                        </div>
+                                        <div class="content">
+                                            <span>
+                                                <button @click.prevent="decrement('player3Goals')">-
+                                                </button>
+                                            </span>
+                                            <validation-provider v-slot="{ errors }" name="player3Goals"
+                                                rules="max_value:9|numeric">
+                                                <div class="input__wrapper">
+                                                    <input type="number" v-model="player3Goals">
+                                                    <span class="input-invalid-message">
+                                                        {{ errors[0] }}
+                                                    </span>
+                                                </div>
+                                            </validation-provider>
+                                            <span>
+                                                <button @click.prevent="increment('player3Goals')">+
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="team__info">
+                                    <div>Player 2: <strong>{{ selectedTeam2.playerName2 }}</strong></div>
+                                    <div class="team__points">
+                                        <div class="title">
+                                            Match Goals (0-9):
+                                        </div>
+                                        <div class="content">
+                                            <span>
+                                                <button @click.prevent="decrement('player4Goals')">-
+                                                </button>
+                                            </span>
+                                            <validation-provider v-slot="{ errors }" name="player4Goals"
+                                                rules="max_value:9|numeric">
+                                                <div class="input__wrapper">
+                                                    <input type="number" v-model="player4Goals">
+                                                    <span class="input-invalid-message">
+                                                        {{ errors[0] }}
+                                                    </span>
+                                                </div>
+                                            </validation-provider>
+                                            <span>
+                                                <button @click.prevent="increment('player4Goals')">+
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,7 +150,6 @@ import { db } from "~/plugins/firebase.js";
 import { collection, getDocs } from "firebase/firestore";
 import vSelect from 'vue-select'
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
-import { max_value, numeric } from 'vee-validate/dist/rules';
 import toastr from "toastr";
 
 extend('max_value', {
@@ -122,7 +180,9 @@ export default {
             selectedTeam1: '',
             selectedTeam2: '',
             player1Goals: null,
-            player2Goals: null
+            player2Goals: null,
+            player3Goals: null,
+            player4Goals: null
         }
     },
     methods: {
@@ -174,97 +234,106 @@ export default {
 </script>
 
 <style lang="scss">
-form {
-    .form__block {
-        width: 100%;
+.modal {
+    width: 100%;
+    max-width: 600px;
 
-        .v-select {
-            min-width: 100%;
-            width: 100%;
+    form {
+        .form__wrapper {
             display: flex;
-
-            .vs__dropdown-toggle {
-                width: 100%;
-                min-height: 35px;
-
-                .vs__actions {
-                    cursor: pointer;
-                }
-            }
+            gap: 24px;
         }
-
-        .team {
+        .form__block {
             width: 100%;
 
-            &__info {
+            .v-select {
+                min-width: 100%;
+                width: 100%;
                 display: flex;
-                flex-direction: column;
-                gap: 12px;
-                margin-top: 24px;
-                padding-top: 24px;
-                border-top: 1px solid $primary-400;
-                color: $primary-800;
+
+                .vs__dropdown-toggle {
+                    width: 100%;
+                    min-height: 35px;
+
+                    .vs__actions {
+                        cursor: pointer;
+                    }
+                }
             }
 
-            &__points {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                gap: 12px;
+            .team {
+                width: 100%;
 
-                .title {
-                    font-size: 12px;
-                    font-weight: bold;
-                    color: $primary-500;
+                &__info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                    margin-top: 24px;
+                    padding-top: 24px;
+                    border-top: 1px solid $primary-400;
+                    color: $primary-800;
                 }
 
-                .content {
+                &__points {
                     display: flex;
+                    flex-direction: column;
                     justify-content: space-between;
-                    width: 100%;
+                    gap: 12px;
 
-                    span {
+                    .title {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: $primary-500;
+                    }
+
+                    .content {
                         display: flex;
-                        justify-content: center;
-                        align-items: center;
+                        justify-content: space-between;
+                        width: 100%;
 
-                        button {
-                            width: 33.33%;
-                            padding: 0 12px;
-                            background-color: transparent;
-                            border: none;
-                            font-size: 24px;
-                            cursor: pointer;
+                        span {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
 
-                            &:hover {
-                                color: $compliment-500;
+                            button {
+                                width: 33.33%;
+                                padding: 0 12px;
+                                background-color: transparent;
+                                border: none;
+                                font-size: 24px;
+                                cursor: pointer;
+
+                                &:hover {
+                                    color: $compliment-500;
+                                }
+                            }
+                        }
+
+                        .input__wrapper {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex-direction: column;
+
+                            input {
+                                min-height: 35px;
+                                display: flex;
+                                width: 33.33%;
+                                text-align: center;
+                                border: 1px solid $primary-300;
+                                border-radius: 5px;
+                                padding: 2px 32px;
                             }
                         }
                     }
-
-                    .input__wrapper {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        flex-direction: column;
-
-                        input {
-                            min-height: 35px;
-                            display: flex;
-                            width: 33.33%;
-                            text-align: center;
-                            border: 1px solid $primary-300;
-                            border-radius: 5px;
-                            padding: 2px 32px;
-                        }
-                    }
                 }
             }
         }
-    }
 
-    .submit-team {
-        margin-top: 24px;
+        .submit-team {
+            margin-top: 24px;
+        }
     }
 }
 </style>
