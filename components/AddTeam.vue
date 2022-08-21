@@ -36,7 +36,7 @@
                         </div>
                     </validation-provider>
 
-                    <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|alpha_num">
+                    <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
                         <div class="input__wrapper">
                             <label for="player1">Player 1:</label>
                             <input type="text" id="player1" v-model="newTeam.playerName1">
@@ -45,7 +45,7 @@
                             </span>
                         </div>
                     </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|alpha_num">
+                    <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|max:50">
                         <div class="input__wrapper">
                             <label for="player2">Player 2:</label>
                             <input type="text" id="player2" v-model="newTeam.playerName2">
@@ -65,7 +65,7 @@
 
 <script>
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { ValidationObserver, ValidationProvider, extend, reset } from "vee-validate";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required, alpha_num } from 'vee-validate/dist/rules';
 import toastr from "toastr";
 
@@ -74,17 +74,20 @@ extend('required', {
     message: 'This field is required'
 });
 
-extend('alpha_num', {
-    ...alpha_num,
-    message: 'This field must be alphanumeric'
-});
-
 extend('min', {
     validate(value, { length }) {
         return value.length >= length;
     },
     params: ['length'],
     message: 'This field must be at least {length} characters'
+})
+
+extend('max', {
+    validate(value, { length }) {
+        return value.length <= length;
+    },
+    params: ['length'],
+    message: 'This field must be at most {length} characters'
 })
 
 extend('mimes', {
@@ -106,9 +109,9 @@ export default {
             newTeam: {
                 teamName: "",
                 playerName1: "",
-                playerScore1: null,
+                playerScore1: 0,
                 playerName2: "",
-                playerScore2: null,
+                playerScore2: 0,
                 teamLogoUrl: "",
                 createdAt: "",
                 isUploadingImage: false,
