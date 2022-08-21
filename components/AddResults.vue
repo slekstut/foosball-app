@@ -13,15 +13,27 @@
                         <label for="selectedTeam1">
                             Team 1
                         </label>
-                        <v-select v-model="selectedTeam1" :options="selectableTeams" label="name" :searchable="true"
+                        <v-select v-model="selectedTeam1" :options="selectableTeams" label="teamName" :searchable="true"
                             placeholder="Select a team">
                         </v-select>
-                        <div class="selected-team" v-if="selectedTeam1">
-                            <div>
-                                Player 1: {{ selectedTeam1.player1 }}
+                        <div class="team" v-if="selectedTeam1">
+                            <div class="team__info">
+                                <div>Player 1: {{ selectedTeam1.playerName1 }} </div>
+                                <div>
+                                    <div>
+                                        Match Goals: 
+                                    </div>
+                                    <div>
+                                        <span><button @click="decrement">-</button></span>
+                                        <input type="number" :value="selectedTeam1.playerName1.goals">
+                                        <span><button @click="increment">+</button></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                Player 2: {{ selectedTeam1.player2 }}
+                            <div class="team__info">
+                                <div>Player 2: {{ selectedTeam1.playerName2 }} <span>, goals: {{
+                                        selectedTeam1.playerScore2
+                                }}</span></div>
                             </div>
                         </div>
 
@@ -30,16 +42,18 @@
                         <label for="selectedTeam2">
                             Team 2
                         </label>
-                        <v-select v-model="selectedTeam2" :options="selectableTeams" label="name" :searchable="true"
+                        <v-select v-model="selectedTeam2" :options="selectableTeams" label="teamName" :searchable="true"
                             placeholder="Select a team">
                         </v-select>
                     </div>
-                    <div class="selected-team" v-if="selectedTeam2">
-                        <div>
-                            Player 1: {{ selectedTeam2.player1 }}
+                    <div class="team" v-if="selectedTeam2">
+                        <div class="team__info">
+                            <div>Player 1: {{ selectedTeam2.playerName1 }}</div>
+                            <div>Player 1 score: {{ selectedTeam2.playerScore1 }}</div>
                         </div>
-                        <div>
-                            Player 2: {{ selectedTeam2.player2 }}
+                        <div class="team__info">
+                            <div>Player 2: {{ selectedTeam2.playerName2 }}</div>
+                            <div>Player 2 score: {{ selectedTeam2.playerScore2 }}</div>
                         </div>
                     </div>
                 </div>
@@ -99,24 +113,24 @@ export default {
 
 <style lang="scss">
 form {
-.form__block {
-    width: 100%;
-
-    .v-select {
-        min-width: 100%;
+    .form__block {
         width: 100%;
-        display: flex;
 
-        .vs__dropdown-toggle {
+        .v-select {
+            min-width: 100%;
             width: 100%;
-            min-height: 35px;
+            display: flex;
 
-            .vs__actions {
-                cursor: pointer;
+            .vs__dropdown-toggle {
+                width: 100%;
+                min-height: 35px;
+
+                .vs__actions {
+                    cursor: pointer;
+                }
             }
         }
     }
-}
 
     .submit-team {
         margin-top: 24px;
