@@ -14,7 +14,7 @@
                     <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
                         <div class="input__wrapper">
                             <label for="name">Team Name:</label>
-                            <input type="text" id="name" v-model="newTeam.name">
+                            <input type="text" id="name" v-model="newTeam.teamName">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -39,7 +39,7 @@
                     <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player1">Player 1:</label>
-                            <input type="text" id="player1" v-model="newTeam.player1">
+                            <input type="text" id="player1" v-model="newTeam.playerName1">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -48,7 +48,7 @@
                     <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|alpha_num">
                         <div class="input__wrapper">
                             <label for="player2">Player 2:</label>
-                            <input type="text" id="player2" v-model="newTeam.player2">
+                            <input type="text" id="player2" v-model="newTeam.playerName2">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -104,10 +104,12 @@ export default {
         return {
             teams: [],
             newTeam: {
-                name: "",
-                player1: "",
-                player2: "",
-                imageUrl: "",
+                teamName: "",
+                playerName1: "",
+                playerScore1: null,
+                playerName2: "",
+                playerScore2: null,
+                teamLogoUrl: "",
                 createdAt: "",
                 isUploadingImage: false,
                 imageData: false,
@@ -177,18 +179,20 @@ export default {
         },
         async addTeam() {
             const newTeam = {
-                name: this.newTeam.name,
-                imageUrl: this.newTeam.imgUrl,
-                player1: this.newTeam.player1,
-                player2: this.newTeam.player2,
+                teamName: this.newTeam.teamName,
+                teamLogoUrl: this.newTeam.imgUrl,
+                playerName1: this.newTeam.playerName1,
+                playerScore1: this.newTeam.playerScore1,
+                playerName2: this.newTeam.playerName2,
+                playerScore2: this.newTeam.playerScore2,
                 createdAt: new Date(),
             }
             this.newTeam.createdAt = new Date();
             this.$store.dispatch("addTeam", newTeam);
             this.$refs.observer.reset();
-            this.newTeam.name = "";
-            this.newTeam.player1 = "";
-            this.newTeam.player2 = "";
+            this.newTeam.teamName = "";
+            this.newTeam.playerName1 = "";
+            this.newTeam.playerName1 = "";
             this.newTeam.createdAt = "";
             this.newTeam.imgUrl = null;
         },
@@ -200,7 +204,6 @@ export default {
     },
     mounted() {
         console.log('mounted')
-        // console.log($errors)
 
     }
 }
