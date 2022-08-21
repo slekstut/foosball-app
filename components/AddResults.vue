@@ -54,6 +54,7 @@ import { db } from "~/plugins/firebase.js";
 import { collection, getDocs } from "firebase/firestore";
 import vSelect from 'vue-select'
 
+
 export default {
     components: {
         vSelect
@@ -97,6 +98,7 @@ export default {
 </script>
 
 <style lang="scss">
+form {
 .form__block {
     width: 100%;
 
@@ -106,29 +108,18 @@ export default {
         display: flex;
 
         .vs__dropdown-toggle {
-            // display: flex;
-            // width: 100%;
-
-            .vs__selected-options {
-                // display: flex;
-                // min-width: 100%;
-                // width: 100%;
-
-            }
-            input.vs__search {
-                // display: flex;
-                width: 100%;
-            }
-        }
-        .vs__selected-options {
-            .vs__search {
-                display: none;
-            }
-        }
-        .vs__dropdown-toggle {
             width: 100%;
             min-height: 35px;
+
+            .vs__actions {
+                cursor: pointer;
+            }
         }
+    }
+}
+
+    .submit-team {
+        margin-top: 24px;
     }
 }
 </style>
