@@ -9,39 +9,47 @@
         <template #body>
             <form>
                 <div class="form__block">
-                    <v-select :options="['Canada', 'United States']"></v-select>
-                    <label for="choose-team1">Select Team</label>
-                    <select v-model="selectedTeam1" name="choose-team1" id="game-results">
-                        <option value="" disavled>Choose A Team 1</option>
-                        <option v-for="selectableTeam in selectableTeams" :key="selectableTeam.id"
-                            :value="selectableTeam">
-                            {{ selectableTeam.name }}
-                        </option>
-                    </select>
-                    <div class="selected-team">
+                    <div class="form__block">
+                        <label for="selectedTeam1">
+                            Team 1
+                        </label>
+                        <v-select
+                            v-model="selectedTeam1"
+                            :options="selectableTeams"
+                            label="name"
+                            :searchable="false"
+                            placeholder="Select a team"
+                        >
+                        </v-select>
+                        <div class="selected-team">
                         <div>
-                            {{ selectedTeam1.player1 }}
+                            Player 1: {{ selectedTeam1.player1 }}
                         </div>
                         <div>
-                            {{ selectedTeam1.player2 }}
+                            Player 2: {{ selectedTeam1.player2 }}
                         </div>
                     </div>
-                </div>
-                <div class="form__block">
-                    <label for="choose-team2">Select Team</label>
-                    <select v-model="selectedTeam2" :disabled="!selectedTeam1" name="choose-team2" id="game-results">
-                        <option value="" disavled>Choose A Team 2</option>
-                        <option v-for="selectableTeam in selectableTeams.filter(team => team.id !== selectedTeam1.id)"
-                            :key="selectableTeam.id" :value="selectableTeam">
-                            {{ selectableTeam.name }}
-                        </option>
-                    </select>
+
+                    </div>
+                    <div class="form__block">
+                        <label for="selectedTeam2">
+                            Team 2
+                        </label>
+                        <v-select
+                            v-model="selectedTeam2"
+                            :options="selectableTeams"
+                            label="name"
+                            :searchable="false"
+                            placeholder="Select a team"
+                        >
+                        </v-select>
+                    </div>
                     <div class="selected-team">
                         <div>
-                            {{ selectedTeam2.player1 }}
+                            Player 1: {{ selectedTeam2.player1 }}
                         </div>
                         <div>
-                            {{ selectedTeam2.player2 }}
+                            Player 2: {{ selectedTeam2.player2 }}
                         </div>
                     </div>
                 </div>
@@ -60,7 +68,7 @@ export default {
     components: {
         vSelect
     },
-        data() {
+    data() {
         return {
             selectableTeams: [],
             selectableTeam: 'Choose team',
@@ -81,15 +89,20 @@ export default {
                 this.selectableTeams.push(selectableTeamWithId);
             });
         },
-         toggleGameModal() {
+        toggleGameModal() {
             this.$store.commit('toggleGameModal');
-        },
-    },
-     computed: {
-        showGameModal() {
-            return this.$store.state.showGameModal;
         }
     },
+    computed: {
+        showGameModal() {
+            return this.$store.state.showGameModal;
+        },
+       
+    },
+    mounted() {
+        this.fetch();
+    },
+   
 }
 </script>
 
