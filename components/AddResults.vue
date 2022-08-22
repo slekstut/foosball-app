@@ -13,7 +13,7 @@
                             <label for="selectedTeam1">
                                 Team 1
                             </label>
-                            <v-select v-model="selectedTeam1" :options="selectableTeams" label="teamName"
+                            <v-select v-model="selectedTeam1" :options="selectableTeams.filter(team => team.id !== selectedTeam2.id)" label="teamName"
                                 :searchable="true" placeholder="Select a team">
                             </v-select>
                             <div class="team" v-if="selectedTeam1">
@@ -73,11 +73,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form__block">
+                        <div class="form__block" v-if="selectedTeam1">
                             <label for="selectedTeam1">
                                 Team 2
                             </label>
-                            <v-select v-model="selectedTeam2" :options="selectableTeams" label="teamName"
+                            <v-select v-model="selectedTeam2" :options="selectableTeams.filter(team => team.id !== selectedTeam1.id)" label="teamName"
                                 :searchable="true" placeholder="Select a team">
                             </v-select>
                             <div class="team" v-if="selectedTeam2">
