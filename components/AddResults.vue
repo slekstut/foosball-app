@@ -7,7 +7,7 @@
         </template>
         <template #body>
             <ValidationObserver ref='observer'>
-                <form>
+                <form @submit.prevent="updateData">
                     <div class="form__wrapper">
                         <div class="form__block">
                             <label for="selectedTeam1">
@@ -209,6 +209,15 @@ export default {
             } else if (this[val] < 0) {
                 this[val] = 0;
             }
+            // check if total sum goals are not more than 9
+            if (this.player1Goals + this.player2Goals > 9) {
+                this[val] -= 1;
+                toastr.error('Total goals can not be more than 9');
+            }
+            if (this.player3Goals + this.player4Goals > 9) {
+                this[val] -= 1;
+                toastr.error('Total goals can not be more than 9');
+            }
         },
         decrement(val) {
             this.$refs.observer.reset();
@@ -218,6 +227,17 @@ export default {
             } else if (this[val] < 0) {
                 this[val] = 0;
             }
+             if (this.player1Goals + this.player2Goals > 9) {
+                this[val] -= 1;
+                toastr.error('Total goals can not be more than 9');
+            }
+            if (this.player3Goals + this.player4Goals > 9) {
+                this[val] -= 1;
+                toastr.error('Total goals can not be more than 9');
+            }
+        },
+        updateData() {
+            console.log('updateData');
         }
     },
     computed: {
@@ -319,7 +339,7 @@ export default {
                             input {
                                 min-height: 35px;
                                 display: flex;
-                                width: 33.33%;
+                                width: 100%;
                                 text-align: center;
                                 border: 1px solid $primary-300;
                                 border-radius: 5px;
