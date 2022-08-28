@@ -6,16 +6,23 @@
             </h2>
         </template>
         <template #body>
-            <ValidationObserver ref='observer'>
-                <form @submit.prevent="updateData">
+            <ValidationObserver ref='observer' v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(onSubmit)">
                     <div class="form__wrapper">
                         <div class="form__block">
-                            <label for="selectedTeam1">
-                                Team 1
-                            </label>
-                            <v-select v-model="selectedTeam1" :options="selectableTeams.filter(team => team.id !== selectedTeam2.id)" label="teamName"
-                                :searchable="true" placeholder="Select a team">
-                            </v-select>
+                            <validation-provider v-slot="{ errors }" name="selectedTeam1" rules="required">
+                                <label for="selectedTeam1">
+                                    Team 1
+                                </label>
+                                <v-select v-model="selectedTeam1"
+                                    :options="selectableTeams.filter(team => team.id !== selectedTeam2.id)"
+                                    label="teamName" :searchable="true" placeholder="Select a team">
+                                </v-select>
+                                <span class="input-invalid-message">
+                                    {{ errors[0] }}
+                                </span>
+                            </validation-provider>
+
                             <div class="team" v-if="selectedTeam1">
                                 <div class="team__info">
                                     <div>Player 1: <strong>{{ selectedTeam1.playerName1 }}</strong></div>
@@ -24,23 +31,19 @@
                                             Match Goals (0-9):
                                         </div>
                                         <div class="content">
-                                            <span>
-                                                <button @click.prevent="decrement('player1Goals')">-
-                                                </button>
-                                            </span>
                                             <validation-provider v-slot="{ errors }" name="player1Goals"
-                                                rules="max_value:9|numeric">
+                                                rules="between:0,9|numeric|required">
                                                 <div class="input__wrapper">
+                                                    <button @click.prevent="decrement('player1Goals')">-
+                                                    </button>
                                                     <input type="number" v-model="player1Goals">
-                                                    <span class="input-invalid-message">
-                                                        {{ errors[0] }}
-                                                    </span>
+                                                    <button @click.prevent="increment('player1Goals')">+
+                                                    </button>
+                                                </div>
+                                                <div class="input-invalid-message">
+                                                    {{ errors[0] }}
                                                 </div>
                                             </validation-provider>
-                                            <span>
-                                                <button @click.prevent="increment('player1Goals')">+
-                                                </button>
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -51,23 +54,19 @@
                                             Match Goals (0-9):
                                         </div>
                                         <div class="content">
-                                            <span>
-                                                <button @click.prevent="decrement('player2Goals')">-
-                                                </button>
-                                            </span>
                                             <validation-provider v-slot="{ errors }" name="player2Goals"
-                                                rules="max_value:9|numeric">
+                                                rules="between:0,9|numeric|required">
                                                 <div class="input__wrapper">
+                                                    <button @click.prevent="decrement('player2Goals')">-
+                                                    </button>
                                                     <input type="number" v-model="player2Goals">
-                                                    <span class="input-invalid-message">
-                                                        {{ errors[0] }}
-                                                    </span>
+                                                    <button @click.prevent="increment('player2Goals')">+
+                                                    </button>
+                                                </div>
+                                                <div class="input-invalid-message">
+                                                    {{ errors[0] }}
                                                 </div>
                                             </validation-provider>
-                                            <span>
-                                                <button @click.prevent="increment('player2Goals')">+
-                                                </button>
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +76,8 @@
                             <label for="selectedTeam1">
                                 Team 2
                             </label>
-                            <v-select v-model="selectedTeam2" :options="selectableTeams.filter(team => team.id !== selectedTeam1.id)" label="teamName"
+                            <v-select v-model="selectedTeam2"
+                                :options="selectableTeams.filter(team => team.id !== selectedTeam1.id)" label="teamName"
                                 :searchable="true" placeholder="Select a team">
                             </v-select>
                             <div class="team" v-if="selectedTeam2">
@@ -88,23 +88,19 @@
                                             Match Goals (0-9):
                                         </div>
                                         <div class="content">
-                                            <span>
-                                                <button @click.prevent="decrement('player3Goals')">-
-                                                </button>
-                                            </span>
                                             <validation-provider v-slot="{ errors }" name="player3Goals"
-                                                rules="max_value:9|numeric">
+                                                rules="max_value:9|numeric|required">
                                                 <div class="input__wrapper">
+                                                    <button @click.prevent="decrement('player3Goals')">-
+                                                    </button>
                                                     <input type="number" v-model="player3Goals">
-                                                    <span class="input-invalid-message">
-                                                        {{ errors[0] }}
-                                                    </span>
+                                                    <button @click.prevent="increment('player3Goals')">+
+                                                    </button>
+                                                </div>
+                                                <div class="input-invalid-message">
+                                                    {{ errors[0] }}
                                                 </div>
                                             </validation-provider>
-                                            <span>
-                                                <button @click.prevent="increment('player3Goals')">+
-                                                </button>
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -115,23 +111,19 @@
                                             Match Goals (0-9):
                                         </div>
                                         <div class="content">
-                                            <span>
-                                                <button @click.prevent="decrement('player4Goals')">-
-                                                </button>
-                                            </span>
                                             <validation-provider v-slot="{ errors }" name="player4Goals"
-                                                rules="max_value:9|numeric">
+                                                rules="max_value:9|numeric|required">
                                                 <div class="input__wrapper">
+                                                    <button @click.prevent="decrement('player4Goals')">-
+                                                    </button>
                                                     <input type="number" v-model="player4Goals">
-                                                    <span class="input-invalid-message">
-                                                        {{ errors[0] }}
-                                                    </span>
+                                                    <button @click.prevent="increment('player4Goals')">+
+                                                    </button>
+                                                </div>
+                                                <div class="input-invalid-message">
+                                                    {{ errors[0] }}
                                                 </div>
                                             </validation-provider>
-                                            <span>
-                                                <button @click.prevent="increment('player4Goals')">+
-                                                </button>
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -149,8 +141,15 @@
 import { db } from "~/plugins/firebase.js";
 import { collection, getDocs } from "firebase/firestore";
 import vSelect from 'vue-select'
-import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 import toastr from "toastr";
+
+import { extend } from 'vee-validate';
+import * as rules from 'vee-validate/dist/rules';
+
+Object.keys(rules).forEach(rule => {
+    extend(rule, rules[rule]);
+});
 
 extend('max_value', {
     validate: (value, args) => {
@@ -227,7 +226,7 @@ export default {
             } else if (this[val] < 0) {
                 this[val] = 0;
             }
-             if (this.player1Goals + this.player2Goals > 9) {
+            if (this.player1Goals + this.player2Goals > 9) {
                 this[val] -= 1;
                 toastr.error('Total goals can not be more than 9');
             }
@@ -236,9 +235,10 @@ export default {
                 toastr.error('Total goals can not be more than 9');
             }
         },
-        updateData() {
-            console.log('updateData');
+        onSubmit() {
+            alert('Submitted')
         }
+
     },
     computed: {
         showGameModal() {
@@ -263,6 +263,7 @@ export default {
             display: flex;
             gap: 24px;
         }
+
         .form__block {
             width: 100%;
 
@@ -308,8 +309,19 @@ export default {
 
                     .content {
                         display: flex;
-                        justify-content: space-between;
+                        flex-direction: column;
                         width: 100%;
+
+                        span {
+                            display: flex;
+                            flex-direction: column;
+
+                            .input__wrapper {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-between;
+                            }
+                        }
 
                         span {
                             display: flex;
