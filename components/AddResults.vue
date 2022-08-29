@@ -16,13 +16,12 @@
                                 </label>
                                 <v-select v-model="selectedTeam1"
                                     :options="selectableTeams.filter(team => team.id !== selectedTeam2.id)"
-                                    label="teamName" :searchable="true" placeholder="Select a team">
+                                    label="teamName" :searchable="false" placeholder="Select a team">
                                 </v-select>
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
                             </validation-provider>
-
                             <div class="team" v-if="selectedTeam1">
                                 <div class="team__info">
                                     <div>Player 1: <strong>{{ selectedTeam1.playerName1 }}</strong></div>
@@ -73,6 +72,7 @@
                             </div>
                         </div>
                         <div class="form__block" v-if="selectedTeam1">
+                            <validation-provider v-slot="{ errors }" name="selectedTeam1" rules="required">
                             <label for="selectedTeam1">
                                 Team 2
                             </label>
@@ -80,6 +80,10 @@
                                 :options="selectableTeams.filter(team => team.id !== selectedTeam1.id)" label="teamName"
                                 :searchable="true" placeholder="Select a team">
                             </v-select>
+                            <span class="input-invalid-message">
+                                    {{ errors[0] }}
+                                </span>
+                            </validation-provider>
                             <div class="team" v-if="selectedTeam2">
                                 <div class="team__info">
                                     <div>Player 1: <strong>{{ selectedTeam2.playerName1 }}</strong></div>
@@ -89,7 +93,7 @@
                                         </div>
                                         <div class="content">
                                             <validation-provider v-slot="{ errors }" name="player3Goals"
-                                                rules="max_value:9|numeric|required">
+                                                rules="between:0,9|numeric|required">
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player3Goals')">-
                                                     </button>
@@ -112,7 +116,7 @@
                                         </div>
                                         <div class="content">
                                             <validation-provider v-slot="{ errors }" name="player4Goals"
-                                                rules="max_value:9|numeric|required">
+                                                rules="between:0,9|numeric|required">
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player4Goals')">-
                                                     </button>
@@ -197,6 +201,16 @@ export default {
                 this.selectableTeams.push(selectableTeamWithId);
             });
         },
+        // at closing modal, reset all fields
+        reset() {
+            this.selectableTeam = 'Choose team';
+            this.selectedTeam1 = '';
+            this.selectedTeam2 = '';
+            this.player1Goals = null;
+            this.player2Goals = null;
+            this.player3Goals = null;
+            this.player4Goals = null;
+        },
         toggleGameModal() {
             this.$store.commit('toggleGameModal');
         },
@@ -242,6 +256,7 @@ export default {
     },
     computed: {
         showGameModal() {
+            this.reset();
             return this.$store.state.showGameModal;
         },
 
@@ -261,14 +276,20 @@ export default {
     form {
         .form__wrapper {
             display: flex;
-            gap: 24px;
+            gap: 48px;
         }
 
         .form__block {
             width: 100%;
 
+            span {
+                display: flex;
+                flex-direction: column;
+            }
+
             .v-select {
-                min-width: 100%;
+                margin-top: 12px;
+                min-width: 150px;
                 width: 100%;
                 display: flex;
 
@@ -288,8 +309,6 @@ export default {
                 &__info {
                     display: flex;
                     flex-direction: column;
-                    gap: 12px;
-                    margin-top: 24px;
                     padding-top: 24px;
                     border-top: 1px solid $primary-400;
                     color: $primary-800;
@@ -299,9 +318,9 @@ export default {
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
-                    gap: 12px;
 
                     .title {
+                        margin-top: 8px;
                         font-size: 12px;
                         font-weight: bold;
                         color: $primary-500;
@@ -317,6 +336,8 @@ export default {
                             flex-direction: column;
 
                             .input__wrapper {
+                                margin-top: 12px;
+                                padding-bottom: 12px;
                                 display: flex;
                                 flex-direction: row;
                                 justify-content: space-between;
