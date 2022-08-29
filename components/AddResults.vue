@@ -1,5 +1,5 @@
 <template>
-    <Modal v-if="showGameModal">
+    <Modal v-if="showGameModal" id="add-game-modal">
         <template #header>
             <h2>
                 Add A Game Results
@@ -269,6 +269,8 @@ export default {
 </script>
 
 <style lang="scss">
+
+#add-game-modal {
 .modal {
     width: 100%;
     max-width: 600px;
@@ -283,13 +285,25 @@ export default {
             width: 100%;
 
             span {
+                width: 100%;
                 display: flex;
                 flex-direction: column;
+
+                label {
+                    width: 100%;
+                }
+                .vs__selected {
+                    text-align: left;
+                    align-items: flex-start;
+                }
+                .vs__search {
+                    display: none;
+                }
             }
 
             .v-select {
                 margin-top: 12px;
-                min-width: 150px;
+                min-width: 100%;
                 width: 100%;
                 display: flex;
 
@@ -389,4 +403,6 @@ export default {
         }
     }
 }
+}
+
 </style>
