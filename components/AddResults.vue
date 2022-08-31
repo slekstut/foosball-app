@@ -14,9 +14,8 @@
                                 <label for="selectedTeam1">
                                     Team 1
                                 </label>
-                                <v-select v-model="selectedTeam1"
-                                    :options="selectableTeams.filter(team => team.id !== selectedTeam2.id)"
-                                    label="teamName" :searchable="false" placeholder="Select a team">
+                                <v-select v-model="selectedTeam1" :options="selectableTeams" label="teamName"
+                                    :searchable="false" placeholder="Select a team">
                                 </v-select>
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
@@ -73,14 +72,14 @@
                         </div>
                         <div class="form__block" v-if="selectedTeam1">
                             <validation-provider v-slot="{ errors }" name="selectedTeam1" rules="required">
-                            <label for="selectedTeam1">
-                                Team 2
-                            </label>
-                            <v-select v-model="selectedTeam2"
-                                :options="selectableTeams.filter(team => team.id !== selectedTeam1.id)" label="teamName"
-                                :searchable="true" placeholder="Select a team">
-                            </v-select>
-                            <span class="input-invalid-message">
+                                <label for="selectedTeam1">
+                                    Team 2
+                                </label>
+                                <v-select v-model="selectedTeam2"
+                                    :options="selectableTeams.filter(team => team.id !== selectedTeam1.id)"
+                                    label="teamName" :searchable="true" placeholder="Select a team">
+                                </v-select>
+                                <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
                             </validation-provider>
@@ -143,7 +142,7 @@
 
 <script>
 import { db } from "~/plugins/firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import vSelect from 'vue-select'
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import toastr from "toastr";
@@ -201,6 +200,7 @@ export default {
                 this.selectableTeams.push(selectableTeamWithId);
             });
         },
+
         // at closing modal, reset all fields
         reset() {
             this.selectableTeam = 'Choose team';
@@ -249,10 +249,31 @@ export default {
                 toastr.error('Total goals can not be more than 9');
             }
         },
-        onSubmit() {
-            alert('Submitted')
-        }
+        async onSubmit() {
+            // update teams collection playerScores with new values
+            await setDoc(doc(db, 'teams', this.selectedTeam1.id), {
+                // sum scores of new and existing
+                playerScore1: this.selectedTeam1.playerScore1 + this.player1Goals,
+                playerScore2: this.selectedTeam1.playerScore2 + this.player2Goals,
+            }, { merge: true }).then(() => {
+                // this.toggleGameModal();
+                // this.reset();
+                toastr.success('Game successfully submitted');
+            }).catch((error) => {
+                toastr.error(error);
+            });
 
+            await setDoc(doc(db, 'teams', this.selectedTeam2.id), {
+                // sum scores of new and existing
+                playerScore1: this.player1Goals + this.selectedTeam2.playerScore1,
+                playerScore2: this.player2Goals + this.selectedTeam2.playerScore2,
+            }, { merge: true }).then(() => {
+                toastr.success('Game successfully submitted');
+            }).catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+
+        }
     },
     computed: {
         showGameModal() {
@@ -269,140 +290,140 @@ export default {
 </script>
 
 <style lang="scss">
-
 #add-game-modal {
-.modal {
-    width: 100%;
-    max-width: 600px;
+    .modal {
+        width: 100%;
+        max-width: 600px;
 
-    form {
-        .form__wrapper {
-            display: flex;
-            gap: 48px;
-        }
-
-        .form__block {
-            width: 100%;
-
-            span {
-                width: 100%;
+        form {
+            .form__wrapper {
                 display: flex;
-                flex-direction: column;
-
-                label {
-                    width: 100%;
-                }
-                .vs__selected {
-                    text-align: left;
-                    align-items: flex-start;
-                }
-                .vs__search {
-                    display: none;
-                }
+                gap: 48px;
             }
 
-            .v-select {
-                margin-top: 12px;
-                min-width: 100%;
+            .form__block {
                 width: 100%;
-                display: flex;
 
-                .vs__dropdown-toggle {
+                span {
                     width: 100%;
-                    min-height: 35px;
-
-                    .vs__actions {
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            .team {
-                width: 100%;
-
-                &__info {
                     display: flex;
                     flex-direction: column;
-                    padding-top: 24px;
-                    border-top: 1px solid $primary-400;
-                    color: $primary-800;
-                }
 
-                &__points {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-
-                    .title {
-                        margin-top: 8px;
-                        font-size: 12px;
-                        font-weight: bold;
-                        color: $primary-500;
+                    label {
+                        width: 100%;
                     }
 
-                    .content {
+                    .vs__selected {
+                        text-align: left;
+                        align-items: flex-start;
+                    }
+
+                    .vs__search {
+                        display: none;
+                    }
+                }
+
+                .v-select {
+                    margin-top: 12px;
+                    min-width: 100%;
+                    width: 100%;
+                    display: flex;
+
+                    .vs__dropdown-toggle {
+                        width: 100%;
+                        min-height: 35px;
+
+                        .vs__actions {
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .team {
+                    width: 100%;
+
+                    &__info {
                         display: flex;
                         flex-direction: column;
-                        width: 100%;
+                        padding-top: 24px;
+                        border-top: 1px solid $primary-400;
+                        color: $primary-800;
+                    }
 
-                        span {
-                            display: flex;
-                            flex-direction: column;
+                    &__points {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
 
-                            .input__wrapper {
-                                margin-top: 12px;
-                                padding-bottom: 12px;
-                                display: flex;
-                                flex-direction: row;
-                                justify-content: space-between;
-                            }
+                        .title {
+                            margin-top: 8px;
+                            font-size: 12px;
+                            font-weight: bold;
+                            color: $primary-500;
                         }
 
-                        span {
+                        .content {
                             display: flex;
-                            justify-content: center;
-                            align-items: center;
+                            flex-direction: column;
+                            width: 100%;
 
-                            button {
-                                width: 33.33%;
-                                padding: 0 12px;
-                                background-color: transparent;
-                                border: none;
-                                font-size: 24px;
-                                cursor: pointer;
+                            span {
+                                display: flex;
+                                flex-direction: column;
 
-                                &:hover {
-                                    color: $compliment-500;
+                                .input__wrapper {
+                                    margin-top: 12px;
+                                    padding-bottom: 12px;
+                                    display: flex;
+                                    flex-direction: row;
+                                    justify-content: space-between;
+                                }
+                            }
+
+                            span {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                button {
+                                    width: 33.33%;
+                                    padding: 0 12px;
+                                    background-color: transparent;
+                                    border: none;
+                                    font-size: 24px;
+                                    cursor: pointer;
+
+                                    &:hover {
+                                        color: $compliment-500;
+                                    }
+                                }
+                            }
+
+                            .input__wrapper {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                flex-direction: column;
+
+                                input {
+                                    min-height: 35px;
+                                    display: flex;
+                                    width: 100%;
+                                    text-align: center;
+                                    border: 1px solid $primary-300;
+                                    border-radius: 5px;
+                                    padding: 2px 32px;
                                 }
                             }
                         }
-
-                        .input__wrapper {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            flex-direction: column;
-
-                            input {
-                                min-height: 35px;
-                                display: flex;
-                                width: 100%;
-                                text-align: center;
-                                border: 1px solid $primary-300;
-                                border-radius: 5px;
-                                padding: 2px 32px;
-                            }
-                        }
                     }
                 }
             }
-        }
 
-        .submit-team {
-            margin-top: 24px;
+            .submit-team {
+                margin-top: 24px;
+            }
         }
     }
 }
-}
-
 </style>
