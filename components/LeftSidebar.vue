@@ -52,79 +52,12 @@
                 </div>
             </div>
             <div class="content__body">
-                <div class="item">
+
+                <div class="item" v-for="team in teams" :key="team.id">
                     <div class="left__block">
                         <a href="#">
-                            <img class="item__img" src="../assets/img/tigers4.png" alt="tigers4.png" loading="lazy">
-                            <span class="item__title">Tigers VI</span>
-                        </a>
-                    </div>
-                    <div class="right__block teams__action">
-                        <div class="more-details show-hover">
-                            <a href="#">
-                                <span>See Profile</span>
-                                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2.70833 6.5H10.2917" stroke="#A0A8B1" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path d="M6.5 2.70833L10.2917 6.5L6.5 10.2917" stroke="#A0A8B1"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
-                        </div>
-                        <a class="statistics-icon" href="#">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15 16.6667V8.33334" stroke="#FFA600" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M10 16.6667V3.33334" stroke="#FFA600" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M5 16.6667V11.6667" stroke="#FFA600" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="left__block">
-                        <a href="#">
-                            <img class="item__img" src="../assets/img/match-team-5.png" alt="match-team-5.png"
-                                loading="lazy">
-                            <span class="item__title">Roger II</span>
-                        </a>
-                    </div>
-                    <div class="right__block teams__action">
-                        <div class="more-details show-hover">
-                            <a href="#">
-                                <span>See Profile</span>
-                                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2.70833 6.5H10.2917" stroke="#A0A8B1" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path d="M6.5 2.70833L10.2917 6.5L6.5 10.2917" stroke="#A0A8B1"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
-                        </div>
-                        <a class="statistics-icon" href="#">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15 16.6667V8.33334" stroke="#FFA600" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M10 16.6667V3.33334" stroke="#FFA600" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M5 16.6667V11.6667" stroke="#FFA600" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="left__block">
-                        <a href="#">
-                            <img class="item__img" src="../assets/img/match-team-3.png" alt="match-team-3.png"
-                                loading="lazy">
-                            <span class="item__title">NJ Super</span>
+                            <img class="item__img" :src="team.teamLogoUrl" :alt="team.teamName" loading="lazy">
+                            <span class="item__title">{{team.teamName}}</span>
                         </a>
                     </div>
                     <div class="right__block teams__action">
@@ -232,6 +165,41 @@
         </div>
     </div>
 </template>
+
+<script>
+// import db
+import { db } from "~/plugins/firebase.js";
+import { collection, getDocs, doc, setDoc, writeBatch } from "firebase/firestore";
+
+
+export default {
+    // get teams from the firestore
+    data() {
+        return {
+            teams: [],
+            loading: true,
+        };
+    },
+    created() {
+        this.fetchTeams();
+    },
+    methods: {
+         async fetchTeams() {
+            const teamsRef = getDocs(collection(db, "teams"));
+            try {
+                (await teamsRef).forEach((doc) => {
+                    const team = doc.data();
+                    team.id = doc.id;
+                    this.teams.push(team);
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        },
+
+    },
+}
+</script>
 
 <style scoped lang="scss">
 .sidebar {
