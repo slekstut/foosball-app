@@ -142,7 +142,8 @@
 
 <script>
 import { db } from "~/plugins/firebase.js";
-import { collection, getDocs, doc, setDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, writeBatch } from "firebase/firestore";
+
 import vSelect from 'vue-select'
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import toastr from "toastr";
@@ -250,27 +251,26 @@ export default {
             }
         },
         async onSubmit() {
-            // update teams collection playerScores with new values
-            await setDoc(doc(db, 'teams', this.selectedTeam1.id), {
-                // sum scores of new and existing
+            // use batch to update playerScores
+            const batch = writeBatch(db);
+            const team1Ref = doc(db, 'teams', this.selectedTeam1.id);
+            const team2Ref = doc(db, 'teams', this.selectedTeam2.id);
+
+            batch.update(team1Ref, {
                 playerScore1: this.selectedTeam1.playerScore1 + this.player1Goals,
                 playerScore2: this.selectedTeam1.playerScore2 + this.player2Goals,
-            }, { merge: true }).then(() => {
-                // this.toggleGameModal();
-                // this.reset();
+            });
+            batch.update(team2Ref, {
+                playerScore1: this.player3Goals + this.selectedTeam2.playerScore1,
+                playerScore2: this.player4Goals + this.selectedTeam2.playerScore2,
+            });
+
+            batch.commit().then(() => {
+                this.toggleGameModal();
+                this.reset();
                 toastr.success('Game successfully submitted');
             }).catch((error) => {
                 toastr.error(error);
-            });
-
-            await setDoc(doc(db, 'teams', this.selectedTeam2.id), {
-                // sum scores of new and existing
-                playerScore1: this.player1Goals + this.selectedTeam2.playerScore1,
-                playerScore2: this.player2Goals + this.selectedTeam2.playerScore2,
-            }, { merge: true }).then(() => {
-                toastr.success('Game successfully submitted');
-            }).catch((error) => {
-                console.error("Error writing document: ", error);
             });
 
         }
