@@ -117,6 +117,8 @@ export default {
                 isUploadingImage: false,
                 imageData: false,
                 imgUrl: null,
+                wins: 0,
+                losses: 0,
             },
         };
     },

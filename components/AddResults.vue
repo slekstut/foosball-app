@@ -142,13 +142,10 @@
 
 <script>
 import { db } from "~/plugins/firebase.js";
-import { collection, getDocs, doc, setDoc, writeBatch } from "firebase/firestore";
-
+import { collection, getDocs, doc, addDoc, writeBatch } from "firebase/firestore";
 import vSelect from 'vue-select'
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import toastr from "toastr";
-
-import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 
 Object.keys(rules).forEach(rule => {
@@ -202,7 +199,7 @@ export default {
             });
         },
 
-        // at closing modal, reset all fields
+        // reset all fields
         reset() {
             this.selectableTeam = 'Choose team';
             this.selectedTeam1 = '';
@@ -251,6 +248,15 @@ export default {
             }
         },
         async onSubmit() {
+            // compare scores and add win to winning team
+            if (this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals) {
+                this.selectedTeam1.wins += 1;
+                this.selectedTeam2.losses += 1;
+            } else {
+                this.selectedTeam1.losses += 1;
+                this.selectedTeam2.wins += 1;
+            }
+            
             // use batch to update playerScores
             const batch = writeBatch(db);
             const team1Ref = doc(db, 'teams', this.selectedTeam1.id);
@@ -259,18 +265,36 @@ export default {
             batch.update(team1Ref, {
                 playerScore1: this.selectedTeam1.playerScore1 + this.player1Goals,
                 playerScore2: this.selectedTeam1.playerScore2 + this.player2Goals,
+                wins: this.selectedTeam1.wins,
+                losses: this.selectedTeam1.losses,
             });
             batch.update(team2Ref, {
                 playerScore1: this.player3Goals + this.selectedTeam2.playerScore1,
                 playerScore2: this.player4Goals + this.selectedTeam2.playerScore2,
+                wins: this.selectedTeam2.wins,
+                losses: this.selectedTeam2.losses,
             });
 
-            batch.commit().then(() => {
+            batch.commit();
+
+            const docData = {
+                team1: this.selectedTeam1,
+                team1Player1Goals: this.player1Goals,
+                team2: this.selectedTeam2,
+                team2Player1Goals: this.player3Goals,
+                team1Goals: this.player1Goals + this.player2Goals,
+                team2Goals: this.player3Goals + this.player4Goals,
+                match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
+                match_loser: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam2 : this.selectedTeam1,
+                match_date: new Date()
+            };
+
+            const docRef = await addDoc(collection(db, "matches"), docData).then(() => {
+                toastr.success('Match successfully added');
                 this.toggleGameModal();
                 this.reset();
-                toastr.success('Game successfully submitted');
             }).catch((error) => {
-                toastr.error(error);
+                console.error("Error adding document: ", error);
             });
 
         }
