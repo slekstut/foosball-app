@@ -169,7 +169,7 @@
 <script>
 // import db
 import { db } from "~/plugins/firebase.js";
-import { collection, getDocs, doc, setDoc, writeBatch } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 
 export default {
