@@ -1,6 +1,7 @@
 import { db } from "~/plugins/firebase.js";
 import { doc, setDoc, collection, getDocs, writeBatch } from "firebase/firestore";
 import toastr from "toastr";
+import moment from 'moment'
 
 export default {
 
@@ -34,7 +35,12 @@ export default {
         const matchesRef = collection(db, "matches");
         const matchesSnapshot = await getDocs(matchesRef);
         const matches = matchesSnapshot.docs.map(doc => doc.data());
+       
+        //add match date
+        matches.forEach(match => {
+            console.log(match.match_date)
+            match.match_date = moment(new Date(match.match_date.seconds * 1000)).format('MMMM Do YYYY, h:mm:ss a');
+        });
         context.commit("setMatches", matches);
     }
-    
 }
