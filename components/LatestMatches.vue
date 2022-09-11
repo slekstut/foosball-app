@@ -18,18 +18,19 @@
                         <div class="item" v-for="match in sortedItems.slice(0, 5)" :key="match.id">
                             <div class="item__left">
                                 <a href="#">
-                                    <img src="../assets/img/match-team-1.png" alt="match-team-1.png" loading="lazy">
+                                    <img :src="match.team1.teamLogoUrl" :alt="match.team1.teamName" loading="lazy">
                                     <span>{{ match.team1.teamName }}</span>
                                 </a>
                                 <span class="vs">vs</span>
                                 <a href="#">
-                                    <img src="../assets/img/match-team-2.png" alt="match-team-2.png" loading="lazy">
+                                    <img :src="match.team1.teamLogoUrl" :alt="match.team1.teamName" loading="lazy">
                                     <span>{{ match.team2.teamName }}</span>
                                 </a>
                             </div>
                             <div class="item__right">
                                 <div class="game-time">
-                                    <span><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    <span>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
@@ -38,7 +39,8 @@
                                             <path d="M12 6V12L16 14" stroke="#959FA8" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                    </span><span>{{ match.date }}</span>
+                                    </span>
+                                    <span>{{ match.date }}</span>
                                 </div>
                                 <a href="#">
                                     <span>View Details</span><span>
@@ -185,6 +187,8 @@ export default {
                     display: flex;
                     align-items: center;
                     gap: 12px;
+                    min-width: 150px;
+                    max-width: 150px;
                 }
 
                 .vs {
