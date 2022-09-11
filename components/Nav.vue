@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <add-results></add-results>
+        <add-match></add-match>
     </div>
 </template>
 

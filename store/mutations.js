@@ -15,7 +15,9 @@ export default{
     // fetchTeams
     setTeams(state, teams){
         state.teams = teams;
-        console.log(teams)
+    },
+    setNewMatch(state, match) {
+        state.match = match;
     }
 
   }

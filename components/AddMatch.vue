@@ -7,7 +7,7 @@
         </template>
         <template #body>
             <ValidationObserver ref='observer' v-slot="{ handleSubmit }">
-                <form @submit.prevent="handleSubmit(onSubmit)">
+                <form @submit.prevent="handleSubmit(addMatch)">
                     <div class="form__wrapper">
                         <div class="form__block">
                             <validation-provider v-slot="{ errors }" name="selectedTeam1" rules="required">
@@ -247,7 +247,7 @@ export default {
                 toastr.error('Total goals can not be more than 9');
             }
         },
-        async onSubmit() {
+        async addMatch() {
             // compare scores and add win to winning team
             if (this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals) {
                 this.selectedTeam1.wins += 1;
@@ -258,30 +258,32 @@ export default {
             }
             
             // use batch to update playerScores
-            const batch = writeBatch(db);
-            const team1Ref = doc(db, 'teams', this.selectedTeam1.id);
-            const team2Ref = doc(db, 'teams', this.selectedTeam2.id);
+            // const batch = writeBatch(db);
+            // const team1Ref = doc(db, 'teams', this.selectedTeam1.id);
+            // const team2Ref = doc(db, 'teams', this.selectedTeam2.id);
 
-            batch.update(team1Ref, {
-                playerScore1: this.selectedTeam1.playerScore1 + this.player1Goals,
-                playerScore2: this.selectedTeam1.playerScore2 + this.player2Goals,
-                wins: this.selectedTeam1.wins,
-                losses: this.selectedTeam1.losses,
-            });
-            batch.update(team2Ref, {
-                playerScore1: this.player3Goals + this.selectedTeam2.playerScore1,
-                playerScore2: this.player4Goals + this.selectedTeam2.playerScore2,
-                wins: this.selectedTeam2.wins,
-                losses: this.selectedTeam2.losses,
-            });
+            // batch.update(team1Ref, {
+            //     playerScore1: this.selectedTeam1.playerScore1 + this.player1Goals,
+            //     playerScore2: this.selectedTeam1.playerScore2 + this.player2Goals,
+            //     wins: this.selectedTeam1.wins,
+            //     losses: this.selectedTeam1.losses,
+            // });
+            // batch.update(team2Ref, {
+            //     playerScore1: this.player3Goals + this.selectedTeam2.playerScore1,
+            //     playerScore2: this.player4Goals + this.selectedTeam2.playerScore2,
+            //     wins: this.selectedTeam2.wins,
+            //     losses: this.selectedTeam2.losses,
+            // });
 
-            batch.commit();
+            // batch.commit();
 
             const docData = {
                 team1: this.selectedTeam1,
                 team1Player1Goals: this.player1Goals,
+                team1Player2Goals: this.player2Goals,
                 team2: this.selectedTeam2,
                 team2Player1Goals: this.player3Goals,
+                team2Player2Goals: this.player4Goals,
                 team1Goals: this.player1Goals + this.player2Goals,
                 team2Goals: this.player3Goals + this.player4Goals,
                 match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
@@ -289,13 +291,16 @@ export default {
                 match_date: new Date()
             };
 
-            const docRef = await addDoc(collection(db, "matches"), docData).then(() => {
-                toastr.success('Match successfully added');
-                this.toggleGameModal();
-                this.reset();
-            }).catch((error) => {
-                console.error("Error adding document: ", error);
-            });
+            // use action js addMatch to set docData
+            this.$store.dispatch('addMatch', docData);
+
+            // const docRef = await addDoc(collection(db, "matches"), docData).then(() => {
+            //     toastr.success('Match successfully added');
+            //     this.toggleGameModal();
+            //     this.reset();
+            // }).catch((error) => {
+            //     console.error("Error adding document: ", error);
+            // });
 
         }
     },
