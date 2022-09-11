@@ -15,7 +15,7 @@
             <div class="content__body" ref="scrollToMatches">
                 <div class="items">
                     <div v-if="showLess">
-                        <div class="item" v-for="match in sortedItems.slice(0, 5)" :key="match.id">
+                        <div class="item" v-for="match in matches" :key="match.id">
                             <div class="item__left">
                                 <a href="#">
                                     <img :src="match.team1.teamLogoUrl" :alt="match.team1.teamName" loading="lazy">
@@ -40,7 +40,7 @@
                                                 stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </span>
-                                    <span>{{ match.date }}</span>
+                                    <span>{{ match.match_date }}</span>
                                 </div>
                                 <a href="#">
                                     <span>View Details</span><span>
@@ -80,7 +80,7 @@
                                             <path d="M12 6V12L16 14" stroke="#959FA8" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                    </span><span>{{ match.date }}</span>
+                                    </span><span>{{ match.match_date }}</span>
                                 </div>
                                 <a href="#">
                                     <span>View Details</span><span>
@@ -104,16 +104,11 @@
 
 <script>
 export default {
-    // get matches collection from firestore
     data() {
         return {
             matches: [],
             showLess: true
         }
-    },
-    mounted() {
-        // get matches from vuex store
-        this.matches = this.$store.state.matches;
     },
     methods: {
         // at click showLess scroll to id scroll-to-matches
@@ -124,14 +119,20 @@ export default {
                 window.scrollTo({ top: scrollDiv, behavior: 'smooth'});
             }, 200);
         },
+       
     },
     computed: {
         // commit sortMatches to vuex store
         sortedItems: function () {
-            this.$store.commit('sortMatches');
+            this.$store.commit('sortMatchesByDate');
             return this.$store.state.matches;
         }
-
+    },
+    mounted() {
+        // get matches
+        this.$store.dispatch('getMatches');
+        this.matches = this.$store.state.matches;
+        
     }
 }
 </script>
