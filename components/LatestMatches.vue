@@ -7,7 +7,7 @@
             </div>
             <div class="content__body">
                 <div class="items">
-                    <div class="item" v-for="match in matches" :key="match.id">
+                    <div class="item" v-for="match in sortedItems" :key="match.id">
                         <div class="item__left">
                             <a href="#">
                                 <img src="../assets/img/match-team-1.png" alt="match-team-1.png" loading="lazy">
@@ -81,6 +81,14 @@ export default {
                 console.error(e);
             }
         }
+    },
+    computed: {
+        sortedItems: function() {
+        this.matches.sort( ( a, b) => {
+            return new Date(b.date) - new Date(a.date);
+        });
+        return this.matches;
+    }
     }
 }
 </script>
