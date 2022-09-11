@@ -45,11 +45,12 @@
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 5px;
-    overflow:hidden;
+    overflow: hidden;
 
     &__wrapper {
         width: 100%;
-    height: 100%;
+        height: 100%;
+        min-height: 335px;
         padding: 48px 48px 0 275px;
         display: flex;
         justify-content: space-between;
