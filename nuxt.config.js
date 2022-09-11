@@ -37,7 +37,12 @@ export default {
   ],
 
   build: {
-    transpile: ["vee-validate/dist/rules"]
+    transpile: ["vee-validate/dist/rules"],
+    loaders: {
+      scss: {
+        sourceMap: false,
+      },
+    }
   },
 
   styleResources: {
