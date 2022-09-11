@@ -103,10 +103,6 @@
 </template>
 
 <script>
-import { db } from "~/plugins/firebase.js";
-import { collection, getDocs } from "firebase/firestore";
-
-
 export default {
     // get matches collection from firestore
     data() {
@@ -115,24 +111,11 @@ export default {
             showLess: true
         }
     },
-    created() {
-        this.getMatches();
-        console.log(this.matches)
+    mounted() {
+        // get matches from vuex store
+        this.matches = this.$store.state.matches;
     },
     methods: {
-        async getMatches() {
-            const matchesRef = getDocs(collection(db, "matches"));
-            try {
-                (await matchesRef).forEach((doc) => {
-                    const match = doc.data();
-                    match.id = doc.id;
-                    match.date = new Date(doc.data().match_date.seconds * 1000).toLocaleDateString();
-                    this.matches.push(match);
-                });
-            } catch (e) {
-                console.error(e);
-            }
-        },
         // at click showLess scroll to id scroll-to-matches
         showLessMatches() {
             this.showLess = !this.showLess;
@@ -143,12 +126,12 @@ export default {
         },
     },
     computed: {
+        // commit sortMatches to vuex store
         sortedItems: function () {
-            this.matches.sort((a, b) => {
-                return new Date(b.date) - new Date(a.date);
-            });
-            return this.matches;
+            this.$store.commit('sortMatches');
+            return this.$store.state.matches;
         }
+
     }
 }
 </script>

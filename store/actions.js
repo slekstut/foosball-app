@@ -1,5 +1,6 @@
 import { db } from "~/plugins/firebase.js";
-import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, writeBatch } from "firebase/firestore";
+import toastr from "toastr";
 
 export default {
 
@@ -16,34 +17,24 @@ export default {
     },
     // addMatch implementation
     async addMatch(context, match) {
-        console.log('clicked')
         const newMatchRef = doc(collection(db, "matches"));
-        context.commit("setNewGame", match);
+        context.commit("setNewMatch", match);
 
         try {
             await setDoc(newMatchRef, match);
             context.commit('toggleGameModal');
+            toastr.success('Match successfully added');
+
         } catch (e) {
             console.error(e);
         }
     },
-
-
-
-
-
-    // async getMatches() {
-    //     const matchesRef = getDocs(collection(db, "matches"));
-    //     try {
-    //         (await matchesRef).forEach((doc) => {
-    //             const match = doc.data();
-    //             match.id = doc.id;
-    //             match.date = new Date(doc.data().match_date.seconds * 1000).toLocaleDateString();
-    //             this.matches.push(match);
-    //         });
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // },
-
+    // getMatces implementation
+    async getMatches(context) {
+        const matchesRef = collection(db, "matches");
+        const matchesSnapshot = await getDocs(matchesRef);
+        const matches = matchesSnapshot.docs.map(doc => doc.data());
+        context.commit("setMatches", matches);
+    }
+    
 }

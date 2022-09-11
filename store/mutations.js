@@ -18,6 +18,14 @@ export default{
     },
     setNewMatch(state, match) {
         state.match = match;
+    },
+    setMatches(state, matches) {
+        state.matches = matches;
+    },
+    sortMatchesByDate(state) {
+        state.matches.sort((a, b) => {
+            return b.createdAt - a.createdAt;
+        });
     }
 
   }

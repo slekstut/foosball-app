@@ -9,7 +9,6 @@ export default () => ({
         createdAt: ''
     },
     teams: [],
-    match: {
-      
-    },
+    match: {},
+    matches: [],
   })

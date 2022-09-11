@@ -294,14 +294,6 @@ export default {
             // use action js addMatch to set docData
             this.$store.dispatch('addMatch', docData);
 
-            // const docRef = await addDoc(collection(db, "matches"), docData).then(() => {
-            //     toastr.success('Match successfully added');
-            //     this.toggleGameModal();
-            //     this.reset();
-            // }).catch((error) => {
-            //     console.error("Error adding document: ", error);
-            // });
-
         }
     },
     computed: {
