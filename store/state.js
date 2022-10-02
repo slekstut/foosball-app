@@ -11,4 +11,5 @@ export default () => ({
     teams: [],
     match: {},
     matches: [],
+    sortedMatches: []
   })

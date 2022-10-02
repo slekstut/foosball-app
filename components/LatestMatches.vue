@@ -15,7 +15,7 @@
             <div class="content__body" ref="scrollToMatches">
                 <div class="items">
                     <div v-if="showLess">
-                        <div class="item" v-for="match in matches" :key="match.id">
+                        <div class="item" v-for="match in $store.state.sortedMatches" :key="match.id">
                             <div class="item__left">
                                 <a href="#">
                                     <img :src="match.team1.teamLogoUrl" :alt="match.team1.teamName" loading="lazy">
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div v-else>
-                        <div class="item" v-for="match in sortedItems" :key="match.id">
+                        <div class="item" v-for="match in $store.state.sortedMatches" :key="match.id">
                             <div class="item__left">
                                 <a href="#">
                                     <img src="../assets/img/match-team-1.png" alt="match-team-1.png" loading="lazy">
@@ -107,6 +107,7 @@ export default {
     data() {
         return {
             matches: [],
+            sortedItems: [],
             showLess: true
         }
     },
@@ -122,16 +123,15 @@ export default {
        
     },
     computed: {
-        // commit sortMatches to vuex store
-        sortedItems: function () {
-            this.$store.commit('sortMatchesByDate');
-            return this.$store.state.matches;
-        }
     },
     mounted() {
         // get matches
         this.$store.dispatch('getMatches');
+        this.$store.dispatch('sortMatches');
         this.matches = this.$store.state.matches;
+        console.log('this.matches', this.$store.state.matches)
+
+    
         
     }
 }

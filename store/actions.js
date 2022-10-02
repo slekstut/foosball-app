@@ -38,9 +38,14 @@ export default {
        
         //add match date
         matches.forEach(match => {
-            console.log(match.match_date)
-            match.match_date = moment(new Date(match.match_date.seconds * 1000)).format('MMMM Do YYYY, h:mm:ss a');
+            match.match_date = moment(new Date(match.match_date.seconds * 1000)).format('YYYY-MM-DD');
         });
         context.commit("setMatches", matches);
-    }
+        context.commit("sortMatches");
+
+    },
+    // sortMatches implementation
+    // sortMatches(context) {
+    //     context.commit("sortMatches");
+    // }
 }
