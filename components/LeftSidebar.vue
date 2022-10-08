@@ -167,13 +167,11 @@
 </template>
 
 <script>
-// import db
 import { db } from "~/plugins/firebase.js";
 import { collection, getDocs } from "firebase/firestore";
 
 
 export default {
-    // get teams from the firestore
     data() {
         return {
             teams: [],
@@ -196,8 +194,10 @@ export default {
                 console.error(e);
             }
         },
-
     },
+    mounted() {
+    //    this.$store.dispatch('getTrendingPlayer');
+    }
 }
 </script>
 

@@ -207,10 +207,6 @@ export default {
             return this.$store.state.showModal;
         }
     },
-    mounted() {
-        console.log('mounted')
-
-    }
 }
 </script>
 

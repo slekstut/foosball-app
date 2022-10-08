@@ -23,12 +23,8 @@ export default {
         state.matches = matches;
     },
     // sort matches by date
-    sortMatches(state) {
-        state.sortedMatches = [...state.matches].sort(function (a, b) {
-            a = a.match_date.split('-').join('');
-            b = b.match_date.split('-').join('');
-            return a > b ? -1 : a < b ? 1 : 0;
-        });
-
-    }
+    sortMatches(state, sortedMatches) {
+       state.sortMatches = sortedMatches;
+    },
+    
 }

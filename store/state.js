@@ -11,5 +11,7 @@ export default () => ({
     teams: [],
     match: {},
     matches: [],
-    sortedMatches: []
+    sortedMatches: [],
+    trendingPlayerName: null,
+    trendingPlayerScore: 0,
   })

@@ -35,17 +35,19 @@ export default {
         const matchesRef = collection(db, "matches");
         const matchesSnapshot = await getDocs(matchesRef);
         const matches = matchesSnapshot.docs.map(doc => doc.data());
-       
+
         //add match date
         matches.forEach(match => {
             match.match_date = moment(new Date(match.match_date.seconds * 1000)).format('YYYY-MM-DD');
         });
-        context.commit("setMatches", matches);
-        context.commit("sortMatches");
 
+        matches.sort(function (a, b) {
+            a = a.match_date.split('-').join('');
+            b = b.match_date.split('-').join('');
+            return  a > b ? -1 : a < b ? 1 : 0;
+        })
+
+        context.commit("setMatches", matches);
+        console.log('matches : ', matches);
     },
-    // sortMatches implementation
-    // sortMatches(context) {
-    //     context.commit("sortMatches");
-    // }
 }
