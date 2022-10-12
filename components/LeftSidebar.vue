@@ -20,7 +20,7 @@
                     <img class="profile__img" src="../assets/img/trending-img.png" alt="trending-img.png"
                         loading="lazy">
                 </a>
-                <a class="profile__name" href="#">Viktoras Poska</a>
+                <a class="profile__name" href="#">{{$store.state.trendingPlayerName}}</a>
                 <div class="profile__goals">
                     <span>
                         <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@
                                 stroke="#FFA600" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </span>
-                    <span>300 goals</span>
+                    <span>{{$store.state.trendingPlayerScore}}</span>
                 </div>
                 <div class="profile__review">
                     <Button>View Profile</Button>
@@ -176,6 +176,7 @@ export default {
         return {
             teams: [],
             loading: true,
+
         };
     },
     created() {
@@ -197,6 +198,12 @@ export default {
     },
     mounted() {
     //    this.$store.dispatch('getTrendingPlayer');
+
+    // get trending player data from vuex
+    this.$store.dispatch('getTrendingPlayer')
+
+    // console.log('$store.state.trendingPlayerName', $store.state.trendingPlayerName)
+
     }
 }
 </script>

@@ -178,7 +178,6 @@ export default {
                     &::after {
                         content: '';
                         position: absolute;
-
                         left: 50%;
                         transform: translateX(-50%);
                         width: 1px;

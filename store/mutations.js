@@ -26,5 +26,9 @@ export default {
     sortMatches(state, sortedMatches) {
        state.sortMatches = sortedMatches;
     },
+    getTrendingPlayer(state, trendingPlayer) {
+        state.trendingPlayerName = trendingPlayer.name;
+        state.trendingPlayerScore = trendingPlayer.score;
+    }
     
 }

@@ -39,7 +39,7 @@
                     <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
                         <div class="input__wrapper">
                             <label for="player1">Player 1:</label>
-                            <input type="text" id="player1" v-model="newTeam.playerName1">
+                            <input type="text" id="player1" v-model="newTeam.player1.name">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -48,7 +48,7 @@
                     <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|max:50">
                         <div class="input__wrapper">
                             <label for="player2">Player 2:</label>
-                            <input type="text" id="player2" v-model="newTeam.playerName2">
+                            <input type="text" id="player2" v-model="newTeam.player2.name">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -108,10 +108,14 @@ export default {
             teams: [],
             newTeam: {
                 teamName: "",
-                playerName1: "",
-                playerScore1: 0,
-                playerName2: "",
-                playerScore2: 0,
+                player1: {
+                    name: "",
+                    score: 0
+                },
+                player2: {
+                    name: "",
+                    score: 0
+                },
                 teamLogoUrl: "",
                 createdAt: "",
                 isUploadingImage: false,
@@ -186,18 +190,28 @@ export default {
             const newTeam = {
                 teamName: this.newTeam.teamName,
                 teamLogoUrl: this.newTeam.imgUrl,
-                playerName1: this.newTeam.playerName1,
-                playerScore1: this.newTeam.playerScore1,
-                playerName2: this.newTeam.playerName2,
-                playerScore2: this.newTeam.playerScore2,
+                player1: {
+                    name: this.newTeam.player1.name,
+                    score: this.newTeam.player1.score
+                },
+                player2: {
+                    name: this.newTeam.player2.name,
+                    score: this.newTeam.player2.score
+                },
                 createdAt: new Date(),
             }
             this.newTeam.createdAt = new Date();
             this.$store.dispatch("addTeam", newTeam);
             this.$refs.observer.reset();
             this.newTeam.teamName = "";
-            this.newTeam.playerName1 = "";
-            this.newTeam.playerName1 = "";
+            this.newTeam.player1 = {
+                name: "",
+                score: 0
+            };
+            this.newTeam.player2 = {
+                name: "",
+                score: 0
+            };
             this.newTeam.createdAt = "";
             this.newTeam.imgUrl = null;
         },

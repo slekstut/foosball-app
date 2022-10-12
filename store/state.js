@@ -2,9 +2,15 @@ export default () => ({
     showModal: false,
     showGameModal: false,
     newTeam: {
-        name: '',
-        player1: '',
-        player2: '',
+        teamName: '',
+        player1: {
+            name: '',
+            score: 0
+        },
+        player2: {
+            name: '',
+            score: 0
+        },
         score: '',
         createdAt: ''
     },
