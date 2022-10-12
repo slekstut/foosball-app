@@ -177,12 +177,28 @@ export default {
         return {
             selectableTeams: [],
             selectableTeam: 'Choose team',
-            selectedTeam1: '',
-            selectedTeam2: '',
-            player1Goals: null,
-            player2Goals: null,
-            player3Goals: null,
-            player4Goals: null
+            selectedTeam1: {
+                teamName: '',
+                player1: {
+                    name: '',
+                    score: 0
+                },
+                player2: {
+                    name: '',
+                    score: 0
+                },
+            },
+            selectedTeam2: {
+                teamName: '',
+                player1: {
+                    name: '',
+                    score: 0
+                },
+                player2: {
+                    name: '',
+                    score: 0
+                }
+            },
         }
     },
     methods: {
@@ -198,16 +214,31 @@ export default {
                 this.selectableTeams.push(selectableTeamWithId);
             });
         },
-
         // reset all fields
         reset() {
             this.selectableTeam = 'Choose team';
-            this.selectedTeam1 = '';
-            this.selectedTeam2 = '';
-            this.player1Goals = null;
-            this.player2Goals = null;
-            this.player3Goals = null;
-            this.player4Goals = null;
+            this.selectedTeam1 = {
+                teamName: '',
+                player1: {
+                    name: '',
+                    score: 0
+                },
+                player2: {
+                    name: '',
+                    score: 0
+                },
+            };
+            this.selectedTeam2 = {
+                teamName: '',
+                player1: {
+                    name: '',
+                    score: 0
+                },
+                player2: {
+                    name: '',
+                    score: 0
+                }
+            };
         },
         toggleGameModal() {
             this.$store.commit('toggleGameModal');
@@ -221,11 +252,11 @@ export default {
                 this[val] = 0;
             }
             // check if total sum goals are not more than 9
-            if (this.player1Goals + this.player2Goals > 9) {
+            if (this.selectedTeam1.player1.score + this.selectedTeam1.player2.score > 9) {
                 this[val] -= 1;
                 toastr.error('Total goals can not be more than 9');
             }
-            if (this.player3Goals + this.player4Goals > 9) {
+            if (this.selectedTeam2.player1.score + this.selectedTeam2.player2.score > 9) {
                 this[val] -= 1;
                 toastr.error('Total goals can not be more than 9');
             }
@@ -249,7 +280,7 @@ export default {
         },
         async addMatch() {
             // compare scores and add win to winning team
-            if (this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals) {
+            if (this.selectedTeam1.player1.score + this.selectedTeam1.player2.score > this.selectedTeam2.player1.score + this.selectedTeam2.player2.score) {
                 this.selectedTeam1.wins += 1;
                 this.selectedTeam2.losses += 1;
             } else {
@@ -257,33 +288,13 @@ export default {
                 this.selectedTeam2.wins += 1;
             }
             
-            // use batch to update playerScores
-            // const batch = writeBatch(db);
-            // const team1Ref = doc(db, 'teams', this.selectedTeam1.id);
-            // const team2Ref = doc(db, 'teams', this.selectedTeam2.id);
-
-            // batch.update(team1Ref, {
-            //     playerScore1: this.selectedTeam1.playerScore1 + this.player1Goals,
-            //     playerScore2: this.selectedTeam1.playerScore2 + this.player2Goals,
-            //     wins: this.selectedTeam1.wins,
-            //     losses: this.selectedTeam1.losses,
-            // });
-            // batch.update(team2Ref, {
-            //     playerScore1: this.player3Goals + this.selectedTeam2.playerScore1,
-            //     playerScore2: this.player4Goals + this.selectedTeam2.playerScore2,
-            //     wins: this.selectedTeam2.wins,
-            //     losses: this.selectedTeam2.losses,
-            // });
-
-            // batch.commit();
-
             const docData = {
                 team1: this.selectedTeam1,
-                team1Player1Goals: this.player1Goals,
-                team1Player2Goals: this.player2Goals,
+                team1Player1Score: this.selectedTeam1.player1.score,
+                team1Player2Score: this.selectedTeam1.player2.score,
                 team2: this.selectedTeam2,
-                team2Player1Goals: this.player3Goals,
-                team2Player2Goals: this.player4Goals,
+                team2Player1Goals: this.selectedTeam2.player1.score,
+                team2Player2Goals: this.selectedTeam2.player2.score,
                 team1Goals: this.player1Goals + this.player2Goals,
                 team2Goals: this.player3Goals + this.player4Goals,
                 match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,

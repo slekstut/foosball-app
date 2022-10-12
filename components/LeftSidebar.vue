@@ -266,7 +266,7 @@ export default {
 
                 &__img {
                     margin-right: 8px;
-
+                    max-width: 64px;
                 }
 
                 &__title {
