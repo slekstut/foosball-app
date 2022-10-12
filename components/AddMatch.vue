@@ -23,7 +23,7 @@
                             </validation-provider>
                             <div class="team" v-if="selectedTeam1">
                                 <div class="team__info">
-                                    <div>Player 1: <strong>{{ selectedTeam1.playerName1 }}</strong></div>
+                                    <div>Player 1: <strong>{{ selectedTeam1.player1.name }}</strong></div>
                                     <div class="team__points">
                                         <div class="title">
                                             Match Goals (0-9):
@@ -32,10 +32,10 @@
                                             <validation-provider v-slot="{ errors }" name="player1Goals"
                                                 rules="between:0,9|numeric|required">
                                                 <div class="input__wrapper">
-                                                    <button @click.prevent="decrement('player1Goals')">-
+                                                    <button @click.prevent="decrement(selectedTeam1.player1.score)">-
                                                     </button>
-                                                    <input type="number" v-model="player1Goals">
-                                                    <button @click.prevent="increment('player1Goals')">+
+                                                    <input type="number" v-model="selectedTeam1.player1.score">
+                                                    <button @click.prevent="increment(selectedTeam1.player1.score)">+
                                                     </button>
                                                 </div>
                                                 <div class="input-invalid-message">
@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="team__info">
-                                    <div>Player 2: <strong>{{ selectedTeam1.playerName2 }}</strong></div>
+                                    <div>Player 2: <strong>{{ selectedTeam1.player2.name }}</strong></div>
                                     <div class="team__points">
                                         <div class="title">
                                             Match Goals (0-9):
@@ -57,7 +57,7 @@
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player2Goals')">-
                                                     </button>
-                                                    <input type="number" v-model="player2Goals">
+                                                    <input type="number" v-model="selectedTeam1.player2.score">
                                                     <button @click.prevent="increment('player2Goals')">+
                                                     </button>
                                                 </div>
@@ -85,7 +85,7 @@
                             </validation-provider>
                             <div class="team" v-if="selectedTeam2">
                                 <div class="team__info">
-                                    <div>Player 1: <strong>{{ selectedTeam2.playerName1 }}</strong></div>
+                                    <div>Player 1: <strong>{{ selectedTeam2.player1.name }}</strong></div>
                                     <div class="team__points">
                                         <div class="title">
                                             Match Goals (0-9):
@@ -96,7 +96,7 @@
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player3Goals')">-
                                                     </button>
-                                                    <input type="number" v-model="player3Goals">
+                                                    <input type="number" v-model="selectedTeam2.player1.score">
                                                     <button @click.prevent="increment('player3Goals')">+
                                                     </button>
                                                 </div>
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="team__info">
-                                    <div>Player 2: <strong>{{ selectedTeam2.playerName2 }}</strong></div>
+                                    <div>Player 2: <strong>{{ selectedTeam2.player2.name }}</strong></div>
                                     <div class="team__points">
                                         <div class="title">
                                             Match Goals (0-9):
@@ -119,7 +119,7 @@
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player4Goals')">-
                                                     </button>
-                                                    <input type="number" v-model="player4Goals">
+                                                    <input type="number" v-model="selectedTeam2.player2.score">
                                                     <button @click.prevent="increment('player4Goals')">+
                                                     </button>
                                                 </div>
@@ -246,6 +246,7 @@ export default {
         increment(val) {
             this.$refs.observer.reset();
             this[val] += 1;
+            console.log('this[val]', parseInt(this[val]))
             if (this[val] > 9) {
                 this[val] = 9;
             } else if (this[val] < 0) {
@@ -269,11 +270,11 @@ export default {
             } else if (this[val] < 0) {
                 this[val] = 0;
             }
-            if (this.player1Goals + this.player2Goals > 9) {
+            if (this.selectedTeam1.player1.score + this.selectedTeam1.player2.score > 9) {
                 this[val] -= 1;
                 toastr.error('Total goals can not be more than 9');
             }
-            if (this.player3Goals + this.player4Goals > 9) {
+            if (this.selectedTeam2.player1.score + this.selectedTeam2.player2.score > 9) {
                 this[val] -= 1;
                 toastr.error('Total goals can not be more than 9');
             }
@@ -293,12 +294,13 @@ export default {
                 team1Player1Score: this.selectedTeam1.player1.score,
                 team1Player2Score: this.selectedTeam1.player2.score,
                 team2: this.selectedTeam2,
-                team2Player1Goals: this.selectedTeam2.player1.score,
-                team2Player2Goals: this.selectedTeam2.player2.score,
-                team1Goals: this.player1Goals + this.player2Goals,
-                team2Goals: this.player3Goals + this.player4Goals,
-                match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
-                match_loser: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam2 : this.selectedTeam1,
+                team2Player1Scores: this.selectedTeam2.player1.score,
+                team2Player2Scores: this.selectedTeam2.player2.score,
+                team1Goals: this.selectedTeam1.player1.score + this.selectedTeam1.player2.score,
+                team2Goals: this.selectedTeam2.player1.score + this.selectedTeam2.player2.score,
+                // match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
+                match_winner: team1Goals > team2Goals ? this.selectedTeam1 : this.selectedTeam2,
+                match_loser: team1Goals > team2Goals ? this.selectedTeam2 : this.selectedTeam1,
                 match_date: new Date()
             };
 
