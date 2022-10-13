@@ -32,10 +32,10 @@
                                             <validation-provider v-slot="{ errors }" name="player1Goals"
                                                 rules="between:0,9|numeric|required">
                                                 <div class="input__wrapper">
-                                                    <button @click.prevent="decrement(selectedTeam1.player1.score)">-
+                                                    <button @click.prevent="decrement('player1Goals')">-
                                                     </button>
                                                     <input type="number" v-model="selectedTeam1.player1.score">
-                                                    <button @click.prevent="increment(selectedTeam1.player1.score)">+
+                                                    <button @click.prevent="increment('player1Goals')">+
                                                     </button>
                                                 </div>
                                                 <div class="input-invalid-message">
@@ -181,7 +181,7 @@ export default {
                 teamName: '',
                 player1: {
                     name: '',
-                    score: 0
+                    score: null
                 },
                 player2: {
                     name: '',
@@ -245,39 +245,60 @@ export default {
         },
         increment(val) {
             this.$refs.observer.reset();
-            this[val] += 1;
-            console.log('this[val]', parseInt(this[val]))
-            if (this[val] > 9) {
-                this[val] = 9;
-            } else if (this[val] < 0) {
-                this[val] = 0;
+            if (val === 'player1Goals') {
+                this.selectedTeam1.player1.score++;
+            } else if (val === 'player2Goals') {
+                this.selectedTeam1.player2.score++;
+            } else if (val === 'player3Goals') {
+                this.selectedTeam2.player1.score++;
+            } else if (val === 'player4Goals') {
+                this.selectedTeam2.player2.score++;
             }
-            // check if total sum goals are not more than 9
+
             if (this.selectedTeam1.player1.score + this.selectedTeam1.player2.score > 9) {
-                this[val] -= 1;
                 toastr.error('Total goals can not be more than 9');
+                if (val === 'player1Goals') {
+                    this.selectedTeam1.player1.score--;
+                } else if (val === 'player2Goals') {
+                    this.selectedTeam1.player2.score--;
+                }
+
             }
             if (this.selectedTeam2.player1.score + this.selectedTeam2.player2.score > 9) {
-                this[val] -= 1;
                 toastr.error('Total goals can not be more than 9');
+                if (val === 'player3Goals') {
+                    this.selectedTeam2.player1.score--;
+                } else if (val === 'player4Goals') {
+                    this.selectedTeam2.player2.score--;
+                }
             }
         },
         decrement(val) {
             this.$refs.observer.reset();
-            this[val] -= 1;
-            if (this[val] > 9) {
-                this[val] = 9;
-            } else if (this[val] < 0) {
-                this[val] = 0;
+            if (val === 'player1Goals') {
+                this.selectedTeam1.player1.score--;
+            } else if (val === 'player2Goals') {
+                this.selectedTeam1.player2.score--;
+            } else if (val === 'player3Goals') {
+                this.selectedTeam2.player1.score--;
+            } else if (val === 'player4Goals') {
+                this.selectedTeam2.player2.score--;
             }
-            if (this.selectedTeam1.player1.score + this.selectedTeam1.player2.score > 9) {
-                this[val] -= 1;
-                toastr.error('Total goals can not be more than 9');
+
+            if (this.selectedTeam1.player1.score < 0) {
+                this.selectedTeam1.player1.score = 0;
             }
-            if (this.selectedTeam2.player1.score + this.selectedTeam2.player2.score > 9) {
-                this[val] -= 1;
-                toastr.error('Total goals can not be more than 9');
+            if (this.selectedTeam1.player2.score < 0) {
+                this.selectedTeam1.player2.score = 0;
             }
+            if (this.selectedTeam2.player1.score < 0) {
+                this.selectedTeam2.player1.score = 0;
+            }
+            if (this.selectedTeam2.player2.score < 0) {
+                this.selectedTeam2.player2.score = 0;
+            }
+
+
         },
         async addMatch() {
             // compare scores and add win to winning team
