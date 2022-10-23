@@ -16,6 +16,15 @@ export default {
     setTeams(state, teams) {
         state.teams = teams;
     },
+    // updateTeamPlayersScore
+    // updateTeamPlayersScore(state, { teamName, player, score }) {
+    //     state.teamName[player].score = score;
+
+    // },
+
+    setNewPlayers(state, newPlayer) {
+        state.newPlayers = newPlayer;
+    },
     setNewMatch(state, match) {
         state.match = match;
     },

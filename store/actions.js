@@ -1,5 +1,5 @@
 import { db } from "~/plugins/firebase.js";
-import { doc, setDoc, collection, getDocs, writeBatch } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, writeBatch, updateDoc } from "firebase/firestore";
 import toastr from "toastr";
 import moment from 'moment'
 
@@ -16,11 +16,21 @@ export default {
             console.error(e);
         }
     },
+    // add players to db collection
+    async addPlayers(context, newPlayer) {
+        const newPlayersRef = doc(collection(db, "players"));
+        context.commit('setNewPlayers', newPlayer);
+        try {
+            await setDoc(newPlayersRef, newPlayer);
+        } catch (error) {
+            console.log('error', error)
+        }
+    },
     // addMatch implementation
     async addMatch(context, match) {
         const newMatchRef = doc(collection(db, "matches"));
+        // get teams from db
         context.commit("setNewMatch", match);
-
         try {
             await setDoc(newMatchRef, match);
             context.commit('toggleGameModal');
@@ -30,6 +40,31 @@ export default {
             console.error(e);
         }
     },
+    // update db teams collection with sum of match scores
+    // async updateTeamPlayersScore(context, { teamName, player, score }) {
+    //     // const teamRef = doc(db, "teams", team.id);
+
+    //     // why team is not defined? 
+
+
+
+        
+
+
+    //     context.commit("updateTeamPlayersScore", { teamName, player, score });
+    //     try {
+    //         await updateDoc(teamRef, {
+    //             [player]: {
+    //                 name: teamName[player].name,
+    //                 score: teamName[player].score
+    //             }
+    //         });
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // },
+
+
     // getMatces implementation
     async getMatches(context) {
         const matchesRef = collection(db, "matches");

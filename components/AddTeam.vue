@@ -202,6 +202,21 @@ export default {
             }
             this.newTeam.createdAt = new Date();
             this.$store.dispatch("addTeam", newTeam);
+
+
+            // collect new players for new collection in database
+            const newPlayer1 = {
+                playerName: this.newTeam.player1.name,
+                playerScore: this.newTeam.player1.score
+            }
+
+            const newPlayer2 = {
+                playerName: this.newTeam.player2.name,
+                playerScore: this.newTeam.player2.score
+            }
+
+            this.$store.dispatch("addPlayers", newPlayer1);
+            this.$store.dispatch("addPlayers", newPlayer2);
             this.$refs.observer.reset();
             this.newTeam.teamName = "";
             this.newTeam.player1 = {

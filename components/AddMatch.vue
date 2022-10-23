@@ -312,22 +312,18 @@ export default {
             
             const docData = {
                 team1: this.selectedTeam1,
-                team1Player1Score: this.selectedTeam1.player1.score,
-                team1Player2Score: this.selectedTeam1.player2.score,
                 team2: this.selectedTeam2,
-                team2Player1Scores: this.selectedTeam2.player1.score,
-                team2Player2Scores: this.selectedTeam2.player2.score,
                 team1Goals: this.selectedTeam1.player1.score + this.selectedTeam1.player2.score,
                 team2Goals: this.selectedTeam2.player1.score + this.selectedTeam2.player2.score,
-                // match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
-                match_winner: team1Goals > team2Goals ? this.selectedTeam1 : this.selectedTeam2,
-                match_loser: team1Goals > team2Goals ? this.selectedTeam2 : this.selectedTeam1,
+                match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
+                match_loser: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam2 : this.selectedTeam1,
                 match_date: new Date()
             };
-
             // use action js addMatch to set docData
             this.$store.dispatch('addMatch', docData);
-
+            // dispatch updateTeamPlayersScore
+            this.$store.dispatch('updateTeamPlayersScore', this.selectedTeam1.teamName, this.selectedTeam1.player1, this.selectedTeam1.player2.score);
+            this.$store.dispatch('updateTeamPlayersScore', this.selectedTeam2.teamName, this.selectedTeam2.player1, this.selectedTeam2.player2.score);
         }
     },
     computed: {
