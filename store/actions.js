@@ -40,31 +40,16 @@ export default {
             console.error(e);
         }
     },
-    // update db teams collection with sum of match scores
-    // async updateTeamPlayersScore(context, { teamName, player, score }) {
-    //     // const teamRef = doc(db, "teams", team.id);
-
-    //     // why team is not defined? 
-
-
-
+    // update player after match
+    async updatePlayer(context, playerData) {
+        // get players from db
+        const playersRef = collection(db, "players");
+        // find player matching by playerData name and db player name
+        const playersSnapshot = await getDocs(playersRef);
         
 
-
-    //     context.commit("updateTeamPlayersScore", { teamName, player, score });
-    //     try {
-    //         await updateDoc(teamRef, {
-    //             [player]: {
-    //                 name: teamName[player].name,
-    //                 score: teamName[player].score
-    //             }
-    //         });
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // },
-
-
+       
+    },
     // getMatces implementation
     async getMatches(context) {
         const matchesRef = collection(db, "matches");

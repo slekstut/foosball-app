@@ -321,9 +321,22 @@ export default {
             };
             // use action js addMatch to set docData
             this.$store.dispatch('addMatch', docData);
-            // dispatch updateTeamPlayersScore
-            this.$store.dispatch('updateTeamPlayersScore', this.selectedTeam1.teamName, this.selectedTeam1.player1, this.selectedTeam1.player2.score);
-            this.$store.dispatch('updateTeamPlayersScore', this.selectedTeam2.teamName, this.selectedTeam2.player1, this.selectedTeam2.player2.score);
+
+            const playersToUpdate = [
+                this.selectedTeam1.player1,
+                this.selectedTeam1.player2,
+                this.selectedTeam2.player1,
+                this.selectedTeam2.player2
+            ];
+            playersToUpdate.forEach(player => {
+                const playerData = {
+                    name: player.name,
+                    goals: player.score,
+                    wins: player.wins,
+                    losses: player.losses,
+                }
+                this.$store.dispatch('updatePlayer', playerData);
+            });
         }
     },
     computed: {
