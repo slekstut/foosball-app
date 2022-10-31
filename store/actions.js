@@ -46,7 +46,9 @@ export default {
         const playersRef = collection(db, "players");
         // find player matching by playerData name and db player name
         const playersSnapshot = await getDocs(playersRef);
+        const players = playersSnapshot.docs.map(doc => doc.data());
         
+
 
        
     },
