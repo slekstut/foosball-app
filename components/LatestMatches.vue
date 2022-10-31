@@ -168,6 +168,10 @@ export default {
                     gap: 12px;
                     min-width: 150px;
                     max-width: 150px;
+
+                    img {
+                        max-width: 50px;
+                    }
                 }
 
                 .vs {
