@@ -21,7 +21,7 @@ export default {
         const newPlayersRef = doc(collection(db, "players"));
         context.commit('setNewPlayers', newPlayer);
         try {
-            await setDoc(newPlayersRef, newPlayer);
+            await setDoc(newPlayersRef, {newPlayer, createdAt: new Date()});
         } catch (error) {
             console.log('error', error)
         }
@@ -47,6 +47,11 @@ export default {
         // find player matching by playerData name and db player name
         const playersSnapshot = await getDocs(playersRef);
         const players = playersSnapshot.docs.map(doc => doc.data());
+        console.log('players: ', players)
+        console.log('playerData.name: ', playerData.name)
+
+        const player = players.find(player => player.name == playerData.name);
+        console.log('player: ', player)
         
 
 

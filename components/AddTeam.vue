@@ -68,6 +68,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required, alpha_num } from 'vee-validate/dist/rules';
 import toastr from "toastr";
+import { randomBytes } from "crypto";
 
 extend('required', {
     ...required,
@@ -187,14 +188,19 @@ export default {
 
         },
         async addTeam() {
+            const randomPlayer1Id = randomBytes(16).toString('hex');
+            const randomPlayer2Id = randomBytes(16).toString('hex');
+
             const newTeam = {
                 teamName: this.newTeam.teamName,
                 teamLogoUrl: this.newTeam.imgUrl,
                 player1: {
+                    playerId: randomPlayer1Id,
                     name: this.newTeam.player1.name,
                     score: this.newTeam.player1.score
                 },
                 player2: {
+                    playerId: randomPlayer2Id,
                     name: this.newTeam.player2.name,
                     score: this.newTeam.player2.score
                 },
@@ -206,11 +212,13 @@ export default {
 
             // collect new players for new collection in database
             const newPlayer1 = {
+                playerId: randomPlayer1Id,
                 playerName: this.newTeam.player1.name,
                 playerScore: this.newTeam.player1.score
             }
 
             const newPlayer2 = {
+                playerId: randomPlayer2Id,
                 playerName: this.newTeam.player2.name,
                 playerScore: this.newTeam.player2.score
             }
