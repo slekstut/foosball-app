@@ -209,7 +209,6 @@ export default {
             this.newTeam.createdAt = new Date();
             this.$store.dispatch("addTeam", newTeam);
 
-
             // collect new players for new collection in database
             const newPlayer1 = {
                 playerId: randomPlayer1Id,

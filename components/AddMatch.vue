@@ -180,10 +180,12 @@ export default {
             selectedTeam1: {
                 teamName: '',
                 player1: {
+                    id: '',
                     name: '',
                     score: null
                 },
                 player2: {
+                    id: '',
                     name: '',
                     score: 0
                 },
@@ -191,10 +193,12 @@ export default {
             selectedTeam2: {
                 teamName: '',
                 player1: {
+                    id: '',
                     name: '',
                     score: 0
                 },
                 player2: {
+                    id: '',
                     name: '',
                     score: 0
                 }
@@ -329,13 +333,15 @@ export default {
                 this.selectedTeam2.player2
             ];
             playersToUpdate.forEach(player => {
+                console.log('player', player);
                 const playerData = {
-                    id: player.id,
+                    id: player.playerId,
                     name: player.name,
                     goals: player.score,
-                    wins: player.wins,
-                    losses: player.losses,
+                    wins: player.wins || null,
+                    losses: player.losses || null,
                 }
+                // console.log('player: ', player)
                 this.$store.dispatch('updatePlayer', playerData);
             });
         }

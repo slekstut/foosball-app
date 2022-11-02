@@ -1,5 +1,5 @@
 import { db } from "~/plugins/firebase.js";
-import { doc, setDoc, collection, getDocs, writeBatch, updateDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, query, where, updateDoc } from "firebase/firestore";
 import toastr from "toastr";
 import moment from 'moment'
 
@@ -20,8 +20,9 @@ export default {
     async addPlayers(context, newPlayer) {
         const newPlayersRef = doc(collection(db, "players"));
         context.commit('setNewPlayers', newPlayer);
+
         try {
-            await setDoc(newPlayersRef, {newPlayer, createdAt: new Date()});
+            await setDoc(newPlayersRef, { newPlayer, createdAt: new Date() });
         } catch (error) {
             console.log('error', error)
         }
@@ -42,13 +43,35 @@ export default {
     },
     // update player after match
     async updatePlayer(context, playerData) {
+        console.log('playerData', playerData);
+        // find "players" doc id by player id field
         const playersRef = collection(db, "players");
         const playersSnapshot = await getDocs(playersRef);
         const players = playersSnapshot.docs.map(doc => doc.data());
-        console.log('players: ', players)
-        const player = players.find(player => player.playerId == playerData.playerId);
-        console.log('player: --', player)
-       
+        const player = players.find(player => player.newPlayer.playerId === playerData.id);
+
+        // get doc id of player
+        const playerDocId = playersSnapshot.docs.find(doc => doc.data().newPlayer.playerId === playerData.id).id;
+
+        // update "player" score try catch
+        try {
+            const playerRef = doc(db, "players", playerDocId);
+            console.log('playerRef', playerRef);
+            await updateDoc(playerRef, {
+                newPlayer: {
+                    playerScore: playerScore += playerData.goals
+                }
+            });
+
+        } catch (error) {
+            console.log('error', error)
+
+        }
+
+
+
+
+
     },
     // getMatces implementation
     async getMatches(context) {
@@ -64,7 +87,7 @@ export default {
         matches.sort(function (a, b) {
             a = a.match_date.split('-').join('');
             b = b.match_date.split('-').join('');
-            return  a > b ? -1 : a < b ? 1 : 0;
+            return a > b ? -1 : a < b ? 1 : 0;
         })
 
         context.commit("setMatches", matches);
@@ -98,7 +121,7 @@ export default {
             }
 
 
-            
+
             // console.log('trending player: ', trendingPlayer);
         });
 
@@ -108,5 +131,5 @@ export default {
 
 
     }
-  
+
 }
