@@ -42,19 +42,12 @@ export default {
     },
     // update player after match
     async updatePlayer(context, playerData) {
-        // get players from db
         const playersRef = collection(db, "players");
-        // find player matching by playerData name and db player name
         const playersSnapshot = await getDocs(playersRef);
         const players = playersSnapshot.docs.map(doc => doc.data());
         console.log('players: ', players)
-        console.log('playerData.name: ', playerData.name)
-
-        const player = players.find(player => player.name == playerData.name);
-        console.log('player: ', player)
-        
-
-
+        const player = players.find(player => player.playerId == playerData.playerId);
+        console.log('player: --', player)
        
     },
     // getMatces implementation

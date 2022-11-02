@@ -330,6 +330,7 @@ export default {
             ];
             playersToUpdate.forEach(player => {
                 const playerData = {
+                    id: player.id,
                     name: player.name,
                     goals: player.score,
                     wins: player.wins,
