@@ -48,33 +48,38 @@ export default {
             const playersSnapshot = await getDocs(playersRef);
             const playerDocId = playersSnapshot.docs.find(doc => doc.data().newPlayer.playerId === playerData.id).id;
             const playerRef = doc(db, "players", playerDocId);
-            // const querySnapshot = await getDocs(collection(db, "players"));
-        //     querySnapshot.forEach((doc) => {
-        //     // doc.data() is never undefined for query doc snapshots
-        //     console.log('doc data.newPlayer.playerScore', doc.data().newPlayer.playerScore);
-        // });
 
-
-        // get player score from db
-        const playerScore = await getDocs(query(playersRef, where("newPlayer.playerId", "==", playerData.id)));
-        const playerScoreData = playerScore.docs.map(doc => doc.data().newPlayer.playerScore);
-        // console.log('playerScoreData', playerScoreData[0]);
+            // get player score from db
+            const playerScore = await getDocs(query(playersRef, where("newPlayer.playerId", "==", playerData.id)));
+            const playerScoreData = playerScore.docs.map(doc => doc.data().newPlayer.playerScore);
 
             await updateDoc(playerRef, {
-                // 'newPlayer.playerScore': playerData.goals
-                // add score to existing score
                 'newPlayer.playerScore': parseInt(playerScoreData) + parseInt(playerData.goals)
             });
 
         } catch (error) {
             console.log('error', error)
-
         }
 
+    },
+    // update team after match
+    async updateTeam(context, teamData) {
+        try {
+            const teamsRef = collection(db, "teams");
+            const teamsSnapshot = await getDocs(teamsRef);
+            const teamDocId = teamsSnapshot.docs.find(doc => doc.data().teamId === teamData.id).id;
+            const teamRef = doc(db, "teams", teamDocId);
+            
+            // get team score from db
+            const teamScore = await getDocs(query(teamsRef, where("teamId", "==", teamData.id)));
+            const teamScoreData = teamScore.docs.map(doc => doc.data().score);
 
-
-
-
+            await updateDoc(teamRef, {
+                score: parseInt(teamScoreData) + parseInt(teamData.goals)
+            });
+        } catch (error) {
+            console.log('error', error)
+        }
     },
     // getMatces implementation
     async getMatches(context) {

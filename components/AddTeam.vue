@@ -190,8 +190,10 @@ export default {
         async addTeam() {
             const randomPlayer1Id = randomBytes(16).toString('hex');
             const randomPlayer2Id = randomBytes(16).toString('hex');
+            const randomTeamId = randomBytes(16).toString('hex');
 
             const newTeam = {
+                teamId: randomTeamId,
                 teamName: this.newTeam.teamName,
                 teamLogoUrl: this.newTeam.imgUrl,
                 player1: {
