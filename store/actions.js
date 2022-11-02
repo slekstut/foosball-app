@@ -50,16 +50,16 @@ export default {
         const players = playersSnapshot.docs.map(doc => doc.data());
         const player = players.find(player => player.newPlayer.playerId === playerData.id);
 
-        // get doc id of player
-        const playerDocId = playersSnapshot.docs.find(doc => doc.data().newPlayer.playerId === playerData.id).id;
 
-        // update "player" score try catch
+        console.log('playerDocId', playerDocId);
+        const playerDocId = playersSnapshot.docs.find(doc => doc.data().newPlayer.playerId === playerData.id).id;
+        console.log('playerDocId', playerDocId);
         try {
             const playerRef = doc(db, "players", playerDocId);
             console.log('playerRef', playerRef);
             await updateDoc(playerRef, {
                 newPlayer: {
-                    playerScore: playerScore += playerData.goals
+                    playerScore: playerData.goals
                 }
             });
 
