@@ -43,24 +43,35 @@ export default {
     },
     // update player after match
     async updatePlayer(context, playerData) {
-        console.log('playerData', playerData);
-        // find "players" doc id by player id field
-        const playersRef = collection(db, "players");
-        const playersSnapshot = await getDocs(playersRef);
-        const players = playersSnapshot.docs.map(doc => doc.data());
-        const player = players.find(player => player.newPlayer.playerId === playerData.id);
+        // console.log('playerData', playerData);
+        // const playersRef = collection(db, "players");
+        // const playersSnapshot = await getDocs(playersRef);
+        // console.log('---: ', playersSnapshot.docs.find(doc => doc.data().newPlayer.playerId === playerData.id))
+        // console.log('---: ', playersSnapshot.docs.find(doc => doc.data()))
+        // const querySnapshot = await getDocs(collection(db, "players"));
+        //     querySnapshot.forEach((doc) => {
+        //     // doc.data() is never undefined for query doc snapshots
+        //     console.log('players from getDocs', doc.id, " => ", doc.data());
+        // });
 
-
-        console.log('playerDocId', playerDocId);
-        const playerDocId = playersSnapshot.docs.find(doc => doc.data().newPlayer.playerId === playerData.id).id;
-        console.log('playerDocId', playerDocId);
         try {
+            const playersRef = collection(db, "players");
+            const playersSnapshot = await getDocs(playersRef);
+            const playerDocId = playersSnapshot.docs.find(doc => doc.data().newPlayer.playerId === playerData.id).id;
             const playerRef = doc(db, "players", playerDocId);
-            console.log('playerRef', playerRef);
+            // console.log('playerData.goals', playerData.goals);
+            // console.log('ewPlayer.playerScore', player.playerScore);
+            
+            const querySnapshot = await getDocs(collection(db, "players"));
+            querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log('doc data.newPlayer.playerScore', doc.data().newPlayer.playerScore);
+        });
+
             await updateDoc(playerRef, {
-                newPlayer: {
-                    playerScore: playerData.goals
-                }
+                // 'newPlayer.playerScore': playerData.goals
+                // add score to existing score
+                'newPlayer.playerScore': playerData.goals
             });
 
         } catch (error) {
