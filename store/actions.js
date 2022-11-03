@@ -1,5 +1,5 @@
 import { db } from "~/plugins/firebase.js";
-import { doc, setDoc, collection, getDocs, query, where, updateDoc } from "firebase/firestore";
+import { doc, docs, setDoc, collection, getDocs, query, where, updateDoc } from "firebase/firestore";
 import toastr from "toastr";
 import moment from 'moment'
 
@@ -67,16 +67,43 @@ export default {
         try {
             const teamsRef = collection(db, "teams");
             const teamsSnapshot = await getDocs(teamsRef);
-            const teamDocId = teamsSnapshot.docs.find(doc => doc.data().teamId === teamData.id).id;
-            const teamRef = doc(db, "teams", teamDocId);
-            
-            // get team score from db
-            const teamScore = await getDocs(query(teamsRef, where("teamId", "==", teamData.id)));
-            const teamScoreData = teamScore.docs.map(doc => doc.data().score);
+            const team1Id = teamData.team1.id;
+            const team2Id = teamData.team2.id;
 
-            await updateDoc(teamRef, {
-                score: parseInt(teamScoreData) + parseInt(teamData.goals)
+            // find matching team ids
+            const team1DocId = teamsSnapshot.docs.find(doc => doc.data().teamId === team1Id).id;
+            const team2DocId = teamsSnapshot.docs.find(doc => doc.data().teamId === team2Id).id;
+
+            // find team1Id in team1DocId and update player score
+            const team1Ref = doc(db, "teams", team1DocId);
+            const team2Ref = doc(db, "teams", team2DocId);
+
+            // add teamData.team1.player1.score and teamData.team1.player2.score to team1DocId
+            const team1Score = await getDocs(query(teamsRef, where("teamId", "==", team1Id)));
+            const team1ScoreData = team1Score.docs.find(doc => doc.data().teamId === team1Id).data();
+            // select team1ScoreData player1.score and player2.score
+            const team1Player1Score = team1ScoreData.player1.score;
+            const team1Player2Score = team1ScoreData.player2.score;
+
+            // add teamData.team2.player1.score and teamData.team2.player2.score to team2DocId
+            const team2Score = await getDocs(query(teamsRef, where("teamId", "==", team2Id)));
+            const team2ScoreData = team2Score.docs.find(doc => doc.data().teamId === team2Id).data();
+            // select team2ScoreData player1.score and player2.score
+            const team2Player1Score = team2ScoreData.player1.score;
+            const team2Player2Score = team2ScoreData.player2.score;
+
+            // update team1 score
+            await updateDoc(team1Ref, {
+                'player1.score': parseInt(team1Player1Score) + parseInt(teamData.team1.player1.score),
+                'player2.score': parseInt(team1Player2Score) + parseInt(teamData.team1.player2.score)
             });
+
+            // update team2 score
+            await updateDoc(team2Ref, {
+                'player1.score': parseInt(team2Player1Score) + parseInt(teamData.team2.player1.score),
+                'player2.score': parseInt(team2Player2Score) + parseInt(teamData.team2.player2.score)
+            });
+
         } catch (error) {
             console.log('error', error)
         }

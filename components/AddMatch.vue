@@ -180,11 +180,13 @@ export default {
             selectedTeam1: {
                 teamName: '',
                 player1: {
+                    teamId: '',
                     id: '',
                     name: '',
                     score: null
                 },
                 player2: {
+                    teamId: '',
                     id: '',
                     name: '',
                     score: 0
@@ -193,11 +195,13 @@ export default {
             selectedTeam2: {
                 teamName: '',
                 player1: {
+                    teamId: '',
                     id: '',
                     name: '',
                     score: 0
                 },
                 player2: {
+                    teamId: '',
                     id: '',
                     name: '',
                     score: 0
@@ -313,18 +317,31 @@ export default {
                 this.selectedTeam1.losses += 1;
                 this.selectedTeam2.wins += 1;
             }
-            
+
             const docData = {
-                team1: this.selectedTeam1,
-                team2: this.selectedTeam2,
-                team1Goals: this.selectedTeam1.player1.score + this.selectedTeam1.player2.score,
-                team2Goals: this.selectedTeam2.player1.score + this.selectedTeam2.player2.score,
+                team1: {
+                    id: this.selectedTeam1.teamId,
+                    name: this.selectedTeam1.teamName,
+                    player1: this.selectedTeam1.player1,
+                    player2: this.selectedTeam1.player2,
+                    goals: this.selectedTeam1.player1.score + this.selectedTeam1.player2.score,
+                    data: this.selectedTeam2,
+                },
+                team2: {
+                    id: this.selectedTeam2.teamId,
+                    name: this.selectedTeam2.teamName,
+                    player1: this.selectedTeam2.player1,
+                    player2: this.selectedTeam2.player2,
+                    goals: this.selectedTeam2.player1.score + this.selectedTeam2.player2.score,
+                    data: this.selectedTeam2,
+                },
                 match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
                 match_loser: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam2 : this.selectedTeam1,
                 match_date: new Date()
             };
             // use action js addMatch to set docData
             this.$store.dispatch('addMatch', docData);
+            this.$store.dispatch("updateTeam", docData);
 
             const playersToUpdate = [
                 this.selectedTeam1.player1,
@@ -333,7 +350,6 @@ export default {
                 this.selectedTeam2.player2
             ];
             playersToUpdate.forEach(player => {
-                console.log('player', player);
                 const playerData = {
                     id: player.playerId,
                     name: player.name,
@@ -341,8 +357,8 @@ export default {
                     wins: player.wins || null,
                     losses: player.losses || null,
                 }
-                // console.log('player: ', player)
                 this.$store.dispatch('updatePlayer', playerData);
+
             });
         }
     },
