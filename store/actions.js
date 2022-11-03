@@ -104,6 +104,16 @@ export default {
                 'player2.score': parseInt(team2Player2Score) + parseInt(teamData.team2.player2.score)
             });
 
+            // insert updatedAt date to db
+            await updateDoc(team1Ref, {
+                'updatedAt': moment().format('MMMM Do YYYY, h:mm:ss a')
+            });
+            await updateDoc(team2Ref, {
+                'updatedAt': moment().format('MMMM Do YYYY, h:mm:ss a')
+            });
+
+            
+
         } catch (error) {
             console.log('error', error)
         }
