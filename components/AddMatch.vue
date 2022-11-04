@@ -324,7 +324,7 @@ export default {
                     name: this.selectedTeam1.teamName,
                     player1: this.selectedTeam1.player1,
                     player2: this.selectedTeam1.player2,
-                    goals: this.selectedTeam1.player1.score + this.selectedTeam1.player2.score,
+                    goals: parseInt(this.selectedTeam1.player1.score) + parseInt(this.selectedTeam1.player2.score),
                     data: this.selectedTeam2,
                 },
                 team2: {
@@ -332,7 +332,7 @@ export default {
                     name: this.selectedTeam2.teamName,
                     player1: this.selectedTeam2.player1,
                     player2: this.selectedTeam2.player2,
-                    goals: this.selectedTeam2.player1.score + this.selectedTeam2.player2.score,
+                    goals: parseInt(this.selectedTeam2.player1.score) + parseInt(this.selectedTeam2.player2.score),
                     data: this.selectedTeam2,
                 },
                 match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,

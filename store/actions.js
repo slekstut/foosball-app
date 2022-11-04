@@ -64,6 +64,7 @@ export default {
     },
     // update team after match
     async updateTeam(context, teamData) {
+        console.log('teamData', teamData)
         try {
             const teamsRef = collection(db, "teams");
             const teamsSnapshot = await getDocs(teamsRef);
@@ -81,6 +82,7 @@ export default {
             // add teamData.team1.player1.score and teamData.team1.player2.score to team1DocId
             const team1Score = await getDocs(query(teamsRef, where("teamId", "==", team1Id)));
             const team1ScoreData = team1Score.docs.find(doc => doc.data().teamId === team1Id).data();
+
             // select team1ScoreData player1.score and player2.score
             const team1Player1Score = team1ScoreData.player1.score;
             const team1Player2Score = team1ScoreData.player2.score;
@@ -95,13 +97,15 @@ export default {
             // update team1 score
             await updateDoc(team1Ref, {
                 'player1.score': parseInt(team1Player1Score) + parseInt(teamData.team1.player1.score),
-                'player2.score': parseInt(team1Player2Score) + parseInt(teamData.team1.player2.score)
+                'player2.score': parseInt(team1Player2Score) + parseInt(teamData.team1.player2.score),
+                'teamScore': parseInt(team1ScoreData.teamScore) + parseInt(teamData.team1.goals)
             });
 
             // update team2 score
             await updateDoc(team2Ref, {
                 'player1.score': parseInt(team2Player1Score) + parseInt(teamData.team2.player1.score),
-                'player2.score': parseInt(team2Player2Score) + parseInt(teamData.team2.player2.score)
+                'player2.score': parseInt(team2Player2Score) + parseInt(teamData.team2.player2.score),
+                'teamScore': parseInt(team2ScoreData.teamScore) + parseInt(teamData.team2.goals)
             });
 
             // insert updatedAt date to db
@@ -111,8 +115,6 @@ export default {
             await updateDoc(team2Ref, {
                 'updatedAt': moment().format('MMMM Do YYYY, h:mm:ss a')
             });
-
-            
 
         } catch (error) {
             console.log('error', error)
