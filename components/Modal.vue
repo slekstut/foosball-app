@@ -57,7 +57,9 @@ export default {
     padding: 20px;
     min-width: 400px;
     max-width: 600px;
-    height: 90vh;
+    width: 100%;
+    height: 100%;
+    max-height: 96vh;
     background-color: $secondary-500;
     border-radius: 16px;
     display: flex;

@@ -11,7 +11,8 @@
         <template #body>
             <ValidationObserver v-slot="{ handleSubmit }" ref='observer'>
                 <form @submit.prevent="handleSubmit(onSubmit)">
-                    <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
+                    <div class="team__attr">
+                        <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
                         <div class="input__wrapper">
                             <label for="name">Team Name:</label>
                             <input type="text" id="name" v-model="newTeam.teamName">
@@ -35,11 +36,27 @@
                             </span>
                         </div>
                     </validation-provider>
-
-                    <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
+                    </div>
+                    <div class="players__attr">
+                        <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
                         <div class="input__wrapper">
                             <label for="player1">Player 1:</label>
                             <input type="text" id="player1" v-model="newTeam.player1.name">
+                            <span class="input-invalid-message">
+                                {{ errors[0] }}
+                            </span>
+                        </div>
+                    </validation-provider>
+                    <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
+                        <div class="input__wrapper">
+                            <label for="storageRef">Player1 Image</label>
+                            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+                            <button v-if="!newTeam.storageRef" @click="launchImageFile"
+                                :disabled="newTeam.isUploadingImage" type="button">
+                                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                            </button>
+                            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
+                                accept="image/png, image/jpeg" class="hidden">
                             <span class="input-invalid-message">
                                 {{ errors[0] }}
                             </span>
@@ -54,6 +71,22 @@
                             </span>
                         </div>
                     </validation-provider>
+                    <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
+                        <div class="input__wrapper">
+                            <label for="storageRef">Player2 Image</label>
+                            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+                            <button v-if="!newTeam.storageRef" @click="launchImageFile"
+                                :disabled="newTeam.isUploadingImage" type="button">
+                                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                            </button>
+                            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
+                                accept="image/png, image/jpeg" class="hidden">
+                            <span class="input-invalid-message">
+                                {{ errors[0] }}
+                            </span>
+                        </div>
+                    </validation-provider>
+                    </div>
                     <div class="submit-btn">
                         <Button class="submit-team">Submit</Button>
                     </div>
@@ -276,6 +309,18 @@ export default {
 
         input:focus {
             outline: none;
+        }
+
+        .team__attr,
+        .players__attr {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;  
+
+            & > * {
+                width: 50%;
+            }
         }
     }
 }
