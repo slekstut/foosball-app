@@ -98,14 +98,18 @@ export default {
             await updateDoc(team1Ref, {
                 'player1.score': parseInt(team1Player1Score) + parseInt(teamData.team1.player1.score),
                 'player2.score': parseInt(team1Player2Score) + parseInt(teamData.team1.player2.score),
-                'teamScore': parseInt(team1ScoreData.teamScore) + parseInt(teamData.team1.goals)
+                'teamScore': parseInt(team1ScoreData.teamScore) + parseInt(teamData.team1.goals),
+                'wins': parseInt(team1ScoreData.wins) + parseInt(teamData.team1.wins),
+                'losses': parseInt(team1ScoreData.losses) + parseInt(teamData.team1.losses),
             });
 
             // update team2 score
             await updateDoc(team2Ref, {
                 'player1.score': parseInt(team2Player1Score) + parseInt(teamData.team2.player1.score),
                 'player2.score': parseInt(team2Player2Score) + parseInt(teamData.team2.player2.score),
-                'teamScore': parseInt(team2ScoreData.teamScore) + parseInt(teamData.team2.goals)
+                'teamScore': parseInt(team2ScoreData.teamScore) + parseInt(teamData.team2.goals),
+                'wins': parseInt(team2ScoreData.wins) + parseInt(teamData.team2.wins),
+                'losses': parseInt(team2ScoreData.losses) + parseInt(teamData.team2.losses),
             });
 
             // insert updatedAt date to db

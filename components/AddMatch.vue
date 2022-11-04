@@ -191,6 +191,8 @@ export default {
                     name: '',
                     score: 0
                 },
+                wins: 0,
+                losses: 0,
             },
             selectedTeam2: {
                 teamName: '',
@@ -205,7 +207,9 @@ export default {
                     id: '',
                     name: '',
                     score: 0
-                }
+                },
+                wins: 0,
+                losses: 0,
             },
         }
     },
@@ -325,6 +329,8 @@ export default {
                     player1: this.selectedTeam1.player1,
                     player2: this.selectedTeam1.player2,
                     goals: parseInt(this.selectedTeam1.player1.score) + parseInt(this.selectedTeam1.player2.score),
+                    wins: this.selectedTeam1.wins,
+                    losses: this.selectedTeam1.losses,
                     data: this.selectedTeam2,
                 },
                 team2: {
@@ -333,12 +339,14 @@ export default {
                     player1: this.selectedTeam2.player1,
                     player2: this.selectedTeam2.player2,
                     goals: parseInt(this.selectedTeam2.player1.score) + parseInt(this.selectedTeam2.player2.score),
+                    wins: this.selectedTeam2.wins,
+                    losses: this.selectedTeam2.losses,
                     data: this.selectedTeam2,
                 },
-                match_winner: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam1 : this.selectedTeam2,
-                match_loser: this.player1Goals + this.player2Goals > this.player3Goals + this.player4Goals ? this.selectedTeam2 : this.selectedTeam1,
                 match_date: new Date()
             };
+
+            console.log('docData', docData);
             // use action js addMatch to set docData
             this.$store.dispatch('addMatch', docData);
             this.$store.dispatch("updateTeam", docData);
