@@ -142,45 +142,6 @@ export default {
         })
 
         context.commit("setMatches", matches);
-        // console.log('matches : ', matches);
     },
-    // get trending player name and score from teams db collection
-    async getTrendingPlayer(context) {
-        const teamsRef = collection(db, "teams");
-        const teamsSnapshot = await getDocs(teamsRef);
-        const teams = teamsSnapshot.docs.map(doc => doc.data());
-
-        // console.log('teams from trending player: ', teams);
-
-        // loop through teams and get the player with the highest score
-        let trendingPlayer = {
-            name: '',
-            score: 0
-        };
-
-        teams.forEach(team => {
-            for (const [key, value] of Object.entries(team)) {
-                // console.log(`key: ${key}: value: ${value}`);
-                if (key === 'playerScore1' || key === 'playerScore2') {
-                    console.log('value: ', value);
-                    console.log('key: ', key);
-                    if (value.score > trendingPlayer.score) {
-                        trendingPlayer.name = value.name;
-                        trendingPlayer.score = value.score;
-                    }
-                }
-            }
-
-
-
-            // console.log('trending player: ', trendingPlayer);
-        });
-
-        // console.log('trendingPlayer', trendingPlayer)
-
-        context.commit("getTrendingPlayer", trendingPlayer);
-
-
-    }
 
 }
