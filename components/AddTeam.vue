@@ -47,10 +47,10 @@
                             </span>
                         </div>
                     </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
+                    <validation-provider v-slot="{ errors }" name="Player1 Image" rules="'mimes:image/*'">
                         <div class="input__wrapper">
                             <label for="storageRef">Player1 Image</label>
-                            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+                            <img v-if="newTeam.imageData" id="player1-img" alt="Player1 Image">
                             <button v-if="!newTeam.storageRef" @click="launchImageFile"
                                 :disabled="newTeam.isUploadingImage" type="button">
                                 {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
@@ -71,10 +71,10 @@
                             </span>
                         </div>
                     </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
+                    <validation-provider v-slot="{ errors }" name="Player 2 image" rules="'mimes:image/*'">
                         <div class="input__wrapper">
                             <label for="storageRef">Player2 Image</label>
-                            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+                            <img v-if="newTeam.imageData" id="player2-img" alt="Team Logo">
                             <button v-if="!newTeam.storageRef" @click="launchImageFile"
                                 :disabled="newTeam.isUploadingImage" type="button">
                                 {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
@@ -320,6 +320,14 @@ export default {
 
             & > * {
                 width: 50%;
+            }
+        }
+        .players__attr {
+            gap: 0;  
+            flex-wrap: wrap;
+
+            & > * {
+                width: calc(50% - 12px);
             }
         }
     }
