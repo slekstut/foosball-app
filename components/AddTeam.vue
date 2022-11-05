@@ -13,79 +13,49 @@
                 <form @submit.prevent="handleSubmit(onSubmit)">
                     <div class="team__attr">
                         <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
-                        <div class="input__wrapper">
-                            <label for="name">Team Name:</label>
-                            <input type="text" id="name" v-model="newTeam.teamName">
-                            <span class="input-invalid-message">
-                                {{ errors[0] }}
-                            </span>
-                        </div>
-                    </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
-                        <div class="input__wrapper">
-                            <label for="storageRef">Team Logo</label>
-                            <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
-                            <button v-if="!newTeam.storageRef" @click="launchImageFile"
-                                :disabled="newTeam.isUploadingImage" type="button">
-                                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
-                            </button>
-                            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
-                                accept="image/png, image/jpeg" class="hidden">
-                            <span class="input-invalid-message">
-                                {{ errors[0] }}
-                            </span>
-                        </div>
-                    </validation-provider>
+                            <div class="input__wrapper">
+                                <label for="name">Team Name:</label>
+                                <input type="text" id="name" v-model="newTeam.teamName">
+                                <span class="input-invalid-message">
+                                    {{ errors[0] }}
+                                </span>
+                            </div>
+                        </validation-provider>
+                        <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
+                            <div class="input__wrapper">
+                                <label for="storageRef">Team Logo</label>
+                                <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
+                                <button v-if="!newTeam.storageRef" @click="launchImageFile"
+                                    :disabled="newTeam.isUploadingImage" type="button">
+                                    {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                                </button>
+                                <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)"
+                                    type="file" accept="image/png, image/jpeg" class="hidden">
+                                <span class="input-invalid-message">
+                                    {{ errors[0] }}
+                                </span>
+                            </div>
+                        </validation-provider>
                     </div>
                     <div class="players__attr">
                         <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
-                        <div class="input__wrapper">
-                            <label for="player1">Player 1:</label>
-                            <input type="text" id="player1" v-model="newTeam.player1.name">
-                            <span class="input-invalid-message">
-                                {{ errors[0] }}
-                            </span>
-                        </div>
-                    </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Player1 Image" rules="'mimes:image/*'">
-                        <div class="input__wrapper">
-                            <label for="storageRef">Player1 Image</label>
-                            <img v-if="newTeam.imageData" id="player1-img" alt="Player1 Image">
-                            <button v-if="!newTeam.storageRef" @click="launchImageFile"
-                                :disabled="newTeam.isUploadingImage" type="button">
-                                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
-                            </button>
-                            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
-                                accept="image/png, image/jpeg" class="hidden">
-                            <span class="input-invalid-message">
-                                {{ errors[0] }}
-                            </span>
-                        </div>
-                    </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|max:50">
-                        <div class="input__wrapper">
-                            <label for="player2">Player 2:</label>
-                            <input type="text" id="player2" v-model="newTeam.player2.name">
-                            <span class="input-invalid-message">
-                                {{ errors[0] }}
-                            </span>
-                        </div>
-                    </validation-provider>
-                    <validation-provider v-slot="{ errors }" name="Player 2 image" rules="'mimes:image/*'">
-                        <div class="input__wrapper">
-                            <label for="storageRef">Player2 Image</label>
-                            <img v-if="newTeam.imageData" id="player2-img" alt="Team Logo">
-                            <button v-if="!newTeam.storageRef" @click="launchImageFile"
-                                :disabled="newTeam.isUploadingImage" type="button">
-                                {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
-                            </button>
-                            <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)" type="file"
-                                accept="image/png, image/jpeg" class="hidden">
-                            <span class="input-invalid-message">
-                                {{ errors[0] }}
-                            </span>
-                        </div>
-                    </validation-provider>
+                            <div class="input__wrapper">
+                                <label for="player1">Player 1:</label>
+                                <input type="text" id="player1" v-model="newTeam.player1.name">
+                                <span class="input-invalid-message">
+                                    {{ errors[0] }}
+                                </span>
+                            </div>
+                        </validation-provider>
+                        <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|max:50">
+                            <div class="input__wrapper">
+                                <label for="player2">Player 2:</label>
+                                <input type="text" id="player2" v-model="newTeam.player2.name">
+                                <span class="input-invalid-message">
+                                    {{ errors[0] }}
+                                </span>
+                            </div>
+                        </validation-provider>
                     </div>
                     <div class="submit-btn">
                         <Button class="submit-team">Submit</Button>
@@ -144,11 +114,17 @@ export default {
                 teamName: "",
                 player1: {
                     name: "",
-                    score: 0
+                    score: 0,
+                    imgUrl: null,
+                    isUploadingImage: false,
+                    imageData: false,
                 },
                 player2: {
                     name: "",
-                    score: 0
+                    score: 0,
+                    imgUrl: null,
+                    isUploadingImage: false,
+                    imageData: false,
                 },
                 teamLogoUrl: "",
                 createdAt: "",
@@ -171,7 +147,7 @@ export default {
                     this.$nuxt.$loading.finish();
                     toastr.success('Team Added Successfully');
                 }
-                    , 2000)
+                    , 1000)
             })
             this.addTeam();
         },
@@ -225,6 +201,13 @@ export default {
             const randomPlayer2Id = randomBytes(16).toString('hex');
             const randomTeamId = randomBytes(16).toString('hex');
 
+            // if no image was selected then add default image
+            if (!this.newTeam.imageData) {
+                alert('no image was selected')
+                this.newTeam.imgUrl = "https://firebasestorage.googleapis.com/v0/b/foosball-tracker-67dd0.appspot.com/o/images%2Fdefault-logo.png?alt=media&token=2baf78d9-d1ae-4e17-8e51-3ea14e20ce0f";
+            }
+            this.newTeam.imageData = false;
+
             const newTeam = {
                 teamId: randomTeamId,
                 teamName: this.newTeam.teamName,
@@ -241,6 +224,7 @@ export default {
                 },
                 createdAt: new Date(),
             }
+
             this.newTeam.createdAt = new Date();
             this.$store.dispatch("addTeam", newTeam);
 
@@ -271,6 +255,9 @@ export default {
             };
             this.newTeam.createdAt = "";
             this.newTeam.imgUrl = null;
+
+            
+
         },
     },
     computed: {
@@ -316,18 +303,32 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 24px;  
+            gap: 24px;
 
-            & > * {
+            &>* {
                 width: 50%;
             }
         }
+
         .players__attr {
-            gap: 0;  
+            gap: 0;
             flex-wrap: wrap;
 
-            & > * {
+            &>* {
                 width: calc(50% - 12px);
+            }
+        }
+
+        .input__wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                max-width: 50px;
+                max-height: 50px;
+                width: 100%;
+                height: auto;
             }
         }
     }
