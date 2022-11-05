@@ -18,7 +18,7 @@
             </div>
             <div class="content__body">
 
-                <div class="item" v-for="team in teams" :key="team.id">
+                <div class="item" v-for="team in teams.slice(0, 5)" :key="team.id">
                     <div class="left__block">
                         <a href="#">
                             <img class="item__img" :src="team.teamLogoUrl" :alt="team.teamName" loading="lazy">
@@ -210,6 +210,10 @@ export default {
                         display: flex;
                         align-items: center;
                         margin-right: 12px;
+
+                        img {
+                            max-width: 45px;
+                        }
                     }
                 }
 
@@ -295,7 +299,11 @@ export default {
                 justify-content: flex-end;
             }
 
-            .left__block {}
+            .left__block {
+                img {
+                    max-width: 48px;
+                }
+            }
 
             &__title {
                 display: flex;
