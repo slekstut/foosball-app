@@ -223,6 +223,9 @@ export default {
                     score: this.newTeam.player2.score
                 },
                 createdAt: new Date(),
+                wins: 0,
+                losses: 0,
+                teamScore: 0
             }
 
             this.newTeam.createdAt = new Date();

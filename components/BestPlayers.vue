@@ -54,7 +54,6 @@ export default {
             })
 
          this.players = playersDb.slice(0, 5);
-         console.log(this.teams);
 
     },
 }

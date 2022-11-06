@@ -122,13 +122,9 @@ export default {
         },
        
     },
-    computed: {
-    },
     mounted() {
         // get matches
         this.$store.dispatch('getMatches');
-        // this.matches = this.$store.state.matches;
-        console.log('matches', this.matches);
     }
 }
 </script>

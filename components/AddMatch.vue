@@ -332,6 +332,7 @@ export default {
                     wins: this.selectedTeam1.wins,
                     losses: this.selectedTeam1.losses,
                     data: this.selectedTeam2,
+                    teamScore: this.selectedTeam1.player1.score + this.selectedTeam1.player2.score,
                 },
                 team2: {
                     id: this.selectedTeam2.teamId,
@@ -342,8 +343,9 @@ export default {
                     wins: this.selectedTeam2.wins,
                     losses: this.selectedTeam2.losses,
                     data: this.selectedTeam2,
+                    teamScore: this.selectedTeam2.player1.score + this.selectedTeam2.player2.score,
                 },
-                match_date: new Date()
+                match_date: new Date(),
             };
 
             console.log('docData', docData);

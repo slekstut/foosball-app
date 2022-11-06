@@ -141,8 +141,6 @@ export default {
             return a > b ? -1 : a < b ? 1 : 0;
         })
 
-        console.log('matches', matches)
-
         context.commit("setMatches", matches);
     },
 
