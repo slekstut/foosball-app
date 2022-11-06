@@ -9,7 +9,7 @@
                 <div class="item" v-for="(player, index) in players" :key="index">
                     <div class="left__block">
                         <a href="#">
-                            <img class="item__img" src="../assets/img/player1-img.png" alt="player1-img.png"
+                            <img class="item__img" src="https://firebasestorage.googleapis.com/v0/b/foosball-tracker-67dd0.appspot.com/o/images%2Fdefault-player.png?alt=media&token=7478e588-7159-43c2-ada5-89fb52778cc1" alt="player1-img.png"
                                 loading="lazy">
                             <span class="item__title">{{ player.newPlayer.playerName }}</span>
                         </a>
