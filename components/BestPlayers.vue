@@ -5,7 +5,6 @@
                 <h3>Best Players</h3>
             </div>
             <div class="content__body">
-
                 <div class="item" v-for="(player, index) in players" :key="index">
                     <div class="left__block">
                         <a href="#">

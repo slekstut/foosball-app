@@ -18,13 +18,13 @@
                         <div class="item" v-for="match in $store.state.matches" :key="match.id">
                             <div class="item__left">
                                 <a href="#">
-                                    <img :src="match.team1.teamLogoUrl" :alt="match.team1.teamName" loading="lazy">
-                                    <span>{{ match.team1.teamName }}</span>
+                                    <img :src="match.team1.data.teamLogoUrl" :alt="match.team1.name" loading="lazy">
+                                    <span>{{ match.team1.name }}</span>
                                 </a>
                                 <span class="vs">vs</span>
                                 <a href="#">
-                                    <img :src="match.team1.teamLogoUrl" :alt="match.team1.teamName" loading="lazy">
-                                    <span>{{ match.team2.teamName }}</span>
+                                    <img :src="match.team1.data.teamLogoUrl" :alt="match.team1.name" loading="lazy">
+                                    <span>{{ match.team2.name }}</span>
                                 </a>
                             </div>
                             <div class="item__right">
@@ -127,7 +127,8 @@ export default {
     mounted() {
         // get matches
         this.$store.dispatch('getMatches');
-        this.matches = this.$store.state.matches;
+        // this.matches = this.$store.state.matches;
+        console.log('matches', this.matches);
     }
 }
 </script>
