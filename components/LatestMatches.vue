@@ -17,14 +17,30 @@
                     <div v-if="showLess">
                         <div class="item" v-for="match in $store.state.matches" :key="match.id">
                             <div class="item__left">
+                                <!-- // TEAM 1 -->
                                 <a href="#">
                                     <img :src="match.team1.data.teamLogoUrl" :alt="match.team1.name" loading="lazy">
-                                    <span>{{ match.team1.name }}</span>
+                                    <span
+                                        :class="[match.team1.teamScore > match.team2.teamScore ? 'winner' : 'loser']">{{
+                                                match.team1.name
+                                        }}</span>
+                                    <span
+                                        :class="[match.team1.teamScore > match.team2.teamScore ? 'winner' : 'loser']">{{
+                                                match.team1.teamScore
+                                        }}</span>
                                 </a>
                                 <span class="vs">vs</span>
+                                  <!-- // TEAM 2 -->
                                 <a href="#">
-                                    <img :src="match.team1.data.teamLogoUrl" :alt="match.team1.name" loading="lazy">
-                                    <span>{{ match.team2.name }}</span>
+                                    <img :src="match.team2.data.teamLogoUrl" :alt="match.team2.name" loading="lazy">
+                                    <span
+                                        :class="[match.team2.teamScore > match.team1.teamScore ? 'winner' : 'loser']">{{
+                                                match.team2.name
+                                        }}</span>
+                                    <span
+                                        :class="[match.team2.teamScore > match.team1.teamScore ? 'winner' : 'loser']">{{
+                                                match.team2.teamScore
+                                        }}</span>
                                 </a>
                             </div>
                             <div class="item__right">
@@ -116,11 +132,11 @@ export default {
         showLessMatches() {
             this.showLess = !this.showLess;
             setTimeout(() => {
-                var scrollDiv = this.$refs.scrollToMatches.offsetTop-80;
-                window.scrollTo({ top: scrollDiv, behavior: 'smooth'});
+                var scrollDiv = this.$refs.scrollToMatches.offsetTop - 80;
+                window.scrollTo({ top: scrollDiv, behavior: 'smooth' });
             }, 200);
         },
-       
+
     },
     mounted() {
         // get matches
@@ -193,6 +209,14 @@ export default {
                     &::after {
                         bottom: -25px;
                     }
+                }
+
+                .winner {
+                    color: $compliment-600;
+                }
+
+                .loser {
+                    color: $red;
                 }
             }
 
