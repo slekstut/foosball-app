@@ -34,7 +34,7 @@
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player1Goals')">-
                                                     </button>
-                                                    <input type="number" v-model="selectedTeam1.player1.score">
+                                                    <input type="number" v-model="selectedTeam1CurrentScore.player1.currentScore">
                                                     <button @click.prevent="increment('player1Goals')">+
                                                     </button>
                                                 </div>
@@ -57,7 +57,7 @@
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player2Goals')">-
                                                     </button>
-                                                    <input type="number" v-model="selectedTeam1.player2.score">
+                                                    <input type="number" v-model="selectedTeam1CurrentScore.player2.currentScore">
                                                     <button @click.prevent="increment('player2Goals')">+
                                                     </button>
                                                 </div>
@@ -96,7 +96,7 @@
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player3Goals')">-
                                                     </button>
-                                                    <input type="number" v-model="selectedTeam2.player1.score">
+                                                    <input type="number" v-model="selectedTeam2CurrentScore.player1.currentScore">
                                                     <button @click.prevent="increment('player3Goals')">+
                                                     </button>
                                                 </div>
@@ -119,7 +119,7 @@
                                                 <div class="input__wrapper">
                                                     <button @click.prevent="decrement('player4Goals')">-
                                                     </button>
-                                                    <input type="number" v-model="selectedTeam2.player2.score">
+                                                    <input type="number" v-model="selectedTeam2CurrentScore.player2.currentScore">
                                                     <button @click.prevent="increment('player4Goals')">+
                                                     </button>
                                                 </div>
@@ -183,16 +183,24 @@ export default {
                     teamId: '',
                     id: '',
                     name: '',
-                    score: null
+                    currentScore: 0
                 },
                 player2: {
                     teamId: '',
                     id: '',
                     name: '',
-                    score: 0
+                    currentScore: 0
                 },
                 wins: 0,
                 losses: 0,
+            },
+            selectedTeam1CurrentScore: {
+                player1: {
+                    currentScore: 0
+                },
+                player2: {
+                    currentScore: 0
+                },
             },
             selectedTeam2: {
                 teamName: '',
@@ -200,16 +208,24 @@ export default {
                     teamId: '',
                     id: '',
                     name: '',
-                    score: 0
+                    currentScore: 0
                 },
                 player2: {
                     teamId: '',
                     id: '',
                     name: '',
-                    score: 0
+                    currentScore: 0
                 },
                 wins: 0,
                 losses: 0,
+            },
+            selectedTeam2CurrentScore: {
+                player1: {
+                    currentScore: 0
+                },
+                player2: {
+                    currentScore: 0
+                },
             },
         }
     },
@@ -227,28 +243,28 @@ export default {
             });
         },
         // reset all fields
-        reset() {
+        async reset() {
             this.selectableTeam = 'Choose team';
             this.selectedTeam1 = {
                 teamName: '',
                 player1: {
                     name: '',
-                    score: 0
+                    currentScore: null
                 },
                 player2: {
                     name: '',
-                    score: 0
+                    currentScore: null
                 },
             };
             this.selectedTeam2 = {
                 teamName: '',
                 player1: {
                     name: '',
-                    score: 0
+                    currentScore: null
                 },
                 player2: {
                     name: '',
-                    score: 0
+                    currentScore: null
                 }
             };
         },
@@ -258,63 +274,63 @@ export default {
         increment(val) {
             this.$refs.observer.reset();
             if (val === 'player1Goals') {
-                this.selectedTeam1.player1.score++;
+                this.selectedTeam1CurrentScore.player1.currentScore++;
             } else if (val === 'player2Goals') {
-                this.selectedTeam1.player2.score++;
+                this.selectedTeam1CurrentScore.player2.currentScore++;
             } else if (val === 'player3Goals') {
-                this.selectedTeam2.player1.score++;
+                this.selectedTeam2CurrentScore.player1.currentScore++;
             } else if (val === 'player4Goals') {
-                this.selectedTeam2.player2.score++;
+                this.selectedTeam2CurrentScore.player2.currentScore++;
             }
 
-            if (this.selectedTeam1.player1.score + this.selectedTeam1.player2.score > 9) {
+            if (this.selectedTeam1CurrentScore.player1.currentScore + this.selectedTeam1CurrentScore.player2.currentScore > 9) {
                 toastr.error('Total goals can not be more than 9');
                 if (val === 'player1Goals') {
-                    this.selectedTeam1.player1.score--;
+                    this.selectedTeam1CurrentScore.player1.currentScore--;
                 } else if (val === 'player2Goals') {
-                    this.selectedTeam1.player2.score--;
+                    this.selectedTeam1CurrentScore.player2.currentScore--;
                 }
 
             }
-            if (this.selectedTeam2.player1.score + this.selectedTeam2.player2.score > 9) {
+            if (this.selectedTeam2CurrentScore.player1.currentScore + this.selectedTeam2CurrentScore.player2.currentScore > 9) {
                 toastr.error('Total goals can not be more than 9');
                 if (val === 'player3Goals') {
-                    this.selectedTeam2.player1.score--;
+                    this.selectedTeam2CurrentScore.player1.currentScore--;
                 } else if (val === 'player4Goals') {
-                    this.selectedTeam2.player2.score--;
+                    this.selectedTeam2CurrentScore.player2.currentScore--;
                 }
             }
         },
         decrement(val) {
             this.$refs.observer.reset();
             if (val === 'player1Goals') {
-                this.selectedTeam1.player1.score--;
+                this.selectedTeam1CurrentScore.player1.currentScore--;
             } else if (val === 'player2Goals') {
-                this.selectedTeam1.player2.score--;
+                this.selectedTeam1CurrentScore.player2.currentScore--;
             } else if (val === 'player3Goals') {
-                this.selectedTeam2.player1.score--;
+                this.selectedTeam2CurrentScore.player1.currentScore--;
             } else if (val === 'player4Goals') {
-                this.selectedTeam2.player2.score--;
+                this.selectedTeam2CurrentScore.player2.currentScore--;
             }
 
-            if (this.selectedTeam1.player1.score < 0) {
-                this.selectedTeam1.player1.score = 0;
+            if (this.selectedTeam1CurrentScore.player1.currentScore < 0) {
+                this.selectedTeam1CurrentScore.player1.currentScore = 0;
             }
-            if (this.selectedTeam1.player2.score < 0) {
-                this.selectedTeam1.player2.score = 0;
+            if (this.selectedTeam1CurrentScore.player2.currentScore < 0) {
+                this.selectedTeam1CurrentScore.player2.currentScore = 0;
             }
-            if (this.selectedTeam2.player1.score < 0) {
-                this.selectedTeam2.player1.score = 0;
+            if (this.selectedTeam2CurrentScore.player1.currentScore < 0) {
+                this.selectedTeam2CurrentScore.player1.currentScore = 0;
             }
-            if (this.selectedTeam2.player2.score < 0) {
-                this.selectedTeam2.player2.score = 0;
+            if (this.selectedTeam2CurrentScore.player2.currentScore < 0) {
+                this.selectedTeam2CurrentScore.player2.currentScore = 0;
             }
 
 
         },
         async addMatch() {
             // compare scores and add win to winning team
-            if (this.selectedTeam1.player1.score + this.selectedTeam1.player2.score > this.selectedTeam2.player1.score + this.selectedTeam2.player2.score) {
+            if (this.selectedTeam1CurrentScore.player1.currentScore + this.selectedTeam1CurrentScore.player2.currentScore > this.selectedTeam2CurrentScore.player1.currentScore + this.selectedTeam2CurrentScore.player2.currentScore) {
                 this.selectedTeam1.wins += 1;
                 this.selectedTeam2.losses += 1;
             } else {
@@ -328,27 +344,26 @@ export default {
                     name: this.selectedTeam1.teamName,
                     player1: this.selectedTeam1.player1,
                     player2: this.selectedTeam1.player2,
-                    goals: parseInt(this.selectedTeam1.player1.score) + parseInt(this.selectedTeam1.player2.score),
+                    goals: parseInt(this.selectedTeam1CurrentScore.player1.currentScore) + parseInt(this.selectedTeam1CurrentScore.player2.currentScore),
                     wins: this.selectedTeam1.wins,
                     losses: this.selectedTeam1.losses,
                     data: this.selectedTeam2,
-                    teamScore: this.selectedTeam1.player1.score + this.selectedTeam1.player2.score,
+                    teamScore: parseInt(this.selectedTeam1CurrentScore.player1.currentScore) + parseInt(this.selectedTeam1CurrentScore.player2.currentScore),
                 },
                 team2: {
                     id: this.selectedTeam2.teamId,
                     name: this.selectedTeam2.teamName,
                     player1: this.selectedTeam2.player1,
                     player2: this.selectedTeam2.player2,
-                    goals: parseInt(this.selectedTeam2.player1.score) + parseInt(this.selectedTeam2.player2.score),
+                    goals: parseInt(this.selectedTeam2CurrentScore.player1.currentScore) + parseInt(this.selectedTeam2CurrentScore.player2.currentScore),
                     wins: this.selectedTeam2.wins,
                     losses: this.selectedTeam2.losses,
                     data: this.selectedTeam2,
-                    teamScore: this.selectedTeam2.player1.score + this.selectedTeam2.player2.score,
+                    teamScore: parseInt(this.selectedTeam2CurrentScore.player1.currentScore) + parseInt(this.selectedTeam2CurrentScore.player2.currentScore),
                 },
                 match_date: new Date(),
             };
 
-            console.log('docData', docData);
             // use action js addMatch to set docData
             this.$store.dispatch('addMatch', docData);
             this.$store.dispatch("updateTeam", docData);
@@ -359,17 +374,21 @@ export default {
                 this.selectedTeam2.player1,
                 this.selectedTeam2.player2
             ];
+
             playersToUpdate.forEach(player => {
                 const playerData = {
                     id: player.playerId,
                     name: player.name,
-                    goals: player.score,
+                    goals: player.currentScore,
                     wins: player.wins || null,
                     losses: player.losses || null,
                 }
                 this.$store.dispatch('updatePlayer', playerData);
 
             });
+
+            // reset all fields
+            this.reset();
         }
     },
     computed: {
@@ -381,6 +400,7 @@ export default {
     },
     mounted() {
         this.fetch();
+
     },
 
 }

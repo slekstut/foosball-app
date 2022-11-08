@@ -58,8 +58,7 @@ export default {
     min-width: 400px;
     max-width: 600px;
     width: 100%;
-    height: 100%;
-    max-height: 96vh;
+    max-height: 100%;
     background-color: $secondary-500;
     border-radius: 16px;
     display: flex;
