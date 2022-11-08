@@ -115,6 +115,7 @@ export default {
                 player1: {
                     name: "",
                     score: 0,
+                    currentScore: 0,
                     imgUrl: null,
                     isUploadingImage: false,
                     imageData: false,
@@ -122,6 +123,7 @@ export default {
                 player2: {
                     name: "",
                     score: 0,
+                    currentScore: 0,
                     imgUrl: null,
                     isUploadingImage: false,
                     imageData: false,
@@ -215,12 +217,14 @@ export default {
                 player1: {
                     playerId: randomPlayer1Id,
                     name: this.newTeam.player1.name,
-                    score: this.newTeam.player1.score
+                    score: this.newTeam.player1.score,
+                    currentScore: this.newTeam.player1.currentScore,
                 },
                 player2: {
                     playerId: randomPlayer2Id,
                     name: this.newTeam.player2.name,
-                    score: this.newTeam.player2.score
+                    score: this.newTeam.player2.score,
+                    currentScore: this.newTeam.player2.currentScore,
                 },
                 createdAt: new Date(),
                 wins: 0,
