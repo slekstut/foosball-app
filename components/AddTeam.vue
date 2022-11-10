@@ -145,13 +145,12 @@ export default {
         async onSubmit() {
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
-                setTimeout(() => {
-                    this.$nuxt.$loading.finish();
-                    toastr.success('Team Added Successfully');
-                }
-                    , 1000)
             })
             this.addTeam();
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            })
+
         },
         launchImageFile() {
             this.$refs.imageFile.click()
@@ -205,7 +204,6 @@ export default {
 
             // if no image was selected then add default image
             if (!this.newTeam.imageData) {
-                alert('no image was selected')
                 this.newTeam.imgUrl = "https://firebasestorage.googleapis.com/v0/b/foosball-tracker-67dd0.appspot.com/o/images%2Fdefault-logo.png?alt=media&token=2baf78d9-d1ae-4e17-8e51-3ea14e20ce0f";
             }
             this.newTeam.imageData = false;
@@ -263,7 +261,7 @@ export default {
             this.newTeam.createdAt = "";
             this.newTeam.imgUrl = null;
 
-            
+
 
         },
     },

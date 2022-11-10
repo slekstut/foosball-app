@@ -323,6 +323,9 @@ export default {
 
         },
         async addMatch() {
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
             // compare scores and add win to winning team
             if (this.selectedTeam1.player1.currentScore + this.selectedTeam1.player2.currentScore > this.selectedTeam2.player1.currentScore + this.selectedTeam2.player2.currentScore) {
                 this.selectedTeam1.wins += 1;
@@ -381,6 +384,9 @@ export default {
             // reset all fields
             this.reset();
             this.fetch();
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            })
         }
     },
     computed: {

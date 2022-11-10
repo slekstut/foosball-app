@@ -20,7 +20,6 @@ export default {
     async addPlayers(context, newPlayer) {
         const newPlayersRef = doc(collection(db, "players"));
         context.commit('setNewPlayers', newPlayer);
-
         try {
             await setDoc(newPlayersRef, { newPlayer, createdAt: new Date() });
         } catch (error) {
