@@ -25,8 +25,16 @@
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="#">Matches</a></li>
-                        <li><a href="#">Teams</a></li>
+                        <li>
+                            <NuxtLink to="/teams">
+                                Teams
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink to="/matches">
+                                Matches
+                            </NuxtLink>
+                        </li>
                         <li class="add-team" @click="toggleGameModal"><a href="#">Add A Game</a></li>
                         <li><a href="#" @click="toggleModal">Add A New Team</a></li>
                     </ul>
@@ -107,12 +115,12 @@ export default {
             this.$store.commit('toggleGameModal');
         },
     },
-      computed: {
+    computed: {
         showGameModal() {
             return this.$store.state.showGameModal;
         }
     },
-   
+
 };
 </script>
 
