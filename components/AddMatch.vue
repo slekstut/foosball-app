@@ -196,14 +196,6 @@ export default {
                 wins: 0,
                 losses: 0,
             },
-            // selectedTeam1: {
-            //     player1: {
-            //         currentScore: 0
-            //     },
-            //     player2: {
-            //         currentScore: 0
-            //     },
-            // },
             selectedTeam2: {
                 teamName: '',
                 player1: {
@@ -223,52 +215,50 @@ export default {
                 wins: 0,
                 losses: 0,
             },
-            // selectedTeam2: {
-            //     player1: {
-            //         currentScore: 0
-            //     },
-            //     player2: {
-            //         currentScore: 0
-            //     },
-            // },
         }
     },
     methods: {
         async fetch() {
-            const querySnapshot = await getDocs(collection(db, "teams"));
+            let querySnapshot = await getDocs(collection(db, "teams"));
             querySnapshot.forEach((doc) => {
-                const selectableTeam = doc.data();
-                const selectableTeamId = doc.id;
-                const selectableTeamWithId = {
+                let selectableTeam = doc.data();
+                let selectableTeamId = doc.id;
+                let selectableTeamWithId = {
                     ...selectableTeam,
                     id: selectableTeamId,
                 }
                 this.selectableTeams.push(selectableTeamWithId);
+                console.log('selectableTeamWithId',selectableTeamWithId)
             });
         },
         // reset all fields
         async reset() {
             this.selectableTeam = 'Choose team';
+            this.selectableTeams = []
             this.selectedTeam1 = {
                 teamName: '',
                 player1: {
                     name: '',
-                    currentScore: null
+                    score: 0,
+                    currentScore: 0
                 },
                 player2: {
                     name: '',
-                    currentScore: null
+                    score: 0,
+                    currentScore: 0
                 },
             };
             this.selectedTeam2 = {
                 teamName: '',
                 player1: {
                     name: '',
-                    currentScore: null
+                    score: 0,
+                    currentScore: 0
                 },
                 player2: {
                     name: '',
-                    currentScore: null
+                    score: 0,
+                    currentScore: 0
                 }
             };
         },
@@ -349,8 +339,8 @@ export default {
                     player1: this.selectedTeam1.player1,
                     player2: this.selectedTeam1.player2,
                     goals: parseInt(this.selectedTeam1.player1.currentScore) + parseInt(this.selectedTeam1.player2.currentScore),
-                    wins: this.selectedTeam1.wins,
-                    losses: this.selectedTeam1.losses,
+                    wins: parseInt(this.selectedTeam1.wins),
+                    losses: parseInt(this.selectedTeam1.losses),
                     data: this.selectedTeam2,
                     teamScore: parseInt(this.selectedTeam1.player1.currentScore) + parseInt(this.selectedTeam1.player2.currentScore),
                 },
@@ -360,8 +350,8 @@ export default {
                     player1: this.selectedTeam2.player1,
                     player2: this.selectedTeam2.player2,
                     goals: parseInt(this.selectedTeam2.player1.currentScore) + parseInt(this.selectedTeam2.player2.currentScore),
-                    wins: this.selectedTeam2.wins,
-                    losses: this.selectedTeam2.losses,
+                    wins: parseInt(this.selectedTeam2.wins),
+                    losses: parseInt(this.selectedTeam2.losses),
                     data: this.selectedTeam2,
                     teamScore: parseInt(this.selectedTeam2.player1.currentScore) + parseInt(this.selectedTeam2.player2.currentScore),
                 },
@@ -370,7 +360,7 @@ export default {
 
             // use action js addMatch to set docData
             this.$store.dispatch('addMatch', docData);
-            this.$store.dispatch("updateTeam", docData);
+            this.$store.dispatch('updateTeam', docData);
 
             const playersToUpdate = [
                 this.selectedTeam1.player1,
@@ -388,9 +378,9 @@ export default {
                 }
                 this.$store.dispatch('updatePlayer', playerData);
             });
-
             // reset all fields
             this.reset();
+            this.fetch();
         }
     },
     computed: {

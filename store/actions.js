@@ -64,7 +64,6 @@ export default {
     },
     // update team after match
     async updateTeam(context, teamData) {
-        console.log('teamData', teamData)
         try {
             const teamsRef = collection(db, "teams");
             const teamsSnapshot = await getDocs(teamsRef);
@@ -82,7 +81,6 @@ export default {
             // add teamData.team1.player1.score and teamData.team1.player2.score to team1DocId
             const team1Score = await getDocs(query(teamsRef, where("teamId", "==", team1Id)));
             const team1ScoreData = team1Score.docs.find(doc => doc.data().teamId === team1Id).data();
-            console.log('team1ScoreData', team1ScoreData)
 
             // select team1ScoreData player1.score and player2.score
             const team1Player1Score = team1ScoreData.player1.score;
@@ -101,7 +99,7 @@ export default {
                 'player2.score': parseInt(team1Player2Score) + parseInt(teamData.team1.player2.currentScore),
                 'teamScore': parseInt(team1ScoreData.teamScore) + parseInt(teamData.team1.goals),
                 'wins': parseInt(team1ScoreData.wins) + parseInt(teamData.team1.wins),
-                'losses': parseInt(team1ScoreData.losses) + parseInt(teamData.team1.losses),
+                'losses': parseInt(teamData.team1.losses),
             });
 
             // update team2 score
@@ -110,7 +108,7 @@ export default {
                 'player2.score': parseInt(team2Player2Score) + parseInt(teamData.team2.player2.currentScore),
                 'teamScore': parseInt(team2ScoreData.teamScore) + parseInt(teamData.team2.goals),
                 'wins': parseInt(team2ScoreData.wins) + parseInt(teamData.team2.wins),
-                'losses': parseInt(team2ScoreData.losses) + parseInt(teamData.team2.losses),
+                'losses': parseInt(teamData.team2.losses),
             });
 
             // insert updatedAt date to db
