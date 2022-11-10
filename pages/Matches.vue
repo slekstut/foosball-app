@@ -1,5 +1,8 @@
 <template>
     <div>
-        <h1>Matches</h1>
+        <section class="container">
+            <Nav></Nav>
+            <h1>Matches page</h1>
+        </section>
     </div>
 </template>

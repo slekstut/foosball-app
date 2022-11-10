@@ -1,6 +1,9 @@
 <template>
-    <div class="container">
+    <div>
         <div class="nav__wrapper">
+            <div class="logo">
+                <NuxtLink to="/"><img src="~/assets/img/logo.png" alt="logo" /></NuxtLink>
+            </div>
             <div class="nav">
                 <div class="menu">
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,8 +38,8 @@
                                 Matches
                             </NuxtLink>
                         </li>
-                        <li class="add-team" @click="toggleGameModal"><a href="#">Add A Game</a></li>
-                        <li><a href="#" @click="toggleModal">Add A New Team</a></li>
+                        <li class="add-team" @click="toggleGameModal"><a href="#">Add game</a></li>
+                        <li><a href="#" @click="toggleModal">Add Team</a></li>
                     </ul>
                 </nav>
             </div>
@@ -125,11 +128,21 @@ export default {
 </script>
 
 <style scroped lang="scss">
+.nav__wrapper {
+    padding: 24px 0;
+
+    .logo {
+        margin-right: 16px;
+
+        img {
+            max-height: 40px;
+        }
+    }
+}
+
 .nav {
     display: flex;
-
     &__wrapper {
-
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -142,14 +155,13 @@ export default {
                 align-items: center;
                 list-style: none;
                 padding-left: 0;
-                padding: 48px 0 32px 0;
 
                 li {
-                    margin-right: 40px;
+                    margin-right: 32px;
 
                     a {
                         color: $primary-500;
-                        font-size: 18px;
+                        font-size: 16px;
                         line-height: 21px;
                         font-weight: 500;
                         transition: all .2s;
