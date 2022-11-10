@@ -15,7 +15,7 @@
             <div class="content__body" ref="scrollToMatches">
                 <div class="items">
                     <div v-if="showLess">
-                        <div class="item" v-for="match in $store.state.matches" :key="match.id">
+                        <div class="item" v-for="match in $store.state.matches.slice(0, 5)" :key="match.id">
                             <div class="item__left">
                                 <!-- // TEAM 1 -->
                                 <a href="#">

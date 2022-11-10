@@ -228,7 +228,6 @@ export default {
                     id: selectableTeamId,
                 }
                 this.selectableTeams.push(selectableTeamWithId);
-                console.log('selectableTeamWithId',selectableTeamWithId)
             });
         },
         // reset all fields
