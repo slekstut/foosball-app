@@ -3,38 +3,17 @@
         <section class="container">
             <Nav></Nav>
             <h1>Teams page</h1>
-            <div class="row">
-                <!-- <div class="col-12">
-                    <button class="btn btn-primary" @click="toggleModal">Add Team</button>
-                </div> -->
-                <div class="col-12">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Team Name</th>
-                                <th scope="col">Player 1</th>
-                                <th scope="col">Player 2</th>
-                                <th scope="col">Player 1 score</th>
-                                <th scope="col">Player 2 score</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(team, index) in teams" :key="team.id">
-                                <th scope="row">{{ index + 1 }}</th>
-                                <td>{{ team.teamName }}</td>
-                                <td>{{ team.player1.name }}</td>
-                                <td>{{ team.player2.name }}</td>
-                                <td>{{ team.player1.score }}</td>
-                                <td>{{ team.player2.score }}</td>
-                                <td>
-                                    <button class="btn btn-primary" @click="editTeam(team.id)">Edit</button>
-                                    <button class="btn btn-danger" @click="deleteTeam(team.id)">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="cards">
+                <div v-for="team in teams" :key="team.id" class="card">
+                    <h2 class="card__title">{{ team.teamName }}</h2>
+                    <p class="card__subtitle">{{ team.player1.name }}</p>
+                    <p class="card__subtitle">{{ team.player2.name }}</p>
+                    <span class="card__text">{{ team.player1.score }}</span>
+                    <span class="card__text">{{ team.player2.score }}</span>
+                    <div class="card__action">
+                        <button class="btn btn-primary" @click="editTeam(team.id)">Edit</button>
+                        <button class="btn btn-danger" @click="deleteTeam(team.id)">Delete</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -90,3 +69,14 @@ export default {
     }
 }
 </script>
+
+<style scoped lang="scss">
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+
+    .card {
+        width: 33.33%;
+    }
+}
+</style>
