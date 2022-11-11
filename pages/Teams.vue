@@ -6,10 +6,13 @@
             <div class="cards">
                 <div v-for="team in teams" :key="team.id" class="card">
                     <h2 class="card__title">{{ team.teamName }}</h2>
-                    <p class="card__subtitle">{{ team.player1.name }}</p>
-                    <p class="card__subtitle">{{ team.player2.name }}</p>
-                    <span class="card__text">{{ team.player1.score }}</span>
-                    <span class="card__text">{{ team.player2.score }}</span>
+                    <div class="card__subtitle">
+                        <h5>Team Score: {{ team.teamScore }}</h5>
+                    </div>
+                   <div class="card__text">
+                    <div>{{ team.player1.name }}: {{ team.player1.score }}</div>
+                    <div>{{ team.player2.name }}: {{ team.player2.score }}</div>
+                   </div>
                     <div class="card__action">
                         <button class="btn btn-primary" @click="editTeam(team.id)">Edit</button>
                         <button class="btn btn-danger" @click="deleteTeam(team.id)">Delete</button>
@@ -42,6 +45,7 @@ export default {
             } catch (e) {
                 console.error(e);
             }
+            console.log('teams', this.teams)
         },
         // async deleteTeam(id) {
         //     try {
@@ -74,9 +78,36 @@ export default {
 .cards {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 24px;
 
     .card {
-        width: 33.33%;
+        width: calc(33.33% - 12px);
+        border: 1px solid $primary-800;
+
+        &__title {
+            margin-top: 12px;
+        }
+
+        &__subtitle {
+            display: flex;
+            justify-content: flex-start;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+            margin-top: 12px;
+        }
+
+        &__action {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+        }
     }
 }
 </style>

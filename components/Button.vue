@@ -1,17 +1,16 @@
 <template>
-        <button class="btn" type="submit">
-            <slot></slot>
-        </button>
+    <button class="btn" type="submit">
+        <slot></slot>
+    </button>
 </template>
 
 <style lang="scss">
 .btn {
     align-items: center;
-    // background-color: $compliment-500;
-    border: 1px solid $compliment-500;
+    border: 1px solid $primary-800;
+    background-color: transparent;
     border-radius: 16px;
     box-sizing: border-box;
-    // color: $secondary-500;
     cursor: pointer;
     display: flex;
     font-size: 18px;
@@ -20,7 +19,7 @@
     max-width: 100%;
     padding: 14px 22px;
     text-decoration: none;
-    transition: all .2s;
+    transition: all .125s;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -28,9 +27,8 @@
 
     @media (min-width: $sm-max) {
         font-size: 20px;
-        min-width: 200px;
         padding: 14px 16px;
-}
+    }
 
     &:active,
     &:hover {
@@ -38,10 +36,9 @@
     }
 
     &:hover {
-    color: $compliment-500;
-    background-color: $secondary-500;
-    border: 1px solid $compliment-500;
+        color: $compliment-500;
+        background-color: $secondary-500;
+        border: 1px solid $compliment-500;
+    }
 }
-}
-
 </style>
