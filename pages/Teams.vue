@@ -5,14 +5,19 @@
             <h1>Teams page</h1>
             <div class="cards">
                 <div v-for="team in teams" :key="team.id" class="card">
-                    <h2 class="card__title">{{ team.teamName }}</h2>
+                    <div class="card__head">
+                        <div class="card__image">
+                            <img :src="team.teamLogoUrl" :alt="team.teamName">
+                        </div>
+                        <h2 class="card__title">{{ team.teamName }}</h2>
+                    </div>
                     <div class="card__subtitle">
                         <h5>Team Score: {{ team.teamScore }}</h5>
                     </div>
-                   <div class="card__text">
-                    <div>{{ team.player1.name }}: {{ team.player1.score }}</div>
-                    <div>{{ team.player2.name }}: {{ team.player2.score }}</div>
-                   </div>
+                    <div class="card__text">
+                        <div>{{ team.player1.name }}: {{ team.player1.score }}</div>
+                        <div>{{ team.player2.name }}: {{ team.player2.score }}</div>
+                    </div>
                     <div class="card__action">
                         <button class="btn btn-primary" @click="editTeam(team.id)">Edit</button>
                         <button class="btn btn-danger" @click="deleteTeam(team.id)">Delete</button>
@@ -75,38 +80,56 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 24px;
+.container {
+    h1 {
+        margin-top: 24px;
+    }
 
-    .card {
-        width: calc(33.33% - 12px);
-        border: 1px solid $primary-800;
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 48px 0;
 
-        &__title {
-            margin-top: 12px;
-        }
+        .card {
+            width: calc(33.33% - 12px);
+            padding: 24px;
+            border: 1px solid $primary-800;
+            border-radius: 8px;
 
-        &__subtitle {
-            display: flex;
-            justify-content: flex-start;
-            gap: 12px;
-            margin-top: 12px;
-        }
+            &:hover {
+                transform: scale(1.02);
+            }
 
-        &__text {
-            display: flex;
-            flex-direction: column;
-            margin-top: 12px;
-        }
+            &__head {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
 
-        &__action {
-            margin-top: 24px;
-            display: flex;
-            gap: 12px;
+            &__image {
+                max-width: 46px;
+            }
+
+            &__subtitle {
+                display: flex;
+                justify-content: flex-start;
+                gap: 12px;
+                margin-top: 12px;
+            }
+
+            &__text {
+                display: flex;
+                flex-direction: column;
+                margin-top: 12px;
+            }
+
+            &__action {
+                margin-top: 24px;
+                display: flex;
+                gap: 12px;
+            }
         }
     }
 }
