@@ -142,6 +142,35 @@ export default {
         toggleModal() {
             this.$store.commit("toggleModal");
         },
+        // add reset form
+        resetForm() {
+            this.newTeam = {
+                teamName: "",
+                player1: {
+                    name: "",
+                    score: 0,
+                    currentScore: 0,
+                    imgUrl: null,
+                    isUploadingImage: false,
+                    imageData: false,
+                },
+                player2: {
+                    name: "",
+                    score: 0,
+                    currentScore: 0,
+                    imgUrl: null,
+                    isUploadingImage: false,
+                    imageData: false,
+                },
+                teamLogoUrl: "",
+                createdAt: "",
+                isUploadingImage: false,
+                imageData: false,
+                imgUrl: null,
+                wins: 0,
+                losses: 0,
+            };
+        },
         async onSubmit() {
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
@@ -260,10 +289,8 @@ export default {
             };
             this.newTeam.createdAt = "";
             this.newTeam.imgUrl = null;
-
-
-
         },
+
     },
     computed: {
         showModal() {
@@ -327,7 +354,7 @@ export default {
         .input__wrapper {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
 
             img {
                 max-width: 50px;
