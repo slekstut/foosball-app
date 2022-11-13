@@ -22,7 +22,7 @@
                         <td>{{ match.team2.name }}</td>
                         <td>{{ match.winner }}</td>
                         <td>{{ match.match_date }}</td>
-                        <td>
+                        <td class="actions">
                             <button class="btn btn-primary" @click="editMatch(match.id)">Edit</button>
                             <button class="btn btn-danger" @click="deleteMatch(match.id)">Delete</button>
                         </td>
@@ -55,7 +55,7 @@ export default {
                     this.matches.push(match);
                     match.match_date = moment(new Date(match.match_date.seconds * 1000)).format('YYYY-MM-DD');
                 });
-               
+
             } catch (e) {
                 console.error(e);
             }
@@ -91,6 +91,7 @@ export default {
     border-collapse: collapse;
     border-spacing: 0;
     border: 1px solid $primary-450;
+
     thead {
         tr {
             th {
@@ -99,6 +100,7 @@ export default {
             }
         }
     }
+
     tbody {
         tr {
             td {
@@ -107,23 +109,31 @@ export default {
             }
         }
     }
+
     th,
     td {
         padding: 0.75rem;
         vertical-align: top;
         border-top: 1px solid $primary-450;
+        text-align: center;
     }
+
     thead {
         th {
             vertical-align: bottom;
             border-bottom: 2px solid $primary-450;
         }
     }
-    tbody + tbody {
+
+    tbody+tbody {
         border-top: 2px solid $primary-450;
     }
-    .table {
-        background-color: $secondary-500;
+
+    background-color: $secondary-500;
+
+    .actions {
+        display: flex;
+        gap: 8px;
     }
 }
 </style>

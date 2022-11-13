@@ -358,6 +358,8 @@ export default {
                     teamScore: parseInt(this.selectedTeam2.player1.currentScore) + parseInt(this.selectedTeam2.player2.currentScore),
                 },
                 match_date: new Date(),
+                // add match winner
+                winner: this.selectedTeam1.player1.currentScore + this.selectedTeam1.player2.currentScore > this.selectedTeam2.player1.currentScore + this.selectedTeam2.player2.currentScore ? this.selectedTeam1.teamName : this.selectedTeam2.teamName,
             };
 
             // use action js addMatch to set docData
