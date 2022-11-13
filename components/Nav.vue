@@ -38,8 +38,12 @@
                                 Matches
                             </NuxtLink>
                         </li>
-                        <li class="add-team" @click="toggleGameModal"><a href="#">Add game</a></li>
-                        <li><a href="#" @click="toggleModal">Add Team</a></li>
+                        <li class="add-team" @click="toggleGameModal">
+                            <a href="#">Add game</a>
+                        </li>
+                        <li class="add-team" @click="toggleModal">
+                            <a href="#">Add Team</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -99,6 +103,7 @@
             </div>
         </div>
         <add-match></add-match>
+        <AddTeam></AddTeam>
     </div>
 </template>
 
@@ -113,16 +118,17 @@ export default {
     methods: {
         toggleModal() {
             this.$store.commit('toggleModal');
+
         },
         toggleGameModal() {
             this.$store.commit('toggleGameModal');
         },
     },
-    computed: {
-        showGameModal() {
-            return this.$store.state.showGameModal;
-        }
-    },
+    // computed: {
+    //     showGameModal() {
+    //         return this.$store.state.showGameModal;
+    //     },
+    // },
 
 };
 </script>

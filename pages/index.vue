@@ -8,16 +8,14 @@
         <LatestMatches></LatestMatches>
       </div>
     </div>
-    <AddTeam></AddTeam>
   </section>
 </template>
 <script>
 import LeftSidebar from '../components/LeftSidebar.vue';
 import LatestMatches from '../components/LatestMatches.vue';
-import AddTeam from '../components/AddTeam.vue';
 
 export default {
-  components: { LeftSidebar, LatestMatches, AddTeam }
+  components: { LeftSidebar, LatestMatches }
 };
 </script>
 

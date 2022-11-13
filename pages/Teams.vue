@@ -33,6 +33,7 @@ import { db } from "~/plugins/firebase.js";
 import { doc, setDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
 
 export default {
+    name: "Teams",
     data() {
         return {
             teams: [],
@@ -50,7 +51,7 @@ export default {
             } catch (e) {
                 console.error(e);
             }
-            console.log('teams', this.teams)
+            // console.log('teams', this.teams)
         },
         // async deleteTeam(id) {
         //     try {
