@@ -18,10 +18,10 @@
                 <tbody>
                     <tr v-for="match in matches" :key="match.id">
                         <th scope="row">{{ match.id }}</th>
-                        <td>{{ match.team1.teamName }}</td>
-                        <td>{{ match.team2.teamName }}</td>
+                        <td>{{ match.team1.name }}</td>
+                        <td>{{ match.team2.name }}</td>
                         <td>{{ match.winner }}</td>
-                        <td>{{ match.date }}</td>
+                        <td>{{ match.match_date }}</td>
                         <td>
                             <button class="btn btn-primary" @click="editMatch(match.id)">Edit</button>
                             <button class="btn btn-danger" @click="deleteMatch(match.id)">Delete</button>
@@ -36,6 +36,8 @@
 <script>
 import { db } from "~/plugins/firebase.js";
 import { doc, setDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
+import moment from 'moment'
+
 export default {
     name: "Matches",
     data() {
@@ -51,7 +53,9 @@ export default {
                     const match = doc.data();
                     match.id = doc.id;
                     this.matches.push(match);
+                    match.match_date = moment(new Date(match.match_date.seconds * 1000)).format('YYYY-MM-DD');
                 });
+               
             } catch (e) {
                 console.error(e);
             }
@@ -71,6 +75,7 @@ export default {
     },
     async mounted() {
         await this.fetchMatches();
+        console.log("matches", this.matches);
     },
 };
 
