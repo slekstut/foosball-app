@@ -51,17 +51,15 @@ export default {
             } catch (e) {
                 console.error(e);
             }
-            // console.log('teams', this.teams)
         },
-        // async deleteTeam(id) {
-        //     try {
-        //         await deleteDoc(doc(db, "teams", id));
-
-        //         this.teams = this.teams.filter(team => team.id !== id);
-        //     } catch (e) {
-        //         console.error(e);
-        //     }
-        // },
+        async deleteTeam(id) {
+            try {
+                await deleteDoc(doc(db, "teams", id));
+                this.teams = this.teams.filter(team => team.id !== id);
+            } catch (e) {
+                console.error(e);
+            }
+        },
         // implement edit method 
         // async editTeam(id) {
         //     console.log("edit team");
@@ -86,7 +84,7 @@ export default {
     .cards {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: 16px;
         margin: 48px 0;
 

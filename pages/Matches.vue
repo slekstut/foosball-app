@@ -86,7 +86,7 @@ export default {
 .table {
     width: 100%;
     max-width: 100%;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
     background-color: transparent;
     border-collapse: collapse;
     border-spacing: 0;
