@@ -124,12 +124,6 @@ export default {
             this.$store.commit('toggleGameModal');
         },
     },
-    // computed: {
-    //     showGameModal() {
-    //         return this.$store.state.showGameModal;
-    //     },
-    // },
-
 };
 </script>
 

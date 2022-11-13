@@ -80,11 +80,8 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .container {
-    h1 {
-        margin-top: 24px;
-    }
 
     .cards {
         display: flex;
