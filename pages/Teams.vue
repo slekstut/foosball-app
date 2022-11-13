@@ -61,16 +61,16 @@ export default {
             }
         },
         // implement edit method 
-        // async editTeam(id) {
-        //     console.log("edit team");
-        //     //modal to edit
-        //     this.$store.commit('toggleModal');
-        //     // preset modal input values existing team values
-        //     this.$store.commit('setModalInputs', this.teams.find(team => team.id === id));
-
-        //     const cityRef = doc(db, 'teams', id);
-        //     setDoc(cityRef, { capital: true }, { merge: true });
-        // }
+        async editTeam(id) {
+            console.log("edit team");
+            //modal to edit
+            this.$store.commit('toggleModal');
+            // preset modal input values existing team values
+            this.$store.commit('setModalInputs', this.teams.find(team => team.id === id));
+            
+            const cityRef = doc(db, 'teams', id);
+            setDoc(cityRef, { capital: true }, { merge: true });
+        }
     },
     created() {
         this.fetchTeams();
