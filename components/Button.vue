@@ -26,7 +26,7 @@
     width: 100%;
 
     @media (min-width: $sm-max) {
-        font-size: 20px;
+        font-size: 16px;
         padding: 14px 16px;
     }
 

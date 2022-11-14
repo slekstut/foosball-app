@@ -113,6 +113,10 @@ export default {
                 justify-content: flex-start;
                 gap: 12px;
                 margin-top: 12px;
+
+                h5 {
+                    font-size: 20px;
+                }
             }
 
             &__text {
