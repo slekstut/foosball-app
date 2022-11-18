@@ -6,14 +6,14 @@
             <div class="content__title">
                 <h3>Teams</h3>
                 <div class="content__button">
-                    <a href="#">
+                    <NuxtLink to="/teams">
                         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.70833 6.5H10.2917" stroke="#A0A8B1" stroke-linecap="round"
                                 stroke-linejoin="round" />
                             <path d="M6.5 2.70833L10.2917 6.5L6.5 10.2917" stroke="#A0A8B1" stroke-linecap="round"
                                 stroke-linejoin="round" />
                         </svg>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
             <div class="content__body">
@@ -22,7 +22,7 @@
                     <div class="left__block">
                         <a href="#">
                             <img class="item__img" :src="team.teamLogoUrl" :alt="team.teamName" loading="lazy">
-                            <span class="item__title">{{team.teamName}}</span>
+                            <span class="item__title">{{ team.teamName }}</span>
                         </a>
                     </div>
                     <div class="right__block teams__action">
@@ -53,7 +53,7 @@
                 </div>
             </div>
         </div>
-     <BestPlayers/>
+        <BestPlayers />
     </div>
 </template>
 
