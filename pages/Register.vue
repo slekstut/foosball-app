@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Nav></Nav>
-        <h1>Login</h1>
+        <h1>Register</h1>
 
         <form action="">
             <!-- import input component -->
