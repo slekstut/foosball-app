@@ -33,8 +33,7 @@ export default {
     setTrendingPlayers(state, trendingPlayerData) {
         state.trendingPlayer = trendingPlayerData;
     },
-    setModalInputs(state, team) {
-        console.log('team from mutations', team)
+    setModalInputsForEdit(state, team) {
         state.team.teamName = team.teamName;
         state.team.player1.name = team.player1.name;
         state.team.player2.name = team.player2.name;
