@@ -117,10 +117,12 @@ export default {
     name: 'Nav',
     methods: {
         toggleModal() {
+            this.$store.commit('setModalTitle', 'Add Team');
             this.$store.commit('toggleModal');
 
         },
         toggleGameModal() {
+            this.$store.commit('setModalTitle', 'Add Game');
             this.$store.commit('toggleGameModal');
         },
     },

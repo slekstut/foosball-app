@@ -19,7 +19,7 @@
                         <div>{{ team.player2.name }}: {{ team.player2.score }}</div>
                     </div>
                     <div class="card__action">
-                        <button class="btn btn-primary" @click="editTeam(team.id)">Edit</button>
+                        <button class="btn btn-primary" @click="editTeam(team.id), changeModalState()">Edit</button>
                         <button class="btn btn-danger" @click="deleteTeam(team.id)">Delete</button>
                     </div>
                 </div>
@@ -37,6 +37,32 @@ export default {
     data() {
         return {
             teams: [],
+            team: {
+                teamName: "",
+                player1: {
+                    name: "",
+                    score: 0,
+                    currentScore: 0,
+                    imgUrl: null,
+                    isUploadingImage: false,
+                    imageData: false,
+                },
+                player2: {
+                    name: "",
+                    score: 0,
+                    currentScore: 0,
+                    imgUrl: null,
+                    isUploadingImage: false,
+                    imageData: false,
+                },
+                teamLogoUrl: "",
+                createdAt: "",
+                isUploadingImage: false,
+                imageData: false,
+                imgUrl: null,
+                wins: 0,
+                losses: 0,
+            },
         };
     },
     methods: {
@@ -60,18 +86,24 @@ export default {
                 console.error(e);
             }
         },
-        // implement edit method 
+        // implement edit team with modal
         async editTeam(id) {
-            console.log("edit team", id);
-            //modal to edit
-            this.$store.commit('toggleModal');
-            // preset modal input values existing team values
-            this.$store.commit('setModalInputsForEdit', this.teams.find(team => team.id === id));
-            
-            
-            const editableTeam = doc(db, 'teams', id);
-            setDoc(editableTeam, { capital: true }, { merge: true });
+            const team = this.teams.find(team => team.id === id);
+            this.team = team;
+            console.log('this.team', this.team)
+            this.$store.dispatch("setModalInputsForEdit", this.team);
+            // set modal title
+            this.$store.dispatch("setModalTitle", "Edit Team");
+
+        },
+        changeModalState() {
+            this.$store.commit('toggleModal')
         }
+    },
+    computed: {
+        // showModal() {
+        //     return this.$store.state.showModal;
+        // }
     },
     created() {
         this.fetchTeams();

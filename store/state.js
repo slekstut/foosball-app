@@ -19,5 +19,6 @@ export default () => ({
     match: {},
     matches: [],
     sortedMatches: [],
-    trendingPlayer: []
+    trendingPlayer: [],
+    modalTitle: ''
   })

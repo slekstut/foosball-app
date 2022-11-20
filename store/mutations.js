@@ -37,5 +37,9 @@ export default {
         state.team.teamName = team.teamName;
         state.team.player1.name = team.player1.name;
         state.team.player2.name = team.player2.name;
+    },
+    setModalTitle(state, title) {
+        state.modalTitle = title;
     }
+        
 }

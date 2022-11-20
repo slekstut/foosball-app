@@ -141,5 +141,11 @@ export default {
 
         context.commit("setMatches", matches);
     },
-
+    async setModalInputsForEdit(context, team) {
+        context.commit('setModalInputsForEdit', team);
+    },
+    //setModalTitle
+    async setModalTitle(context, title) {
+        context.commit('setModalTitle', title);
+    }
 }

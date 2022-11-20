@@ -15,7 +15,7 @@
                         <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
                             <div class="input__wrapper">
                                 <label for="name">Team Name:</label>
-                                <input type="text" id="name" v-model="newTeam.teamName">
+                                <input type="text" id="name" v-model="team.teamName">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -24,10 +24,10 @@
                         <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
                             <div class="input__wrapper">
                                 <label for="storageRef">Team Logo</label>
-                                <img v-if="newTeam.imageData" id="img-preview" alt="Team Logo">
-                                <button v-if="!newTeam.storageRef" @click="launchImageFile"
-                                    :disabled="newTeam.isUploadingImage" type="button">
-                                    {{ newTeam.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                                <img v-if="team.imageData" id="img-preview" alt="Team Logo">
+                                <button v-if="!team.storageRef" @click="launchImageFile"
+                                    :disabled="team.isUploadingImage" type="button">
+                                    {{ team.isUploadingImage ? 'Uploading...' : 'Upload' }}
                                 </button>
                                 <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)"
                                     type="file" accept="image/png, image/jpeg" class="hidden">
@@ -41,7 +41,7 @@
                         <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
                             <div class="input__wrapper">
                                 <label for="player1">Player 1:</label>
-                                <input type="text" id="player1" v-model="newTeam.player1.name">
+                                <input type="text" id="player1" v-model="team.player1.name">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -50,7 +50,7 @@
                         <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|max:50">
                             <div class="input__wrapper">
                                 <label for="player2">Player 2:</label>
-                                <input type="text" id="player2" v-model="newTeam.player2.name">
+                                <input type="text" id="player2" v-model="team.player2.name">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -110,7 +110,7 @@ export default {
     data() {
         return {
             teams: [],
-            newTeam: {
+            team: {
                 teamName: "",
                 player1: {
                     name: "",
@@ -144,7 +144,7 @@ export default {
         },
         // add reset form
         resetForm() {
-            this.newTeam = {
+            this.team = {
                 teamName: "",
                 player1: {
                     name: "",
@@ -199,7 +199,7 @@ export default {
             //     contentType: file.type
             // }
 
-            this.newTeam.isUploadingImage = true
+            this.team.isUploadingImage = true
 
             // Create a reference to the destination where we're uploading
             // the file.
@@ -211,12 +211,12 @@ export default {
                 console.log('Uploaded a blob or file!');
                 getDownloadURL(ref(storage, `images/${file.name}`))
                     .then(url => {
-                        this.newTeam.imageData = true
-                        this.newTeam.imgUrl = url
+                        this.team.imageData = true
+                        this.team.imgUrl = url
                         setTimeout(() => {
                             const img = document.getElementById('img-preview');
                             img.setAttribute('src', url);
-                            this.newTeam.isUploadingImage = false
+                            this.team.isUploadingImage = false
                         }, 1000)
 
                     })
@@ -232,26 +232,26 @@ export default {
             const randomTeamId = randomBytes(16).toString('hex');
 
             // if no image was selected then add default image
-            if (!this.newTeam.imageData) {
-                this.newTeam.imgUrl = "https://firebasestorage.googleapis.com/v0/b/foosball-tracker-67dd0.appspot.com/o/images%2Fdefault-logo.png?alt=media&token=2baf78d9-d1ae-4e17-8e51-3ea14e20ce0f";
+            if (!this.team.imageData) {
+                this.team.imgUrl = "https://firebasestorage.googleapis.com/v0/b/foosball-tracker-67dd0.appspot.com/o/images%2Fdefault-logo.png?alt=media&token=2baf78d9-d1ae-4e17-8e51-3ea14e20ce0f";
             }
-            this.newTeam.imageData = false;
+            this.team.imageData = false;
 
-            const newTeam = {
+            const team = {
                 teamId: randomTeamId,
-                teamName: this.newTeam.teamName,
-                teamLogoUrl: this.newTeam.imgUrl,
+                teamName: this.team.teamName,
+                teamLogoUrl: this.team.imgUrl,
                 player1: {
                     playerId: randomPlayer1Id,
-                    name: this.newTeam.player1.name,
-                    score: this.newTeam.player1.score,
-                    currentScore: this.newTeam.player1.currentScore,
+                    name: this.team.player1.name,
+                    score: this.team.player1.score,
+                    currentScore: this.team.player1.currentScore,
                 },
                 player2: {
                     playerId: randomPlayer2Id,
-                    name: this.newTeam.player2.name,
-                    score: this.newTeam.player2.score,
-                    currentScore: this.newTeam.player2.currentScore,
+                    name: this.team.player2.name,
+                    score: this.team.player2.score,
+                    currentScore: this.team.player2.currentScore,
                 },
                 createdAt: new Date(),
                 wins: 0,
@@ -259,36 +259,36 @@ export default {
                 teamScore: 0
             }
 
-            this.newTeam.createdAt = new Date();
-            this.$store.dispatch("addTeam", newTeam);
+            this.team.createdAt = new Date();
+            this.$store.dispatch("addTeam", team);
 
             // collect new players for new collection in database
             const newPlayer1 = {
                 playerId: randomPlayer1Id,
-                playerName: this.newTeam.player1.name,
-                playerScore: this.newTeam.player1.score
+                playerName: this.team.player1.name,
+                playerScore: this.team.player1.score
             }
 
             const newPlayer2 = {
                 playerId: randomPlayer2Id,
-                playerName: this.newTeam.player2.name,
-                playerScore: this.newTeam.player2.score
+                playerName: this.team.player2.name,
+                playerScore: this.team.player2.score
             }
 
             this.$store.dispatch("addPlayers", newPlayer1);
             this.$store.dispatch("addPlayers", newPlayer2);
             this.$refs.observer.reset();
-            this.newTeam.teamName = "";
-            this.newTeam.player1 = {
+            this.team.teamName = "";
+            this.team.player1 = {
                 name: "",
                 score: 0
             };
-            this.newTeam.player2 = {
+            this.team.player2 = {
                 name: "",
                 score: 0
             };
-            this.newTeam.createdAt = "";
-            this.newTeam.imgUrl = null;
+            this.team.createdAt = "";
+            this.team.imgUrl = null;
         },
 
     },
