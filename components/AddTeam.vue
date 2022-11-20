@@ -15,7 +15,7 @@
                         <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
                             <div class="input__wrapper">
                                 <label for="name">Team Name:</label>
-                                <input type="text" id="name" v-model="team.teamName">
+                                <input type="text" id="name" v-model="$store.state.team.teamName">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -24,6 +24,7 @@
                         <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
                             <div class="input__wrapper">
                                 <label for="storageRef">Team Logo</label>
+                                <img :src="$store.state.team.teamLogoUrl" :alt="$store.state.team.teamName">
                                 <img v-if="team.imageData" id="img-preview" alt="Team Logo">
                                 <button v-if="!team.storageRef" @click="launchImageFile"
                                     :disabled="team.isUploadingImage" type="button">
@@ -41,7 +42,7 @@
                         <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
                             <div class="input__wrapper">
                                 <label for="player1">Player 1:</label>
-                                <input type="text" id="player1" v-model="team.player1.name">
+                                <input type="text" id="player1" v-model="$store.state.team.player1.name">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -50,7 +51,7 @@
                         <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|max:50">
                             <div class="input__wrapper">
                                 <label for="player2">Player 2:</label>
-                                <input type="text" id="player2" v-model="team.player2.name">
+                                <input type="text" id="player2" v-model="$store.state.team.player2.name">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -318,12 +319,15 @@ export default {
         label {
             margin: 12px 0;
             font-weight: 600;
+            color: $primary-500;
         }
 
         input {
-            border: none;
-            border-bottom: 1px solid $primary-400;
             padding-bottom: 4px;
+            border: none;
+            border-bottom: 1px solid $primary-800;
+            border-radius: 0;
+            color: $primary-800;
         }
 
         input:focus {

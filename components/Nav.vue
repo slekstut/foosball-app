@@ -119,7 +119,6 @@ export default {
         toggleModal() {
             this.$store.commit('setModalTitle', 'Add Team');
             this.$store.commit('toggleModal');
-
         },
         toggleGameModal() {
             this.$store.commit('setModalTitle', 'Add Game');

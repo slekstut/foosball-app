@@ -12,7 +12,16 @@ export default () => ({
             score: 0
         },
         score: '',
-        createdAt: ''
+        createdAt: '',
+        updatedAt: '',
+        teamLogoUrl: '',
+        teamLogo: '',
+        wins: 0,
+        losses: 0,
+        teamScore: 0,
+        id: '',
+        teamId: '',
+        
     },
     teams: [],
     newPlayers: [],
