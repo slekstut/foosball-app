@@ -62,14 +62,15 @@ export default {
         },
         // implement edit method 
         async editTeam(id) {
-            console.log("edit team");
+            console.log("edit team", id);
             //modal to edit
             this.$store.commit('toggleModal');
             // preset modal input values existing team values
-            this.$store.commit('setModalInputs', this.teams.find(team => team.id === id));
+            this.$store.commit('setModalInputsForEdit', this.teams.find(team => team.id === id));
             
-            const cityRef = doc(db, 'teams', id);
-            setDoc(cityRef, { capital: true }, { merge: true });
+            
+            const editableTeam = doc(db, 'teams', id);
+            setDoc(editableTeam, { capital: true }, { merge: true });
         }
     },
     created() {
