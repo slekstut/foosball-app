@@ -38,7 +38,7 @@ export default {
         return {
             teams: [],
             team: {
-                teamName: "",
+                teamName: '',
                 player1: {
                     name: "",
                     score: 0,
@@ -89,21 +89,24 @@ export default {
         // implement edit team with modal
         async editTeam(id) {
             const team = this.teams.find(team => team.id === id);
-            this.team = team;
-            console.log('this.team', this.team)
-            this.$store.dispatch("setModalInputsForEdit", this.team);
-            // set modal title
-            this.$store.dispatch("setModalTitle", "Edit Team");
-
+            this.$store.dispatch('triggerEdit', true);
+            this.$store.dispatch('setModalTitle', 'Edit Modal');
+            // this.$store.dispatch('setTeam', team);
+            this.$store.dispatch('setModalInputsForEdit', team)
         },
         changeModalState() {
             this.$store.commit('toggleModal')
         }
     },
     computed: {
-        // showModal() {
-        //     return this.$store.state.showModal;
-        // }
+        // teamName: {
+        //     get() {
+        //         return this.$store.state.team.teamName;
+        //     },
+        //     set(value) {
+        //         this.$store.commit('updateTeamName', value)
+        //     }
+        // },
     },
     created() {
         this.fetchTeams();

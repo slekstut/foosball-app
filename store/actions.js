@@ -141,11 +141,18 @@ export default {
 
         context.commit("setMatches", matches);
     },
+    async editTeam(context, team) {
+        // prepopulate modal inputs with team data
+        context.commit('setTeam', team);
+    },
     async setModalInputsForEdit(context, team) {
         context.commit('setModalInputsForEdit', team);
     },
     //setModalTitle
     async setModalTitle(context, title) {
         context.commit('setModalTitle', title);
+    },
+    async triggerEdit(context, show) {
+        context.commit('triggerEdit', show);
     }
 }

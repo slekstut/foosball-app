@@ -29,5 +29,6 @@ export default () => ({
     matches: [],
     sortedMatches: [],
     trendingPlayer: [],
-    modalTitle: ''
+    modalTitle: '',
+    triggeredEditModal: false
   })

@@ -41,6 +41,20 @@ export default {
     },
     setModalTitle(state, title) {
         state.modalTitle = title;
+    },
+    setTeam(state, team) {
+        state.team = team;
+    },
+    triggerEdit(state, condition) {
+        state.triggeredEditModal = condition;
+    },
+    updateTeamName(state, value) {
+        state.team.teamName = value;
+    },
+    updateTeamPlayer1Name(state, value) {
+        state.team.player1.name = value;
+    },
+    updateTeamPlayer2Name(state, value) {
+        state.team.player2.name = value;
     }
-        
 }

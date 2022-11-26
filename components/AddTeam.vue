@@ -15,7 +15,7 @@
                         <validation-provider v-slot="{ errors }" name="Team Name" rules="required|min:3">
                             <div class="input__wrapper">
                                 <label for="name">Team Name:</label>
-                                <input type="text" id="name" v-model="$store.state.team.teamName">
+                                <input type="text" id="name" v-model="teamName">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -24,7 +24,7 @@
                         <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
                             <div class="input__wrapper">
                                 <label for="storageRef">Team Logo</label>
-                                <img :src="$store.state.team.teamLogoUrl" :alt="$store.state.team.teamName">
+                                <img :src="team.teamLogoUrl" :alt="team.teamName">
                                 <img v-if="team.imageData" id="img-preview" alt="Team Logo">
                                 <button v-if="!team.storageRef" @click="launchImageFile"
                                     :disabled="team.isUploadingImage" type="button">
@@ -42,7 +42,7 @@
                         <validation-provider v-slot="{ errors }" name="Player 1" rules="required|min:3|max:50">
                             <div class="input__wrapper">
                                 <label for="player1">Player 1:</label>
-                                <input type="text" id="player1" v-model="$store.state.team.player1.name">
+                                <input type="text" id="player1" v-model="player1name">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -51,7 +51,7 @@
                         <validation-provider v-slot="{ errors }" name="Player 2" rules="required|min:3|max:50">
                             <div class="input__wrapper">
                                 <label for="player2">Player 2:</label>
-                                <input type="text" id="player2" v-model="$store.state.team.player2.name">
+                                <input type="text" id="player2" v-model="player2name">
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -73,6 +73,7 @@ import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required, alpha_num } from 'vee-validate/dist/rules';
 import toastr from "toastr";
 import { randomBytes } from "crypto";
+import { mapState } from 'vuex'
 
 extend('required', {
     ...required,
@@ -146,7 +147,7 @@ export default {
         // add reset form
         resetForm() {
             this.team = {
-                teamName: "",
+                teamName: '',
                 player1: {
                     name: "",
                     score: 0,
@@ -279,23 +280,37 @@ export default {
             this.$store.dispatch("addPlayers", newPlayer1);
             this.$store.dispatch("addPlayers", newPlayer2);
             this.$refs.observer.reset();
-            this.team.teamName = "";
-            this.team.player1 = {
-                name: "",
-                score: 0
-            };
-            this.team.player2 = {
-                name: "",
-                score: 0
-            };
-            this.team.createdAt = "";
-            this.team.imgUrl = null;
+            //reset form
+            this.resetForm();
         },
-
     },
     computed: {
         showModal() {
             return this.$store.state.showModal;
+        },
+        teamName: {
+            get() {
+                return this.$store.state.team.teamName;
+            },
+            set(value) {
+                this.$store.commit('updateTeamName', value)
+            }
+        },
+        player1name: {
+            get() {
+                return this.$store.state.team.player1.name;
+            },
+            set(value) {
+                this.$store.commit('updateTeamPlayer1Name', value)
+            }
+        },
+        player2name: {
+            get() {
+                return this.$store.state.team.player2.name;
+            },
+            set(value) {
+                this.$store.commit('updateTeamPlayer2Name', value)
+            }
         }
     },
 }
