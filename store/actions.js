@@ -152,8 +152,8 @@ export default {
     async setModalTitle(context, title) {
         context.commit('setModalTitle', title);
     },
-    async triggerEdit(context, show) {
-        context.commit('triggerEdit', show);
+    async editModalIsOpen(context, show) {
+        context.commit('editModalIsOpen', show);
     },
     async updateTeamLogoUrl(context, teamLogoUrl) {
         context.commit('updateTeamLogoUrl', teamLogoUrl);

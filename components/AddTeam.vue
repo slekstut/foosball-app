@@ -25,7 +25,7 @@
                             <div class="input__wrapper">
                                 <label for="storageRef">Team Logo</label>
                                 <img :src="teamLogoUrl" :alt="teamName+'-logo'">
-                                <img v-if="teamLogoUrl" id="img-preview" alt="Team Logo">
+                                <img v-if="teamLogoUrl" id="img-preview" :alt="teamName+'-logo'">
                                 <button v-if="!team.storageRef" @click="launchImageFile"
                                     :disabled="team.isUploadingImage" type="button">
                                     {{ team.isUploadingImage ? 'Uploading...' : 'Upload' }}
@@ -188,6 +188,19 @@ export default {
             if (!files.length) {
                 return
             }
+
+            // if editModalIsOpen is true, then we are editing a team
+            // if editModalIsOpen is false, then we are adding a team
+            if (this.$store.state.editModalIsOpen) {
+                this.team.isUploadingImage = true
+                this.team.imageData = files[0]
+                this.uploadImage(this.team)
+            } else {
+                this.team.isUploadingImage = true
+                this.team.imageData = files[0]
+                this.uploadImage(this.team)
+            }
+
             const file = files[0]
 
             if (!file.type.match('image.*')) {
