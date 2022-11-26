@@ -154,5 +154,8 @@ export default {
     },
     async triggerEdit(context, show) {
         context.commit('triggerEdit', show);
+    },
+    async updateTeamLogoUrl(context, teamLogoUrl) {
+        context.commit('updateTeamLogoUrl', teamLogoUrl);
     }
 }

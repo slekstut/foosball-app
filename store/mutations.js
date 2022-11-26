@@ -56,5 +56,8 @@ export default {
     },
     updateTeamPlayer2Name(state, value) {
         state.team.player2.name = value;
+    },
+    updateTeamLogoUrl(state, value) {
+        state.team.teamLogoUrl = value;
     }
 }

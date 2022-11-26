@@ -24,8 +24,8 @@
                         <validation-provider v-slot="{ errors }" name="Team logo" rules="'mimes:image/*'">
                             <div class="input__wrapper">
                                 <label for="storageRef">Team Logo</label>
-                                <img :src="team.teamLogoUrl" :alt="team.teamName">
-                                <img v-if="team.imageData" id="img-preview" alt="Team Logo">
+                                <img :src="teamLogoUrl" :alt="teamName+'-logo'">
+                                <img v-if="teamLogoUrl" id="img-preview" alt="Team Logo">
                                 <button v-if="!team.storageRef" @click="launchImageFile"
                                     :disabled="team.isUploadingImage" type="button">
                                     {{ team.isUploadingImage ? 'Uploading...' : 'Upload' }}
@@ -71,9 +71,7 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required, alpha_num } from 'vee-validate/dist/rules';
-import toastr from "toastr";
 import { randomBytes } from "crypto";
-import { mapState } from 'vuex'
 
 extend('required', {
     ...required,
@@ -310,6 +308,14 @@ export default {
             },
             set(value) {
                 this.$store.commit('updateTeamPlayer2Name', value)
+            }
+        },
+        teamLogoUrl: {
+            get() {
+                return this.$store.state.team.teamLogoUrl;
+            },
+            set(value) {
+                this.$store.commit('updateTeamLogoUrl', value)
             }
         }
     },
