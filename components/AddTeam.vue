@@ -26,9 +26,13 @@
                                 <label for="storageRef">Team Logo</label>
                                 <img :src="teamLogoUrl" :alt="teamName+'-logo'">
                                 <img v-if="teamLogoUrl" id="img-preview" :alt="teamName+'-logo'">
-                                <button v-if="!team.storageRef" @click="launchImageFile"
+                                <button v-if="!$store.state.editModalIsOpen" @click="launchImageFile"
                                     :disabled="team.isUploadingImage" type="button">
-                                    {{ team.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                                    {{ team.isUploadingImage ? 'Uploading...' : 'Add' }}
+                                </button>
+                                <button v-if="$store.state.editModalIsOpen" @click="launchImageFile"
+                                    :disabled="team.isUploadingImage" type="button">
+                                    {{ team.isUploadingImage ? 'Uploading...' : 'Update' }}
                                 </button>
                                 <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)"
                                     type="file" accept="image/png, image/jpeg" class="hidden">
@@ -136,6 +140,7 @@ export default {
                 wins: 0,
                 losses: 0,
             },
+            // editModalIsOpen: false || this.$store.editModalIsOpen
         };
     },
     methods: {
@@ -185,43 +190,36 @@ export default {
             this.$refs.imageFile.click()
         },
         uploadImageFile(files) {
+            alert('test')
+
             if (!files.length) {
                 return
             }
-
             // if editModalIsOpen is true, then we are editing a team
             // if editModalIsOpen is false, then we are adding a team
             if (this.$store.state.editModalIsOpen) {
-                this.team.isUploadingImage = true
-                this.team.imageData = files[0]
-                this.uploadImage(this.team)
+                console.log('editing team')
+                console.log('files.length', files.length)
+                // this.team.isUploadingImage = true
+                // this.team.imageData = files[0]
+                // this.uploadImage(this.team)
             } else {
-                this.team.isUploadingImage = true
-                this.team.imageData = files[0]
-                this.uploadImage(this.team)
+                console.log('adding team')
+                console.log('files.length', files.length)
+                // this.team.isUploadingImage = true
+                // this.team.imageData = files[0]
+                // this.uploadImage(this.team)
             }
 
             const file = files[0]
-
             if (!file.type.match('image.*')) {
                 alert('Please upload an image.')
                 return
             }
-
-            // const metadata = {
-            //     contentType: file.type
-            // }
-
             this.team.isUploadingImage = true
-
-            // Create a reference to the destination where we're uploading
-            // the file.
             const storage = getStorage();
             const storageRef = ref(storage, `images/${file.name}`);
-
-            // 'file' comes from the Blob or File API
             uploadBytes(storageRef, file).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
                 getDownloadURL(ref(storage, `images/${file.name}`))
                     .then(url => {
                         this.team.imageData = true

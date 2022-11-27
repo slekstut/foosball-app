@@ -45,8 +45,8 @@ export default {
     setTeam(state, team) {
         state.team = team;
     },
-    triggerEdit(state, condition) {
-        state.triggeredEditModal = condition;
+    editModalIsOpen(state, condition) {
+        state.editModalIsOpen = condition;
     },
     updateTeamName(state, value) {
         state.team.teamName = value;
