@@ -30,12 +30,18 @@
                                     :disabled="team.isUploadingImage" type="button">
                                     {{ team.isUploadingImage ? 'Uploading...' : 'Add' }}
                                 </button>
-                                <button v-if="$store.state.editModalIsOpen" @click="launchImageFile"
+                                <button v-if="$store.state.editModalIsOpen" @click="launchImageFileEdit"
                                     :disabled="team.isUploadingImage" type="button">
                                     {{ team.isUploadingImage ? 'Uploading...' : 'Update' }}
                                 </button>
-                                <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)"
+                                <div v-if="!$store.state.editModalIsOpen">
+                                    <input ref="imageFile" @change.prevent="uploadImageFile($event.target.files)"
                                     type="file" accept="image/png, image/jpeg" class="hidden">
+                                </div>
+                                <div v-if="$store.state.editModalIsOpen">
+                                    <input ref="imageFileEdit" @change.prevent="uploadImageFileEdit($event.target.files)"
+                                    type="file" accept="image/png, image/jpeg" class="hidden">
+                                </div>
                                 <span class="input-invalid-message">
                                     {{ errors[0] }}
                                 </span>
@@ -140,7 +146,6 @@ export default {
                 wins: 0,
                 losses: 0,
             },
-            // editModalIsOpen: false || this.$store.editModalIsOpen
         };
     },
     methods: {
@@ -189,26 +194,33 @@ export default {
         launchImageFile() {
             this.$refs.imageFile.click()
         },
+        // add launchImageFileEdit
+        launchImageFileEdit() {
+            alert('edit')
+            this.$refs.imageFileEdit.click()
+
+        },
+        // add uploadImageFileEdit
+        uploadImageFileEdit(files) {
+            alert('from edit')
+            this.team.isUploadingImage = true;
+            const storage = getStorage();
+            const storageRef = ref(storage, `teams/${this.team.teamName}/logo/${files[0].name}`);
+            uploadBytes(storageRef, files[0]).then((snapshot) => {
+                console.log('Uploaded a blob or file!');
+            });
+            getDownloadURL(storageRef).then((url) => {
+                this.team.teamLogoUrl = url;
+                this.team.isUploadingImage = false;
+            });
+
+        },
+
         uploadImageFile(files) {
             alert('test')
 
             if (!files.length) {
                 return
-            }
-            // if editModalIsOpen is true, then we are editing a team
-            // if editModalIsOpen is false, then we are adding a team
-            if (this.$store.state.editModalIsOpen) {
-                console.log('editing team')
-                console.log('files.length', files.length)
-                // this.team.isUploadingImage = true
-                // this.team.imageData = files[0]
-                // this.uploadImage(this.team)
-            } else {
-                console.log('adding team')
-                console.log('files.length', files.length)
-                // this.team.isUploadingImage = true
-                // this.team.imageData = files[0]
-                // this.uploadImage(this.team)
             }
 
             const file = files[0]
