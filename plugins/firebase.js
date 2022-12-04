@@ -19,6 +19,7 @@ const firebaseConfig = {
   measurementId: "G-9YQTP7SZ9Y"
 };
 
+
 let firebaseApp;
 
 const apps = getApps();

@@ -59,5 +59,20 @@ export default {
     },
     updateTeamLogoUrl(state, value) {
         state.team.teamLogoUrl = value;
-    }
+    },
+
+    ON_AUTH_STATE_CHANGED_MUTATION: (state, { authUser, claims }) => {
+        if (!authUser) {
+            alert('You are not logged in')
+          // claims = null
+          // perform logout operations
+        } else {
+            alert('logged')
+            // Do something with the authUser and the claims object...
+            // Do this:
+            const { uid, email, emailVerified } = authUser
+            state.user = { uid, email, emailVerified }
+        }
+      }
+      
 }
