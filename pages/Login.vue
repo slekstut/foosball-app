@@ -30,13 +30,20 @@ export default {
             const auth = getAuth();
             setPersistence(auth, browserSessionPersistence)
                 .then(() => {
+                    console.log("Persistence set:", auth);
+
+                    // dispatch actions onAuthStateChangedAction
+                    // this.$store.dispatch("onAuthStateChangedAction", auth);
+
                     return signInWithEmailAndPassword(auth, this.email, this.password)
                         .then((userCredential) => {
                             // Signed in
                             alert("Login Success");
                             const user = userCredential.user;
                             console.log('user', user)
-                            // ...
+                            // this.$store.dispatch("onAuthStateChangedAction", user.auth, user.accessToken);
+                            // dispatch onAuthStateChangedAction
+                            // redirect to home page
                         })
                         .catch((error) => {
                             alert("Login Failed");

@@ -158,15 +158,27 @@ export default {
     async updateTeamLogoUrl(context, teamLogoUrl) {
         context.commit('updateTeamLogoUrl', teamLogoUrl);
     },
-
     onAuthStateChangedAction: (ctx, { authUser, claims }) => {
         if (!authUser) {
+            console.log('no user')
+            console.log('authUser', authUser)
+            console.log('claims', claims)
           // claims = null
           // Perform logout operations
 
         } else {
-          // Do something with the authUser and the claims object...
+            this.$router.push("/");
+
+            console.log('user')
+            // claims = { admin: true }
+            // Perform login operations
+            alert('user logged in')
         }
+
+        const { uid, email, emailVerified } = authUser
+        state.user = { uid, email, emailVerified }
+
+        console.log('user---', state.user)
       }
       
 }

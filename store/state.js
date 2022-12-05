@@ -30,5 +30,12 @@ export default () => ({
     sortedMatches: [],
     trendingPlayer: [],
     modalTitle: '',
-    editModalIsOpen: false
+    editModalIsOpen: false,
+    user: {
+        uid: '',
+        email: '',
+        displayName: '',
+        photoURL: '',
+        emailVerified: false
+    }
   })
