@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="customer" v-if="authenticatedUser">
+            <div class="customer">
                 <div class="customer__action">
                     <div class="customer__notification">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -112,8 +112,8 @@
 
 export default {
     data() {
-        return {
-        }
+       return {
+       }
     },
     name: 'Nav',
     methods: {
@@ -125,8 +125,8 @@ export default {
             this.$store.commit('setModalTitle', 'Add Game');
             this.$store.commit('toggleGameModal');
         },
-        logout() {
-            // logout firebase
+        async logout() {
+            await firebase.auth().signOut();
             this.$store.dispatch('logout');
         }
     },

@@ -76,7 +76,6 @@ export default {
                     score: player.newPlayer.playerScore
                 }
             })
-
             this.trendingPlayer.name = trendingPlayerData[0].name;
             this.trendingPlayer.score = trendingPlayerData[0].score;
         }

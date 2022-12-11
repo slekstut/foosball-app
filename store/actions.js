@@ -2,9 +2,9 @@ import { db } from "~/plugins/firebase.js";
 import { doc, docs, setDoc, collection, getDocs, query, where, updateDoc } from "firebase/firestore";
 import toastr from "toastr";
 import moment from 'moment'
-
+import { auth } from "~/plugins/firebase.js";
+import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
 export default {
-
     async addTeam(context, team) {
         const newTeamRef = doc(collection(db, "teams"));
         context.commit("setNewTeam", team);
@@ -168,7 +168,6 @@ export default {
 
         } else {
             this.$router.push("/");
-
             console.log('user')
             // claims = { admin: true }
             // Perform login operations
@@ -180,22 +179,7 @@ export default {
 
         console.log('user---', state.user)
     },
-    async login() {
-        // fire base auth login
-        try {
-            await this.$fire.auth.signInWithEmailAndPassword(
-                this.email,
-                this.password
-            );
-            // check if user is logged in
-            console.log("success");
-            this.$router.push("/");
-        } catch (e) {
-            handleError(e);
-        }
-    },
     async logout() {
-        await firebase.auth().signOut();
         this.$router.push("/login");
         // set mutation setAuthenticatedUser to false
         this.$store.commit('setAuthenticatedUser', false);

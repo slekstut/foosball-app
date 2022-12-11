@@ -15,7 +15,8 @@ import LeftSidebar from '../components/LeftSidebar.vue';
 import LatestMatches from '../components/LatestMatches.vue';
 
 export default {
-  components: { LeftSidebar, LatestMatches }
+  components: { LeftSidebar, LatestMatches },
+  methods: {}
 };
 </script>
 

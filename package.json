@@ -13,7 +13,7 @@
     "@nuxtjs/firebase": "^8.2.2",
     "@nuxtjs/style-resources": "^1.2.1",
     "core-js": "^3.9.1",
-    "firebase": "^9.0.0-beta.2",
+    "firebase": "^9.15.0",
     "moment": "^2.29.4",
     "nuxt": "^2.15.3",
     "toastr": "^2.1.4",

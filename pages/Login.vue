@@ -7,8 +7,8 @@
             <!-- import input component -->
             <!-- <Input label="Email" type="email" id="email"></Input> -->
             <!-- <Input label="Password" type="password" id="password"></Input> -->
-            <input type="email" v-model="email">
-            <input type="password" v-model="password">
+            <input type="email" v-model="data.email">
+            <input type="password" v-model="data.password">
             <!-- add Button component -->
             <button @click="login">Login</button>
         </div>
@@ -21,29 +21,30 @@ import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPers
 
 export default {
     data: () => ({
-        email: "",
-        password: "",
+        data: {
+            email: "",
+            password: "",
+        }
     }),
     methods: {
         // setup firebase login function
         async login() {
-            // dispatch login action
-            this.$store.dispatch("login", { email: this.email, password: this.password });
+            const data = {};
+            data['email'] = this.email;
+            data['password'] = this.password;
+            try {
+                await this.$fire.auth.signInWithEmailAndPassword(
+                    data.email,
+                    data.password
+                );
+                // set mutation setAuthenticatedUser to true
+                this.$store.commit('setAuthenticatedUser', true);
+                this.$router.push("/");
+            } catch (e) {
+                handleError(e);
+            }
         },
     },
-    mounted:
-        function () {
-            console.log("mounted")
-            this.$fire.auth.onAuthStateChanged((user) => {
-                if (user) {
-                    console.log("user logged in");
-
-                    // this.$router.push("/");
-                } else {
-                    console.log("user logged out");
-                }
-            });
-        }
 }
 
 </script>
