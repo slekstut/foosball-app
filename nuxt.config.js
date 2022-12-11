@@ -33,7 +33,26 @@ export default {
   buildModules:[],
 
   modules: [
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+   // https://go.nuxtjs.dev/axios
+   '@nuxtjs/axios',
+   [
+     '@nuxtjs/firebase',
+     {
+       config: {
+         apiKey: 'AIzaSyAO12kI9YFHbb-a6ExrDvLQg_PD554wkNM',
+         authDomain: 'foosball-tracker-67dd0.firebaseapp.com',
+         projectId: 'foosball-tracker-67dd0',
+         storageBucket: 'foosball-tracker-67dd0.appspot.com',
+         messagingSenderId: '207563155987',
+         appId: '1:207563155987:web:a8d0a79215aafe24d2ede6',
+         measurementId: 'G-9YQTP7SZ9Y'
+       },
+       services: {
+         auth: true // Just as example. Can be any other service.
+       }
+     }
+   ]
   ],
 
   build: {
