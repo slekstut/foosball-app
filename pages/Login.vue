@@ -25,39 +25,35 @@ export default {
         password: "",
     }),
     methods: {
-     // setup firebase login function
-        login() {
-            const auth = getAuth();
-            setPersistence(auth, browserSessionPersistence)
-                .then(() => {
-                    console.log("Persistence set:", auth);
-
-                    // dispatch actions onAuthStateChangedAction
-                    // this.$store.dispatch("onAuthStateChangedAction", auth);
-
-                    return signInWithEmailAndPassword(auth, this.email, this.password)
-                        .then((userCredential) => {
-                            // Signed in
-                            alert("Login Success");
-                            const user = userCredential.user;
-                            console.log('user', user)
-                            // this.$store.dispatch("onAuthStateChangedAction", user.auth, user.accessToken);
-                            // dispatch onAuthStateChangedAction
-                            // redirect to home page
-                        })
-                        .catch((error) => {
-                            alert("Login Failed");
-                            const errorCode = error.code;
-                            const errorMessage = error.message;
-                        });
-                })
-                .catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                });
+        // setup firebase login function
+        async login() {
+            console.log("started");
+            try {
+                await this.$fire.auth.signInWithEmailAndPassword(
+                    this.email,
+                    this.password
+                );
+                // check if user is logged in
+                console.log("success");
+                this.$router.push("/");
+                alert("login success")
+            } catch (e) {
+                handleError(e);
+            }
         },
+    },
+    mounted: 
+        function() {
+            console.log("mounted")
+            this.$fire.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    console.log("user logged in");
+                    // this.$router.push("/");
+                } else {
+                    console.log("user logged out");
+                }
+            });
+        }
 }
-    }
 
 </script>
