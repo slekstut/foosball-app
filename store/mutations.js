@@ -73,6 +73,10 @@ export default {
             const { uid, email, emailVerified } = authUser
             state.user = { uid, email, emailVerified }
         }
-      }
+      },
+      // setAuthenticatedUser
+        setAuthenticatedUser(state, condition) {
+            state.authenticatedUser = condition;
+        }
       
 }

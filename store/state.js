@@ -37,5 +37,6 @@ export default () => ({
         displayName: '',
         photoURL: '',
         emailVerified: false
-    }
+    },
+    authenticatedUser: false
   })

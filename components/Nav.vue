@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="customer">
+            <div class="customer" v-if="authenticatedUser">
                 <div class="customer__action">
                     <div class="customer__notification">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,6 +100,7 @@
                         </div>
                     </div>
                 </div>
+                <div><button @click="logout">logout</button></div>
             </div>
         </div>
         <add-match></add-match>
@@ -124,7 +125,16 @@ export default {
             this.$store.commit('setModalTitle', 'Add Game');
             this.$store.commit('toggleGameModal');
         },
+        logout() {
+            // logout firebase
+            this.$store.dispatch('logout');
+        }
     },
+    computed: {
+        authenticatedUser() {
+            return this.$store.getters.authenticatedUser;
+        }
+    }
 };
 </script>
 

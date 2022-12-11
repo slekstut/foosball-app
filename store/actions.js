@@ -163,8 +163,8 @@ export default {
             console.log('no user')
             console.log('authUser', authUser)
             console.log('claims', claims)
-          // claims = null
-          // Perform logout operations
+            // claims = null
+            // Perform logout operations
 
         } else {
             this.$router.push("/");
@@ -179,6 +179,27 @@ export default {
         state.user = { uid, email, emailVerified }
 
         console.log('user---', state.user)
-      }
-      
+    },
+    async login() {
+        // fire base auth login
+        try {
+            await this.$fire.auth.signInWithEmailAndPassword(
+                this.email,
+                this.password
+            );
+            // check if user is logged in
+            console.log("success");
+            this.$router.push("/");
+        } catch (e) {
+            handleError(e);
+        }
+    },
+    async logout() {
+        await firebase.auth().signOut();
+        this.$router.push("/login");
+        // set mutation setAuthenticatedUser to false
+        this.$store.commit('setAuthenticatedUser', false);
+
+    }
+
 }
